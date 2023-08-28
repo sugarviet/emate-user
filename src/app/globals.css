@@ -6,6 +6,8 @@
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
+  --element-blue-color: #35CFED;
+  --element-pink-color: #E087FC;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -17,11 +19,45 @@
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+    padding: 0 60px;
 }
+
+/*--------------------------------- ELEMENT ---------------------------------*/
+.blue_btn_color {
+  background: linear-gradient(180deg, rgba(175.74, 241.95, 255, 0.73) 0%, #35CFED 100%);
+  @apply py-2.5 px-7 text-black rounded-3xl flex items-center font-medium text-sm transition ease-in ;
+}
+
+.none_btn_color {
+  @apply py-2.5 px-6 text-black rounded-3xl flex items-center font-medium text-sm transition ease-in border border-black;
+}
+
+.blur_bg {
+  @apply backdrop-blur-md;
+}
+
+/*--------------------------------- APPERANCE ---------------------------------*/
+.hide_on_mobile {
+  @apply hidden sm:block
+}
+
+/*--------------------------------- GESTURE ---------------------------------*/
+.cursor_pointer {
+  @apply hover:cursor-pointer
+}
+
+
+/*--------------------------------- ALIGN-ITEMS ---------------------------------*/
+.display-center {
+  @apply flex justify-center items-center;
+}
+
+/*--------------------------------- SCREEN-SIZE ---------------------------------*/
+
+/* MOBILE */
+@media (max-width: 640px) { 
+  body {
+    padding: 0 10px; 
+  }
+}
+
