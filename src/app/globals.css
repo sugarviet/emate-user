@@ -20,6 +20,7 @@
 
 body {
     padding: 0 60px;
+    overflow-x: hidden;
 }
 
 /*--------------------------------- ELEMENT ---------------------------------*/
@@ -36,6 +37,20 @@ body {
   @apply backdrop-blur-md;
 }
 
+.blur_custom {
+  width: 100%;
+  height: 100%;
+  /* background: rgba(255, 255, 255, 0.40); */
+  /* background-color: cornsilk; */
+  background-color: rgb(251, 246, 246);
+  border-radius: 67px;
+  border: 1px solid white;
+  backdrop-filter: blur(40px);
+  margin-top: 50px;
+  z-index: 10000;
+}
+
+
 /*--------------------------------- APPERANCE ---------------------------------*/
 .hide_on_mobile {
   @apply hidden sm:block
@@ -48,8 +63,12 @@ body {
 
 
 /*--------------------------------- ALIGN-ITEMS ---------------------------------*/
-.display-center {
+.display_center_horizontal {
   @apply flex justify-center items-center;
+}
+
+.display_center_vertical {
+  @apply flex flex-col items-center;
 }
 
 /*--------------------------------- SCREEN-SIZE ---------------------------------*/

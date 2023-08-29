@@ -1,0 +1,24 @@
+.container {
+  @apply flex flex-col justify-center items-center sm:px-56 mt-10 md:px-24;
+}
+
+.title {
+    @apply text-center md:text-6xl font-black my-10 text-lg;
+  }
+  
+.btn {
+  background: linear-gradient(
+    180deg,
+    rgba(175.74, 241.95, 255, 0.73) 0%,
+    #35cfed 100%
+  );
+  @apply py-3 px-9 text-black rounded-3xl flex items-center font-medium text-xl transition ease-in;
+}
+
+.img_wrapper{
+    @apply border border-black rounded-2xl p-8;
+}
+
+.card_title {
+    @apply font-black mt-2 text-center;
+}

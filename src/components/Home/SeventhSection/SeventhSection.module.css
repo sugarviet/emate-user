@@ -1,0 +1,17 @@
+.container {
+  @apply flex flex-col justify-center items-center md:px-32 mt-10;
+}
+
+.title {
+  @apply text-center md:text-6xl font-black my-10 text-sm;
+}
+
+.card {
+  background: rgba(192, 238, 252, 0.5);
+
+  @apply border rounded-2xl p-8 w-full h-64;
+}
+
+.title_card {
+    @apply font-black
+}

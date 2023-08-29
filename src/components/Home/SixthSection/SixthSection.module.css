@@ -1,0 +1,29 @@
+.container {
+    @apply flex flex-col justify-center items-center md:px-56 mt-10;
+  }
+  
+  .title {
+    @apply text-center md:text-6xl font-black my-10 text-sm;
+  }
+
+  .swiper_slide {
+    text-align: center;
+    font-size: 18px;
+    background: #fff;
+  
+    /* Center slide text vertically */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .center_img {
+    @apply flex justify-center items-center;
+  }
+
+  .center_carousel{
+    margin: 14px auto;
+    position: relative;
+  }
+  
+  

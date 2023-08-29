@@ -1,0 +1,17 @@
+.container {
+    @apply flex flex-col justify-center items-center md:px-56 mt-10;
+  }
+  
+  .title {
+    @apply text-center text-6xl font-black my-10;
+  }
+  
+  .btn {
+    background: linear-gradient(
+      180deg,
+      rgba(175.74, 241.95, 255, 0.73) 0%,
+      #35cfed 100%
+    );
+    @apply py-3 px-9 text-black rounded-3xl flex items-center font-medium text-xl transition ease-in;
+  }
+  

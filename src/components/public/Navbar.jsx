@@ -8,7 +8,6 @@ import { motion } from "framer-motion";
 import { MenuOutlined } from "@ant-design/icons";
 
 import Drawer from "@/components/Navbar/Drawer";
-// import Footer from '@/components/public/Footer'
 
 const Navbar = () => {
 
@@ -18,7 +17,7 @@ const Navbar = () => {
       animate={{ y: 0 }}
       transition={{ duration: 0.4 }}
     >
-      <nav className="w-full flex px-6 items-center py-5 rounded-sm justify-between font-medium bg-slate-200">
+      <nav className="w-full flex px-6 items-center py-5 rounded-sm justify-between font-medium bg-transparent">
         <div>
           <Link href="/" className="flex gap-2 flex-center">
             <Image
@@ -75,10 +74,6 @@ const Navbar = () => {
 
 const MobileNavbar = () => {
   const [isDrawerVisible, setDrawerVisible] = useState(false);
-
-  const openMobileNavbar = () => {
-
-  }
 
   const hideDrawer = () => {
     setDrawerVisible(false);
