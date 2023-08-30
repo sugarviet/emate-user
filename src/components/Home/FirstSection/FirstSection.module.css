@@ -2,8 +2,8 @@
   @apply md:px-16 sm:px-2 relative px-0 z-10;
 }
 .main_text {
-    font-size: 70.5px;
-  @apply text-black font-black leading-tight;
+    /* font-size: 70.5px; */
+  @apply text-black font-black leading-tight text-6xl;
 }
 
 .main_img {
@@ -12,7 +12,7 @@
 
 .start_btn {
     background: linear-gradient(180deg, rgba(175.74, 241.95, 255, 0.73) 0%, #35CFED 100%);
-  @apply py-3 px-9 text-black rounded-3xl flex items-center font-medium text-xl transition ease-in;
+  @apply py-3 px-9 text-black rounded-3xl flex items-center font-medium text-xl transition ease-in justify-center m-auto sm:m-0;
 }
 
 /* Images */

@@ -55,6 +55,11 @@ const SecondSection = () => {
           
         </Row>
       </div>
+
+
+      {/* Images setup */}
+      <Image src="/images/pinkDot4.png" alt="img" width={130} height={130} className={styles.pink_dot}/>
+      <Image src="/images/yellowDot1.png" alt="img" width={130} height={130} className={styles.yellow_dot}/>
     </div>
   );
 };

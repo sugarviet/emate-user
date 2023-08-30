@@ -12,6 +12,11 @@ const ThirdSection = () => {
             <Image src="/images/homeImgDiscuss.png" alt="study-together" height={800} width={800}/>
         </div>
         <button className={styles.btn}>Thử ngay</button>
+
+         {/* Images setup */}
+      <Image src="/images/pinkDot5.png" alt="img" width={130} height={130} className={styles.pink_dot}/>
+      <Image src="/images/yellowDot3.png" alt="img" width={130} height={130} className={styles.yellow_dot_first}/>
+      <Image src="/images/yellowDot1.png" alt="img" width={130} height={130} className={styles.yellow_dot_second}/>
     </div>
   )
 }

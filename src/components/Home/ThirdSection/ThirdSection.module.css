@@ -1,9 +1,9 @@
 .container {
-  @apply flex flex-col justify-center items-center md:px-56 mt-10;
+  @apply flex flex-col justify-center items-center md:px-56 mt-10 relative;
 }
 
 .title {
-  @apply text-center text-6xl font-black my-10;
+  @apply text-center sm:text-5xl md:text-6xl font-black my-10 text-3xl;
 }
 
 .btn {
@@ -13,4 +13,31 @@
     #35cfed 100%
   );
   @apply py-3 px-9 text-black rounded-3xl flex items-center font-medium text-xl transition ease-in;
+}
+
+.pink_dot {
+  position: absolute;
+  left: -4%;
+  top: 60%;
+  z-index: -1;
+
+  @apply hidden md:block;
+}
+
+.yellow_dot_first {
+  position: absolute;
+  right: -4%;
+  top: 25%;
+  z-index: -1;
+
+  @apply hidden md:block;
+}
+
+.yellow_dot_second {
+  position: absolute;
+  left: -3%;
+  top: 5%;
+  z-index: -1;
+
+  @apply hidden md:block;
 }

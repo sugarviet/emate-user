@@ -1,32 +1,54 @@
 .container {
-    @apply mt-5 flex flex-col items-center py-16;
+  @apply mt-5 flex flex-col items-center py-16 relative;
 }
 
-.main_text{
-    @apply text-center text-6xl font-black;
+.main_text {
+  @apply text-center md:text-6xl text-3xl sm:text-4xl font-black;
 }
 
 .title_wrapper {
-    @apply my-16
+  @apply my-16;
 }
 
 .content_wrapper {
-    @apply ml-24;
+  @apply ml-24;
 }
 
-.card{
-    @apply flex flex-col items-center gap-4 w-72;
+.card {
+  @apply flex flex-col items-center gap-4 w-72;
 }
 
 .card_bg {
-    background: linear-gradient(180deg, #E38CFF 0%, rgba(232.77, 178.47, 249.90, 0.58) 100%);
-    @apply rounded-3xl p-3 flex justify-center items-center w-1/2;
+  background: linear-gradient(
+    180deg,
+    #e38cff 0%,
+    rgba(232.77, 178.47, 249.9, 0.58) 100%
+  );
+  @apply rounded-3xl p-3 flex justify-center items-center w-1/2;
 }
 
 .card_title {
-    @apply font-bold text-lg;
+  @apply font-bold text-lg;
 }
 
 .card_description {
-    @apply text-center;
+  @apply text-center;
+}
+
+.pink_dot {
+  position: absolute;
+  right: -5%;
+  top: 50%;
+  z-index: -1;
+
+  @apply hidden md:block;
+}
+
+.yellow_dot {
+  position: absolute;
+  left: -4%;
+  top: 65%;
+  z-index: -1;
+
+  @apply hidden md:block;
 }

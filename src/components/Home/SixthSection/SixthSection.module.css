@@ -1,9 +1,9 @@
 .container {
-    @apply flex flex-col justify-center items-center md:px-56 mt-10;
+    @apply flex flex-col justify-center items-center md:px-56 mt-10 relative;
   }
   
   .title {
-    @apply text-center md:text-6xl font-black my-10 text-sm;
+    @apply text-center md:text-6xl font-black my-10 text-3xl;
   }
 
   .swiper_slide {
@@ -24,6 +24,24 @@
   .center_carousel{
     margin: 14px auto;
     position: relative;
+  }
+
+  .pink_dot {
+    position: absolute;
+    right: -4%;
+    top: 60%;
+    z-index: -1;
+  
+    @apply hidden md:block;
+  }
+  
+  .yellow_dot {
+    position: absolute;
+    left: -4%;
+    top: 0;
+    z-index: -1;
+  
+    @apply hidden md:block;
   }
   
   
