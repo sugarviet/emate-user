@@ -56,9 +56,11 @@ const Navbar = () => {
           </Link>
         </motion.div>
         <div className="hidden sm:flex sm:gap-5">
-          <motion.button className="none_btn_color" whileHover={{ scale: 1.1 }}>
-            Đăng nhập
-          </motion.button>
+          <Link href="/signIn">
+            <motion.button className="none_btn_color" whileHover={{ scale: 1.1 }}>
+              Đăng nhập
+            </motion.button>
+          </Link>
           <motion.button className="blue_btn_color" whileHover={{ scale: 1.1 }}>
             Đăng Kí
           </motion.button>

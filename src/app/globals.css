@@ -19,7 +19,7 @@
 }
 
 body {
-  position: relative;
+    position: relative;
     padding: 0 60px;
     overflow-x: hidden;
     z-index: 100;
@@ -35,6 +35,11 @@ body {
   @apply py-2.5 px-6 text-black rounded-3xl flex items-center font-medium text-sm transition ease-in border border-black;
 }
 
+.pink_btn {
+  background: var(--element-pink-color); 
+  @apply rounded-3xl py-2 px-5 font-bold text-lg w-96 flex justify-center items-center;
+}
+
 .blur_bg {
   @apply backdrop-blur-md;
 }
@@ -48,7 +53,11 @@ body {
   border: 1px solid white;
   backdrop-filter: blur(40px);
   margin-top: 50px;
-  z-index: 100000;
+  z-index: 1000;
+}
+
+.black_border_input {
+  @apply w-96 h-14 rounded-2xl hover:border-black border border-black focus:border-black focus:shadow-none;
 }
 
 /*--------------------------------- APPERANCE ---------------------------------*/

@@ -1,5 +1,5 @@
 .container {
-  @apply md:px-16 sm:px-2 relative px-0 z-10;
+  @apply md:px-16 sm:px-2 relative px-0;
 }
 .main_text {
     /* font-size: 70.5px; */
