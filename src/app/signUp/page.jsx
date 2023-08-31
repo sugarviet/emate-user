@@ -1,13 +1,14 @@
 "use client";
 
+import Link from "next/link";
 import Image from "next/image";
 import { Form, Input } from "antd";
 
 import { motion as m } from "framer-motion";
 
-import styles from "./SignIn.module.css";
+import styles from "./SignUp.module.css";
 
-const SignInPage = () => {
+const SignUpPage = () => {
   const onFinish = (values) => {
     console.log("Success:", values);
   };
@@ -24,7 +25,7 @@ const SignInPage = () => {
       transition={{ duration: 0.4 }}
     >
       <div className={`${styles.form_wrapper}`}>
-        <h1 className={styles.title}>Đăng nhập</h1>
+        <h1 className={styles.title}>Đăng kí tài khoản</h1>
         <Form
           name="basic"
           className="flex flex-col items-center gap-2"
@@ -34,6 +35,17 @@ const SignInPage = () => {
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
         >
+            <Form.Item
+            name="name"
+            rules={[
+              {
+                required: true,
+                message: "Please input your name!",
+              },
+            ]}
+          >
+            <Input placeholder="Tên người dùng" className="black_border_input" />
+          </Form.Item>
           <Form.Item
             name="username"
             rules={[
@@ -63,7 +75,7 @@ const SignInPage = () => {
 
           <Form.Item>
             <button className="pink_btn" type="submit">
-              Đăng nhập
+              Tiếp theo
             </button>
           </Form.Item>
         </Form>
@@ -102,4 +114,4 @@ const SignInPage = () => {
   );
 };
 
-export default SignInPage;
+export default SignUpPage;

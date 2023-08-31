@@ -36,14 +36,14 @@ const Footer = () => {
         <Col lg={4} xs={8}>
           <div className="display_vertical">
             <b className="text-base">Địa chỉ</b>
-            <span clspanssName="text-sm">Sđt: 0904914747</span>
+            <span className="text-sm">Sđt: 0904914747</span>
             <span className="text-sm">Email: emate@gmail.com</span>
           </div>
         </Col>
         <Col lg={4} xs={8}>
           <div className="display_vertical">
             <b className="text-base">Tải ứng dụng EMate</b>
-            <img className="w-24" src="/images/download-app.png" />
+            <img className="w-24" src="/images/download-app.png" alt="img" />
           </div>
         </Col>
         <Col lg={4} xs={8}>

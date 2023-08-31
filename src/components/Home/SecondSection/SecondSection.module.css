@@ -42,6 +42,8 @@
   z-index: -1;
 
   @apply hidden md:block;
+  animation: pulse 1s infinite ease-in-out alternate;
+
 }
 
 .yellow_dot {
@@ -51,4 +53,16 @@
   z-index: -1;
 
   @apply hidden md:block;
+  animation: pulse 1s infinite ease-in-out alternate;
+
+}
+
+/* ANIMATIONS */
+@keyframes pulse {
+  from {
+    transform: scale(0.8);
+  }
+  to {
+    transform: scale(1.2);
+  }
 }

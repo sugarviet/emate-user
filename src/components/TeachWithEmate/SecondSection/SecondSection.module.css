@@ -1,0 +1,69 @@
+.container {
+    @apply md:px-16 sm:px-2 relative px-0 pb-80 pt-11 mt-14;
+  }
+  .main_text {
+    @apply text-black font-black leading-tight text-5xl text-center;
+  }
+
+  .card_description {
+    @apply text-black font-bold leading-tight text-4xl
+   }
+
+   .card_description_wrapper {
+    @apply flex justify-center w-1/3 items-center mx-auto my-7
+   }
+
+  .description_wrapper {
+    @apply flex justify-center w-1/2 items-center mx-auto my-7
+  }
+  
+  .main_img {
+      @apply flex justify-center items-center h-96 relative;
+  }
+
+  .btn {
+    background: linear-gradient(
+      180deg,
+      rgba(175.74, 241.95, 255, 0.73) 0%,
+      #35cfed 100%
+    );
+
+    @apply py-3 px-9 text-black rounded-3xl flex justify-center items-center font-medium text-xl mx-auto;
+  }
+  
+  /* Images */
+  
+  .pink_dot_first {
+      position: absolute;
+      left: -6%;
+      top: 20%;
+      @apply sm:block hidden
+  
+  }
+  
+  .pink_dot_second {
+      position: absolute;
+      right: -3%;
+      bottom: 4%;
+      @apply sm:block hidden
+  
+  }
+  
+  .yellow_dot_first{
+      position: absolute;
+      top: -10%;
+      right: 40%;
+      z-index: -1000;
+      @apply sm:block hidden
+  
+  }
+  .yellow_dot_second{
+      position: absolute;
+      top: -5%;
+      right: -5%;
+      z-index: -1000;
+      @apply sm:block hidden
+  
+  }
+  
+  

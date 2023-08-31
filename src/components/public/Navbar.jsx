@@ -17,18 +17,18 @@ const Navbar = () => {
       animate={{ y: 0 }}
       transition={{ duration: 0.4 }}
     >
-      <nav className="w-full flex px-6 items-center py-5 rounded-sm justify-between font-medium bg-transparent">
-        <div>
+      <nav className="w-full flex px-6 items-center md:py-5 py-10 rounded-sm justify-between font-medium bg-transparent">
+        <motion.div whileHover={{scale: 1.2}}>
           <Link href="/" className="flex gap-2 flex-center">
             <Image
               src="/images/logo.png"
               alt="Emate Logo"
-              width={50}
-              height={50}
+              width={100}
+              height={100}
               className="object-contain"
             />
           </Link>
-        </div>
+        </motion.div>
 
         {/* Show if the screen is on desktop */}
         <motion.div
@@ -51,7 +51,7 @@ const Navbar = () => {
           className="cursor_pointer hide_on_mobile"
           whileHover={{ scale: 1.2 }}
         >
-          <Link href="/">
+          <Link href="/teach-with-emate">
             <p>Dạy cùng Emate</p>
           </Link>
         </motion.div>
@@ -61,9 +61,12 @@ const Navbar = () => {
               Đăng nhập
             </motion.button>
           </Link>
-          <motion.button className="blue_btn_color" whileHover={{ scale: 1.1 }}>
-            Đăng Kí
-          </motion.button>
+
+          <Link href="/signUp">
+            <motion.button className="blue_btn_color" whileHover={{ scale: 1.1 }}>
+              Đăng Kí
+            </motion.button>
+          </Link>
         </div>
 
         {/* Show if the screen is on mobile */}
@@ -87,7 +90,9 @@ const MobileNavbar = () => {
 
   return (
     <div className="sm:hidden display-center">
-      <MenuOutlined onClick={handleShowDrawable}/>
+      <motion.div whileHover={{scale: 1.2}}>
+        <MenuOutlined onClick={handleShowDrawable} className="text-3xl" />
+      </motion.div>
       <Drawer isDrawerVisible={isDrawerVisible} hideDrawer={hideDrawer} />
     </div>
   )
