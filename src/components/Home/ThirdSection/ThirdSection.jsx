@@ -1,24 +1,71 @@
-import Image from "next/image";
+"use client";
 
-import styles from './ThirdSection.module.css'
+import { motion as m } from "framer-motion";
+import Image from "next/image";
+import styles from "./ThirdSection.module.css";
 
 const ThirdSection = () => {
   return (
-    <div className={styles.container}>
-        <h1 className={styles.title}>Bạn học tốt hơn khi <br />
-        chúng ta học cùng nhau</h1>
-        <p className="text-center">Với EMate, bạn sẽ tìm thấy một cộng đồng gồm những sinh viên tận tụy đang tìm kiếm một đối tác học tập để giúp họ đạt được mục tiêu của mình. Cho dù bạn đang gặp khó khăn với một chủ đề cụ thể hay chỉ cần thêm động lực để tiếp tục đi đúng hướng, EMate cung cấp nền tảng hoàn hảo để bạn kết nối với những cá nhân có cùng chí hướng sẵn sàng hỗ trợ và khuyến khích.</p>
-        <div>
-            <Image src="/images/homeImgDiscuss.png" alt="study-together" height={800} width={800}/>
-        </div>
-        <button className={styles.btn}>Thử ngay</button>
+    <m.div
+      className={styles.container}
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      transition={{ duration: 0.75, ease: "easeInOut" }}
+    >
+      <h1 className={styles.title}>
+        Bạn học tốt hơn khi <br />
+        chúng ta học cùng nhau
+      </h1>
+      <p className="text-center">
+        Với EMate, bạn sẽ tìm thấy một cộng đồng gồm những sinh viên tận tụy
+        đang tìm kiếm một đối tác học tập để giúp họ đạt được mục tiêu của mình.
+        Cho dù bạn đang gặp khó khăn với một chủ đề cụ thể hay chỉ cần thêm động
+        lực để tiếp tục đi đúng hướng, EMate cung cấp nền tảng hoàn hảo để bạn
+        kết nối với những cá nhân có cùng chí hướng sẵn sàng hỗ trợ và khuyến
+        khích.
+      </p>
+      <div>
+        <Image
+          src="/images/homeImgDiscuss.png"
+          alt="study-together"
+          height={800}
+          width={800}
+          priority={false}
+          loading="lazy"
+        />
+      </div>
+      <button className={styles.btn}>Thử ngay</button>
 
-         {/* Images setup */}
-      <Image src="/images/pinkDot5.png" alt="img" width={130} height={130} className={styles.pink_dot}/>
-      <Image src="/images/yellowDot3.png" alt="img" width={130} height={130} className={styles.yellow_dot_first}/>
-      <Image src="/images/yellowDot1.png" alt="img" width={130} height={130} className={styles.yellow_dot_second}/>
-    </div>
-  )
-}
+      {/* Images setup */}
+      <Image
+        src="/images/pinkDot5.png"
+        alt="img"
+        width={130}
+        height={130}
+        className={styles.pink_dot}
+        priority={false}
+        loading="lazy"
+      />
+      <Image
+        src="/images/yellowDot3.png"
+        alt="img"
+        width={130}
+        height={130}
+        className={styles.yellow_dot_first}
+        priority={false}
+        loading="lazy"
+      />
+      <Image
+        src="/images/yellowDot1.png"
+        alt="img"
+        width={130}
+        height={130}
+        className={styles.yellow_dot_second}
+        priority={false}
+        loading="lazy"
+      />
+    </m.div>
+  );
+};
 
-export default ThirdSection
+export default ThirdSection;

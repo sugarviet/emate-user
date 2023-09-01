@@ -90,9 +90,16 @@ const SecondSection = () => {
         </Row>
       </div>
 
-        <Link href="/teach-with-emate-package">
+        <Link href="/mentor-package">
           <button className={styles.btn}>Đăng kí ngay</button>
         </Link>
+
+        <Image src="/images/pinkDot1.png" height={150} width={150} alt="img" className={styles.pink_dot_first}/>
+        <Image src="/images/pinkDot4.png" height={100} width={100} alt="img" className={styles.pink_dot_second}/>
+        <Image src="/images/pinkDot4.png" height={120} width={120} alt="img" className={styles.pink_dot_third}/>
+        {/*  */}
+        <Image src="/images/yellowDot1.png" height={150} width={150} alt="img" className={styles.yellow_dot_first}/>
+        <Image src="/images/yellowDot1.png" height={120} width={120} alt="img" className={styles.yellow_dot_second}/>
     </div>
   );
 };

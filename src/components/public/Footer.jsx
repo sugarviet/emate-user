@@ -15,6 +15,7 @@ const Footer = () => {
               width={100}
               height={52}
               className="object-contain"
+              priority={false} loading="lazy"
             />
           </Link>
         </Col>
@@ -57,6 +58,7 @@ const Footer = () => {
                   width={36}
                   height={36}
                   className="object-contain"
+                  priority={false} loading="lazy"
                 />
               </Link>
               <Link href="/" className="flex gap-2 flex-center">
@@ -66,6 +68,7 @@ const Footer = () => {
                   width={36}
                   height={36}
                   className="object-contain"
+                  priority={false} loading="lazy"
                 />
               </Link>
             </div>

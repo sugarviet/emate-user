@@ -1,6 +1,7 @@
-"use client";
+"use client"
 
 import Image from "next/image";
+import Link from "next/link";
 
 import { motion } from "framer-motion";
 import { Col, Row } from "antd";
@@ -19,19 +20,22 @@ const FirstSection = () => {
           <div className="py-52">
             <h1 className={styles.main_text}>Thay đổi cuộc đời</h1>
             <h1 className={styles.main_text}>với kiến thức của bạn</h1>
-            <p className="italic md:text-4xl text-3xl font-thin leading-snug">
+            <p className="italic md:text-4xl text-3xl font-thin leading-snug my-4">
               Hãy trở thành người hướng dẫn
             </p>
-            <p className="block my-3 md:text-xl text-lg">
-              Đăng kí để trở thành người hướng dẫn ngay bây giờ <br /> với mọi
-              khóa học tuyệt vời <b>do chính bạn sáng tạo</b>
-            </p>
-            <motion.button
-              className={styles.start_btn}
-              whileHover={{ scale: 1.1 }}
-            >
-              Đăng kí ngay
-            </motion.button>
+              <p className="block my-5 md:text-xl text-lg">
+                Đăng kí để trở thành người hướng dẫn ngay bây giờ <br /> với mọi
+                khóa học tuyệt vời <b>do chính bạn sáng tạo</b>
+              </p>
+
+            <Link href="/mentor-package">
+              <motion.button
+                className={styles.start_btn}
+                whileHover={{ scale: 1.1 }}
+              >
+                Đăng kí ngay
+              </motion.button>
+            </Link>
           </div>
         </Col>
         <Col xs={24} lg={10}>
