@@ -37,7 +37,7 @@ body {
 
 .pink_btn {
   background: var(--element-pink-color); 
-  @apply rounded-3xl py-2 px-5 font-bold text-lg w-96 flex justify-center items-center;
+  @apply rounded-3xl py-2 px-5 font-bold text-lg md:w-96 w-72 flex justify-center items-center;
 }
 
 .blur_bg {
@@ -53,11 +53,10 @@ body {
   border: 1px solid white;
   backdrop-filter: blur(40px);
   margin-top: 50px;
-  z-index: 1000;
 }
 
 .black_border_input {
-  @apply w-96 h-14 rounded-2xl hover:border-black border border-black focus:border-black focus:shadow-none;
+  @apply md:w-96 md:h-14 w-72 h-10 rounded-2xl hover:border-black border border-black focus:border-black focus:shadow-none;
 }
 
 /*--------------------------------- APPERANCE ---------------------------------*/
@@ -81,7 +80,7 @@ body {
 }
 
 .display_vertical {
-  @apply flex flex-col;
+  @apply flex flex-col items-center;
 }
 
 /*--------------------------------- SCREEN-SIZE ---------------------------------*/

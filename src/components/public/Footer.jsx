@@ -15,6 +15,7 @@ const Footer = () => {
               width={100}
               height={52}
               className="object-contain"
+              priority={false} loading="lazy"
             />
           </Link>
         </Col>
@@ -36,14 +37,14 @@ const Footer = () => {
         <Col lg={4} xs={8}>
           <div className="display_vertical">
             <b className="text-base">Địa chỉ</b>
-            <span clspanssName="text-sm">Sđt: 0904914747</span>
+            <span className="text-sm">Sđt: 0904914747</span>
             <span className="text-sm">Email: emate@gmail.com</span>
           </div>
         </Col>
         <Col lg={4} xs={8}>
           <div className="display_vertical">
             <b className="text-base">Tải ứng dụng EMate</b>
-            <img className="w-24" src="/images/download-app.png" />
+            <img className="w-24" src="/images/download-app.png" alt="img" />
           </div>
         </Col>
         <Col lg={4} xs={8}>
@@ -57,6 +58,7 @@ const Footer = () => {
                   width={36}
                   height={36}
                   className="object-contain"
+                  priority={false} loading="lazy"
                 />
               </Link>
               <Link href="/" className="flex gap-2 flex-center">
@@ -66,6 +68,7 @@ const Footer = () => {
                   width={36}
                   height={36}
                   className="object-contain"
+                  priority={false} loading="lazy"
                 />
               </Link>
             </div>

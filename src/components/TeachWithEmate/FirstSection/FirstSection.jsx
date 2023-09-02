@@ -1,12 +1,12 @@
-"use client";
+"use client"
 
 import Image from "next/image";
+import Link from "next/link";
 
 import { motion } from "framer-motion";
 import { Col, Row } from "antd";
 
 import styles from "./FirstSection.module.css";
-
 const FirstSection = () => {
   const dotAnimationVariants = {
     hidden: { opacity: 0 },
@@ -14,43 +14,44 @@ const FirstSection = () => {
   };
 
   return (
-    <motion.div
-      className={styles.container}
-      initial={{ opacity: 0, left: -100 }}
-      animate={{ opacity: 1, left: 0 }}
-      transition={{ duration: 0.5, ease: "easeInOut" }}
-    >
+    <div className={styles.container}>
       <Row gutter={[16, 16]} justify="center" align="middle">
-        <Col xs={24} lg={10}>
+        <Col xs={24} lg={14}>
           <div className="py-52">
-            <h1 className={styles.main_text}>Người bạn học</h1>
-            <h1 className={styles.main_text}>mà bạn cần</h1>
-            <p className="block my-3 text-xl">
-              Tham gia với EMate để kết nối với những người muốn <b>học hỏi</b>{" "}
-              và <b>chia sẻ kiến ​​thức</b> một cách dễ dàng và thuận tiện.
+            <h1 className={styles.main_text}>Thay đổi cuộc đời</h1>
+            <h1 className={styles.main_text}>với kiến thức của bạn</h1>
+            <p className="italic md:text-4xl text-3xl font-thin leading-snug my-4">
+              Hãy trở thành người hướng dẫn
             </p>
-            <motion.button
-              className={styles.start_btn}
-              whileHover={{ scale: 1.1 }}
-            >
-              Bắt đầu
-            </motion.button>
+              <p className="block my-5 md:text-xl text-lg">
+                Đăng kí để trở thành người hướng dẫn ngay bây giờ <br /> với mọi
+                khóa học tuyệt vời <b>do chính bạn sáng tạo</b>
+              </p>
+
+            <Link href="/mentor-package">
+              <motion.button
+                className={styles.start_btn}
+                whileHover={{ scale: 1.1 }}
+              >
+                Đăng kí ngay
+              </motion.button>
+            </Link>
           </div>
         </Col>
-        <Col xs={24} lg={14}>
+        <Col xs={24} lg={10}>
           <div
             className={styles.main_img}
-            exit={{ opacity: 1, left: -100 }}
-            transition={{ duration: 0.5, ease: "easeInOut" }}
+            initial="hidden"
+            animate="visible"
+            variants={dotAnimationVariants}
           >
             <Image
-              src="/images/homeImgVideoCall.png"
+              src="/images/knowledge.png"
               alt="Video Call"
-              width={600}
-              height={600}
+              width={520}
+              height={520}
               priority={true}
-              sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-              className={styles.img_video_call}
+              className={styles.img_knowledge}
             />
           </div>
         </Col>
@@ -111,7 +112,11 @@ const FirstSection = () => {
           className={styles.pink_dot_second}
         />
       </motion.div>
-      <div initial="hidden" animate="visible" variants={dotAnimationVariants}>
+      <motion.div
+        initial="hidden"
+        animate="visible"
+        variants={dotAnimationVariants}
+      >
         <Image
           src="/images/curve.png"
           alt="Curve Image"
@@ -119,8 +124,8 @@ const FirstSection = () => {
           height={550}
           className={styles.curve_img}
         />
-      </div>
-    </motion.div>
+      </motion.div>
+    </div>
   );
 };
 
