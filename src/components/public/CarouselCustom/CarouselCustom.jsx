@@ -8,6 +8,7 @@ import { motion as m } from "framer-motion";
 import HireMentorCard from "../HireMentorCard/HireMentorCard";
 
 import PropTypes from 'prop-types';
+import RegisterCourseCard from "../RegisterCourseCard/RegisterCourseCard";
 
 const responsive = {
   superLargeDesktop: {
@@ -51,6 +52,12 @@ const RenderCardWithCondition = ({type, cardData, index}) => {
           <HireMentorCard index={index} cardData={cardData} />
         </m.div>
     )
+  }else if(type === 'course'){
+    return (
+      <m.div key={index} variants={fadeInAnimationVariants} initial="initial" whileInView="animate" viewport={{once: true}} custom={index}>
+        <RegisterCourseCard index={index} cardData={cardData} />
+      </m.div>
+    )
   }
 }
 
@@ -74,18 +81,7 @@ const CarouselCustom = ({ carouselData }) => {
 CarouselCustom.propTypes = {
   carouselData: PropTypes.shape({
     title: PropTypes.string.isRequired,
-    arrayData: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.number.isRequired,
-        avatar: PropTypes.string.isRequired,
-        age: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired,
-        education: PropTypes.string.isRequired,
-        level: PropTypes.string.isRequired,
-        rate: PropTypes.number.isRequired,
-        pricePerHour: PropTypes.string.isRequired,
-      })
-    ).isRequired,
+    arrayData: PropTypes.array.isRequired,
     type: PropTypes.string.isRequired,
   }).isRequired,
 };
