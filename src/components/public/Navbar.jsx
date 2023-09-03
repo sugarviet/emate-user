@@ -56,7 +56,7 @@ const Navbar = () => {
             whileHover={{ scale: 1.2 }}
           >
             <Link href={nav.href} className={`${nav.href === pathname ? "text-purple-400" : "text-black"}`}>
-              <p>{nav.text}</p>
+              <p className="text-xl">{nav.text}</p>
             </Link>
           </motion.div>
         ))}
