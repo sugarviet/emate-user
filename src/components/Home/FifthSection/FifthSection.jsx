@@ -12,6 +12,7 @@ const FifthSection = () => {
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       transition={{ duration: 0.75, ease: "easeInOut" }}
+      viewport={{once: true}}
     >
       <h1 className={styles.title}>
         Hàng triệu đối tác học tập trong mọi lĩnh vực

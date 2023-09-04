@@ -1,0 +1,95 @@
+.container {
+    @apply md:px-16 sm:px-2 relative px-0 md:pb-40 pt-28 pb-16;
+  }
+  .main_text {
+    @apply text-black font-bold leading-tight md:text-3xl text-2xl text-center my-10;
+  }
+  
+  .card {
+    /* background: linear-gradient(
+      180deg,
+      #efbbff 0%,
+      #f0beff 0%,
+      rgba(245, 222, 252, 0.57) 100%
+    ); */
+    background: linear-gradient(180deg, rgba(239.23, 187.43, 255, 0.59) 0%, rgba(239.73, 190.41, 254.74, 0.59) 0%, rgba(245, 222, 252, 0.34) 100%);
+  
+    @apply rounded-3xl md:p-10 w-full mx-auto;
+  }
+  
+  .qr_wrapper {
+    background: linear-gradient(to right, black 6px, transparent 6px) 0 0,
+      linear-gradient(to right, black 6px, transparent 6px) 0 100%,
+      linear-gradient(to left, black 6px, transparent 6px) 100% 0,
+      linear-gradient(to left, black 6px, transparent 6px) 100% 100%,
+      linear-gradient(to bottom, black 6px, transparent 6px) 0 0,
+      linear-gradient(to bottom, black 6px, transparent 6px) 100% 0,
+      linear-gradient(to top, black 6px, transparent 6px) 0 100%,
+      linear-gradient(to top, black 6px, transparent 6px) 100% 100%;
+  
+    background-repeat: no-repeat;
+    background-size: 30px 30px;
+  
+    @apply w-48 h-48 flex justify-center items-center;
+  }
+
+  .increaseBtnWrapper{
+    height: 40px;
+    min-width: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #FFF;
+    border-radius: 12px;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+  }
+  .increaseBtnWrapper span{
+    width: 100%;
+    text-align: center;
+    font-size: 25px;
+    font-weight: 600;
+    cursor: pointer;
+    user-select: none;
+  }
+  .increaseBtnWrapper span.num{
+    font-size: 22px;
+    border-right: 2px solid rgba(0,0,0,0.2);
+    border-left: 2px solid rgba(0,0,0,0.2);
+    pointer-events: none;
+  }
+  
+  .pink_dot_first {
+      position: absolute;
+      left: -4%;
+      top: 20%;
+      @apply sm:block hidden;
+      animation: pulse 1s infinite ease-in-out alternate;
+    }
+    
+    .pink_dot_second {
+      position: absolute;
+      right: -3%;
+      bottom: 4%;
+      @apply sm:block hidden blur-sm;
+      animation: pulse 1s infinite ease-in-out alternate;
+    }
+    
+    .yellow_dot_first {
+      position: absolute;
+      top: 2%;
+      right: -3%;
+      z-index: -1000;
+      @apply sm:block hidden;
+      animation: pulse 1s infinite ease-in-out alternate;
+    }
+    
+    /* ANIMATIONS */
+    @keyframes pulse {
+      from {
+        transform: scale(0.8);
+      }
+      to {
+        transform: scale(1.2);
+      }
+    }
+  

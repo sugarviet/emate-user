@@ -1,3 +1,5 @@
+"use client"
+import { motion as m } from "framer-motion";
 import { ShoppingCartOutlined } from "@ant-design/icons";
 
 import Image from "next/image";
@@ -23,9 +25,9 @@ const RegisterCourseCard = ({cardData}) => {
           <p className="text-gray-500">({numberOfRates})</p>
         </div>
         <p className="text-lg font-bold">đ{price.toFixed(3)}</p>
-        <span className="float-right cursor-pointer">
+        <m.span className="float-right cursor-pointer" whileHover={{scale: 1.4}}>
           <ShoppingCartOutlined className="text-3xl" />
-        </span>
+        </m.span>
       </div>
     </div>
   );

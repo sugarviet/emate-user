@@ -32,6 +32,7 @@ const SeventhSection = () => {
       initial={{ opacity: 0, left: -100 }}
       animate={{ opacity: 1, left: 0 }}
       transition={{ duration: 0.5, ease: "easeInOut" }}
+      viewport={{ once: true }}
     >
       <h1 className={styles.title}>Mọi người nói gì về EMate?</h1>
 

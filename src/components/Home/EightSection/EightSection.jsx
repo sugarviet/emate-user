@@ -12,6 +12,7 @@ const EightSection = () => {
       initial={{ opacity: 0, left: -100 }}
       animate={{ opacity: 1, left: 0 }}
       transition={{ duration: 0.5, ease: "easeInOut" }}
+      viewport={{once: true}}
     >
       <h1 className={styles.title}>Tham gia ngay cùng EMate</h1>
       <button className={styles.btn}>Bắt đầu</button>

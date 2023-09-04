@@ -11,6 +11,7 @@ const ThirdSection = () => {
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       transition={{ duration: 0.75, ease: "easeInOut" }}
+      viewport={{once: true}}
     >
       <h1 className={styles.title}>
         Bạn học tốt hơn khi <br />
