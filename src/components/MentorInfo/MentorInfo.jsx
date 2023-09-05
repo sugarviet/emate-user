@@ -28,12 +28,12 @@ const MentorInfo = () => {
         <div className="my-8">
           <Row gutter={[50, 16]} align="middle" justify="center">
             <Col lg={16} sm={24} className="w-full">
-              <h1 className="text-center text-xl font-bold my-8">
+              <h1 className="text-center text-4xl font-bold my-8">
                 Thông tin gia sư
               </h1>
               <div className={styles.card}>
                 <div>
-                  <Row gutter={[0, 16]}>
+                  <Row gutter={[0, 16]} justify="center" align="middle">
                     <Col span={10}>
                       <Image
                         src="/character/khoaAnhLe.png"
@@ -52,11 +52,7 @@ const MentorInfo = () => {
                         <h2 className="truncate_2_linesbg-red-500">
                           <span className="font-bold text-xl">Học vấn: </span>
                           <span className="font-normal text-base">
-                            Lorem ipsum, dolor sit amet consectetur adipisicing
-                            elit. Iusto id assumenda, tempore autem quod
-                            veritatis inventore ipsam, eligendi sunt recusandae
-                            sit qui commodi. Incidunt illum harum aliquid
-                            perferendis. Minima, libero.
+                          Đại học Công nghệ thông tin
                           </span>
                         </h2>
                       </div>
@@ -66,11 +62,7 @@ const MentorInfo = () => {
                         <h2 className="">
                           <span className="font-bold text-xl">Trình độ: </span>
                           <span className="font-normal text-base">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing
-                            elit. Esse quas veniam enim sequi. Nisi, asperiores
-                            autem dolores laborum omnis dignissimos aperiam
-                            repellendus assumenda ab quod voluptates impedit,
-                            iusto corporis ut.
+                          Thạc sĩ Khoa học Máy tính. Lập trình, phát triển phần mềm, quản trị hệ thống, thiết kế web
                           </span>
                         </h2>
                       </div>
@@ -122,23 +114,24 @@ const MentorInfo = () => {
             </Col>
             <Col lg={8} sm={24}>
               <m.div
-                className="flex flex-col gap-2 mt-12 justify-center"
-                whileInView={{ scale: 1.1 }}
+                className="flex flex-col gap-2 mt-12 justify-center mx-auto"
+                whileInView={{ scale: 1.7 }}
               >
                 <div className={styles.qr_wrapper}>
                   <QRCode
                     value={"https://www.youtube.com/watch?v=UNuogmk7oEA"}
+                    className="w-72 h-72"
                   />
                 </div>
-                <p className="font-medium ml-8">Quét để thanh toán</p>
+                <p className="font-medium ml-0 text-center">Quét để thanh toán</p>
               </m.div>
             </Col>
           </Row>
         </div>
 
-        <button className="border border-black px-36 py-3 flex justify-center items-center mx-auto my-20">
+        {/* <button className="border border-black px-36 py-3 flex justify-center items-center mx-auto my-20">
           Thanh toán
-        </button>
+        </button> */}
 
         {/* Images */}
         <Image
