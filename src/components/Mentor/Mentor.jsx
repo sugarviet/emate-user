@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react";
 import Image from "next/image";
 
 import styles from "./Mentor.module.css";
@@ -189,11 +190,15 @@ const Mentor = () => {
         </div>
         {/*  */}
         <div>
-          <CarouselCustom carouselData={it_mentor_data} />
+          <Suspense fallback={<div>Loading ...</div>}>
+            <CarouselCustom carouselData={it_mentor_data} />
+          </Suspense>
         </div>
         {/*  */}
         <div>
-          <CarouselCustom carouselData={marketing_mentor_data} />
+          <Suspense fallback={<div>Loading ...</div>}>
+            <CarouselCustom carouselData={marketing_mentor_data} />
+          </Suspense>
         </div>
 
         {/* Images setup */}

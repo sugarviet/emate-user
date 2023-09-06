@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react";
 import Image from "next/image";
 import styles from "./Course.module.css";
 import CarouselCustom from "../public/CarouselCustom/CarouselCustom";
@@ -168,14 +169,18 @@ const Course = () => {
           <CarouselCustom carouselData={it_data_courses} />
         </div>
         <div>
-          <CarouselCustom carouselData={soft_skills_data_courses} />
+          <Suspense fallback={<div>Loading ...</div>}>
+            <CarouselCustom carouselData={soft_skills_data_courses} />
+          </Suspense>
         </div>
         <div>
-          <CarouselCustom carouselData={economy_data_courses} />
+          <Suspense fallback={<div>Loading ...</div>}>
+            <CarouselCustom carouselData={economy_data_courses} />
+          </Suspense>
         </div>
 
-         {/* Images setup */}
-         <Image
+        {/* Images setup */}
+        <Image
           src="/images/pinkDot4.png"
           alt="img"
           width={120}
