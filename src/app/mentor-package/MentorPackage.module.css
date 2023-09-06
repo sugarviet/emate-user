@@ -1,0 +1,87 @@
+.container {
+  @apply md:px-16 sm:px-2 relative px-0 md:pb-40 pt-28 pb-16;
+}
+.main_text {
+  @apply text-black font-bold leading-tight md:text-4xl text-3xl text-center;
+}
+
+.card_wrapper_1 {
+  @apply w-full h-full relative md:left-96 flex-wrap block left-24;
+}
+
+.card_wrapper_2 {
+  @apply w-full h-full relative md:left-40 flex-wrap block left-24 md:mt-0 mt-28;
+}
+
+.card {
+  width: 300px;
+  height: 400px;
+  left: 0px;
+  transform: rotate(-5.99deg);
+  transform-origin: 0 0;
+  background: linear-gradient(
+    180deg,
+    #a1e6fb 0%,
+    rgba(139, 252, 252, 0.78) 0%,
+    #dd8ff5 100%
+  );
+  border-radius: 34.09px;
+}
+.card_1 {
+  width: 280px;
+  height: 408.42px;
+  left: 40.39px;
+  top: -7%;
+  position: absolute;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 34.09px;
+  backdrop-filter: blur(35.88px);
+
+  @apply flex flex-col items-center p-7 gap-16;
+}
+
+/* Images */
+
+.pink_dot_first {
+  position: absolute;
+  left: -3%;
+  top: 20%;
+  @apply sm:block hidden;
+  animation: pulse 1s infinite ease-in-out alternate;
+}
+
+.pink_dot_second {
+  position: absolute;
+  right: -3%;
+  top: 50%;
+  @apply sm:block hidden;
+  animation: pulse 1s infinite ease-in-out alternate;
+}
+
+
+.yellow_dot_first {
+  position: absolute;
+  top: 5%;
+  right: -3%;
+  z-index: -1000;
+  @apply sm:block hidden;
+  animation: pulse 1s infinite ease-in-out alternate;
+}
+.yellow_dot_second {
+  position: absolute;
+  bottom: 15%;
+  left: -3%;
+  z-index: -1000;
+  @apply sm:block hidden;
+  animation: pulse 1s infinite ease-in-out alternate;
+}
+
+/* ANIMATIONS */
+@keyframes pulse {
+  from {
+    transform: scale(0.8);
+  }
+  to {
+    transform: scale(1.2);
+  }
+}

@@ -1,17 +1,66 @@
 .container {
-    @apply flex flex-col justify-center items-center md:px-56 mt-10;
+  @apply flex flex-col justify-center items-center md:px-56 mt-16 relative pb-64 pt-11;
+}
+
+.title {
+  @apply text-center text-3xl md:text-6xl font-black my-10;
+}
+
+.btn {
+  background: linear-gradient(
+    180deg,
+    rgba(175.74, 241.95, 255, 0.73) 0%,
+    #35cfed 100%
+  );
+  @apply py-3 px-9 text-black rounded-3xl flex items-center font-medium text-xl transition ease-in;
+}
+
+.pink_dot_first {
+  position: absolute;
+  left: -4%;
+  top: 0;
+  z-index: -1;
+
+  @apply hidden md:block;
+  animation: pulse 1s infinite ease-in-out alternate;
+}
+
+.pink_dot_second {
+  position: absolute;
+  left: 30%;
+  bottom: -7%;
+  z-index: -1;
+
+  @apply hidden md:block;
+  animation: pulse 1s infinite ease-in-out alternate;
+}
+
+.yellow_dot_first {
+  position: absolute;
+  left: -4%;
+  bottom: 5%;
+  z-index: -1;
+
+  @apply hidden md:block;
+  animation: pulse 1s infinite ease-in-out alternate;
+}
+
+.yellow_dot_second {
+  position: absolute;
+  right: -4%;
+  top: 50%;
+  z-index: -1;
+
+  @apply hidden md:block;
+  animation: pulse 1s infinite ease-in-out alternate;
+}
+
+/* ANIMATIONS */
+@keyframes pulse {
+  from {
+    transform: scale(0.8);
   }
-  
-  .title {
-    @apply text-center text-6xl font-black my-10;
+  to {
+    transform: scale(1.2);
   }
-  
-  .btn {
-    background: linear-gradient(
-      180deg,
-      rgba(175.74, 241.95, 255, 0.73) 0%,
-      #35cfed 100%
-    );
-    @apply py-3 px-9 text-black rounded-3xl flex items-center font-medium text-xl transition ease-in;
-  }
-  
+}

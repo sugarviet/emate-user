@@ -3,7 +3,7 @@
 }
 
 .title {
-    @apply text-center md:text-6xl font-black my-10 text-lg;
+    @apply text-center md:text-6xl font-black my-10 text-3xl;
   }
   
 .btn {

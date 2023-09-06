@@ -1,7 +1,7 @@
 import { Drawer as AntdDrawer, Menu, Button, Space } from "antd";
 import Link from "next/link";
 
-import { UserOutlined, HomeOutlined } from "@ant-design/icons";
+import { UserOutlined, HomeOutlined, ReadOutlined, TeamOutlined, ContactsOutlined } from "@ant-design/icons";
 
 const MENU_ARR = [
   {
@@ -14,19 +14,19 @@ const MENU_ARR = [
     id: 2,
     link: "/",
     title: "Khoá học",
-    icon: <UserOutlined />,
+    icon: <ReadOutlined />,
   },
   {
     id: 3,
     link: "/",
     title: "Gia sư",
-    icon: <UserOutlined />,
+    icon: <TeamOutlined />,
   },
   {
     id: 4,
     link: "/",
     title: "Dạy cùng Emate",
-    icon: <UserOutlined />,
+    icon: <ContactsOutlined />,
   },
 ];
 
@@ -38,13 +38,13 @@ const Drawer = ({ hideDrawer, isDrawerVisible }) => {
         placement="right"
         closable={true}
         onClose={hideDrawer}
-        visible={isDrawerVisible}
+        open={isDrawerVisible}
         bodyStyle={{ padding: 0 }}
         width={280}
       >
-        <Menu mode="vertical">
+        <Menu mode="vertical" >
           {MENU_ARR.map((item) => (
-            <Menu.Item key={item.id} icon={item.icon}>
+            <Menu.Item key={item.id} icon={item.icon} className="hover:bg-slate-100 focus-visible:bg-slate-100 active:bg-slate-100 focus-within:bg-slate-100" >
               <Link href={item.link}>{item.title}</Link>
             </Menu.Item>
           ))}

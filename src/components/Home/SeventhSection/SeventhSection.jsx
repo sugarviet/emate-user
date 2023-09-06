@@ -1,5 +1,7 @@
 "use client";
 
+import { motion as m } from "framer-motion";
+import React, { useState, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Autoplay } from "swiper/modules";
 
@@ -8,30 +10,40 @@ import "swiper/css/navigation";
 import styles from "./SeventhSection.module.css";
 
 const SeventhSection = () => {
-  return (
-    <div>
-      <h1 className={styles.title}>Mọi người nói gì về EMate?</h1>
+  const [isMobile, setIsMobile] = useState(false);
 
-      {/* <div className="flex gap-3">
-        <div className={styles.card}>
-          <h1>Tuyệt vời</h1>
-          <p>
-            EMate thực sự giúp mình tiết kiệm thời gian và nỗ lực trong việc tìm
-            kiếm bạn học. Nó cho phép mình tìm kiếm theo khu vực, chủ đề và mức
-            độ chuyên môn, giúp mình tìm được những người phù hợp với nhu cầu
-            của mình. Mình sẽ giới thiệu cho bạn bè sử dụng ứng dụng này.
-          </p>
-        </div>
-      </div> */}
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 640);
+    };
+
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  return (
+    <m.div
+      className="relative"
+      initial={{ opacity: 0, left: -100 }}
+      animate={{ opacity: 1, left: 0 }}
+      transition={{ duration: 0.5, ease: "easeInOut" }}
+      viewport={{ once: true }}
+    >
+      <h1 className={styles.title}>Mọi người nói gì về EMate?</h1>
 
       <div className="px-2">
         <Swiper
-          // className="my-14"
           className={styles.center_carousel}
-          spaceBetween={20}
-          slidesPerView={4}
+          spaceBetween={isMobile ? 0 : 20}
+          slidesPerView={isMobile ? 1 : 4}
           centeredSlides={true}
           grabCursor
+          initialSlide={1}
           pagination={{
             clickable: true,
           }}
@@ -74,7 +86,7 @@ const SeventhSection = () => {
           </SwiperSlide>
         </Swiper>
       </div>
-    </div>
+    </m.div>
   );
 };
 

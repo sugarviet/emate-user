@@ -1,24 +1,40 @@
-import Navbar from '@/components/public/Navbar'
-import './globals.css'
-import { Inter } from 'next/font/google'
-import Footer from '@/components/public/Footer'
+import dynamic from 'next/dynamic'
 
-const inter = Inter({ subsets: ['latin'] })
+import Navbar from "@/components/public/Navbar";
+import "./globals.css";
+import { Inter } from "next/font/google";
 
-export const metadata = {
-  title: 'Emate',
-  description: 'Find your mate',
-}
+import { ConfigProvider } from "antd";
+
+// const inter = Inter({ subsets: ["latin"] });
+const Footer = dynamic(() => import("@/components/public/Footer"));
+
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <link rel="icon" href="/images/logo.png" />
-      <body className={inter.className}>
-      <Navbar />
-        {children}
-      <Footer />
+      <body>
+        <ConfigProvider
+          theme={{
+            components: {
+              Input: {
+                colorPrimary: '#27272a',
+                algorithm: true, 
+              },
+              Button: {
+                algorithm: true,
+                borderRadius: '12px',
+                colorBorder: '#000',
+              },
+            }
+          }}
+        >
+          <Navbar />
+          {children}
+          <Footer />
+        </ConfigProvider>
       </body>
     </html>
-  )
+  );
 }
