@@ -35,6 +35,7 @@ const SixthSection = () => {
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       transition={{ duration: 0.75, ease: "easeInOut" }}
+      viewport={{once: true}}
     >
       <div className={styles.container}>
         <h1 className={styles.title}>Kết nối cùng gia sư của EMate</h1>

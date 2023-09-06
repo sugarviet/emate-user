@@ -1,3 +1,7 @@
+"use client"
+
+import { motion as m } from "framer-motion";
+
 import { Rate, Row, Col } from "antd";
 
 import Image from "next/image";
@@ -59,9 +63,9 @@ const HireMentorCard = ({cardData}) => {
                   </div>
                   <h1 className="font-bold text-lg">đ{pricePerHour} / giờ</h1>
                 </div>
-                <button className="hire_btn flex justify-end float-right items-center">
+                <m.button className="hire_btn flex justify-end float-right items-center" whileHover={{scale: 1.2}}>
                   Thuê
-                </button>
+                </m.button>
               </div>
             </div>
   )

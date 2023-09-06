@@ -63,6 +63,7 @@ const FourthSection = () => {
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       transition={{ duration: 0.75, ease: "easeInOut" }}
+      viewport={{once: true}}
     >
       <h1 className={styles.title}>Học tất cả mọi thứ mà bạn muốn</h1>
 

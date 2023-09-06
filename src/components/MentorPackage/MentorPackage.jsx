@@ -45,7 +45,7 @@ const MentorPackage = () => {
                   <div>
                     <h3>Bán khóa học</h3>
                     <p className="text-xs">
-                      ( không giới hạn số lượng, lĩnh vực )
+                      (không giới hạn số lượng, lĩnh vực)
                     </p>
                   </div>
                 </div>
@@ -56,7 +56,7 @@ const MentorPackage = () => {
                   </div>
                   <div>
                     <h3>Trở thành gia sư</h3>
-                    <p className="text-xs">( được thuê theo giờ )</p>
+                    <p className="text-xs">(được thuê theo giờ)</p>
                   </div>
                 </div>
               </div>
@@ -87,7 +87,7 @@ const MentorPackage = () => {
                   <div>
                     <h3>Bán khóa học</h3>
                     <p className="text-xs">
-                      ( không giới hạn số lượng, lĩnh vực )
+                      (không giới hạn số lượng, lĩnh vực)
                     </p>
                   </div>
                 </div>
@@ -98,7 +98,7 @@ const MentorPackage = () => {
                   </div>
                   <div>
                     <h3>Trở thành gia sư</h3>
-                    <p className="text-xs">( được thuê theo giờ )</p>
+                    <p className="text-xs">(được thuê theo giờ)</p>
                   </div>
                 </div>
               </div>

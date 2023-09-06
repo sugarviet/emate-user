@@ -13,6 +13,7 @@ const SecondSection = () => {
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       transition={{ duration: 0.75, ease: "easeInOut" }}
+      viewport={{once: true}}
     >
       <div className={styles.title_wrapper}>
         <h1 className={styles.main_text}>Về EMate</h1>
