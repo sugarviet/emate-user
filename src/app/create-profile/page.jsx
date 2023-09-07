@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { Form, Input, Select } from "antd";
+import { Form, Input, Select, Radio } from "antd";
 
 import { motion as m } from "framer-motion";
 
@@ -102,7 +102,26 @@ const CreateProfileFirstPage = () => {
           </Form.Item>
           {/* EMAIL END */}
 
-          {/* NAJOR START */}
+          <Form.Item
+            name="gender"
+            className={styles.radio_block}
+            rules={[
+              {
+                required: true,
+                message: "Please input your gender!",
+              },
+            ]}
+          >
+            <div className="grid grid-cols-4">
+              <b>Giới tính</b>
+              <Radio.Group className="col-span-3 flex justify-evenly">
+                <Radio value={1}>Nam</Radio>
+                <Radio value={0}>Nữ </Radio>
+              </Radio.Group>
+            </div>
+          </Form.Item>
+
+          {/* MAJOR START */}
           <Form.Item
             name="major"
             rules={[
@@ -113,9 +132,9 @@ const CreateProfileFirstPage = () => {
             ]}
           >
             <Select
-              className={styles.custom_select}
-              style={{ width: "400px" }}
+              className={`${styles.custom_select}`}
               showSearch
+              bordered={false}
               placeholder="Lĩnh vực đang học"
               optionFilterProp="children"
               onChange={onChange}
@@ -140,8 +159,65 @@ const CreateProfileFirstPage = () => {
                 },
               ]}
             />
+
+            <div className="grid grid-cols-4 mt-8">
+              <b>Trình độ</b>
+              <Radio.Group className="col-span-3">
+                <Radio value={0}>Sơ cấp</Radio>
+                <Radio value={1}>Trung cấp</Radio>
+                <Radio value={2}>Nâng cao</Radio>
+              </Radio.Group>
+            </div>
           </Form.Item>
           {/* MAJOR END */}
+
+          <Form.Item
+            name="follow_major"
+            rules={[
+              {
+                required: true,
+                message: "Please input your follow major!",
+              },
+            ]}
+          >
+            <Select
+              className={`${styles.custom_select}`}
+              showSearch
+              bordered={false}
+              placeholder="Lĩnh vực muốn học"
+              optionFilterProp="children"
+              onChange={onChange}
+              onSearch={onSearch}
+              filterOption={(input, option) =>
+                (option?.label ?? "")
+                  .toLowerCase()
+                  .includes(input.toLowerCase())
+              }
+              options={[
+                {
+                  value: "IT",
+                  label: "IT",
+                },
+                {
+                  value: "economy",
+                  label: "Kinh Tế",
+                },
+                {
+                  value: "design",
+                  label: "Thiết kế",
+                },
+              ]}
+            />
+
+            <div className="grid grid-cols-4 mt-8">
+              <b>Trình độ</b>
+              <Radio.Group className="col-span-3">
+                <Radio value={0}>Sơ cấp</Radio>
+                <Radio value={1}>Trung cấp</Radio>
+                <Radio value={2}>Nâng cao</Radio>
+              </Radio.Group>
+            </div>
+          </Form.Item>
 
           <Form.Item>
             <button className="pink_btn" type="submit">
