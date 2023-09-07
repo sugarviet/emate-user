@@ -42,7 +42,7 @@ const CreateProfileFirstPage = () => {
           onFinishFailed={onFinishFailed}
         >
           {/* FIRST NAME & LAST NAME START*/}
-          <div className="flex gap-4 w-96">
+          <div className="flex gap-4 md:w-96 w-72">
             <Form.Item
               name="name"
               rules={[
