@@ -1,5 +1,6 @@
 "use client";
 
+import { motion as m } from "framer-motion";
 import React, { useState, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Autoplay } from "swiper/modules";
@@ -26,7 +27,13 @@ const SeventhSection = () => {
   }, []);
 
   return (
-    <div className="relative">
+    <m.div
+      className="relative"
+      initial={{ opacity: 0, left: -100 }}
+      animate={{ opacity: 1, left: 0 }}
+      transition={{ duration: 0.5, ease: "easeInOut" }}
+      viewport={{ once: true }}
+    >
       <h1 className={styles.title}>Mọi người nói gì về EMate?</h1>
 
       <div className="px-2">
@@ -79,7 +86,7 @@ const SeventhSection = () => {
           </SwiperSlide>
         </Swiper>
       </div>
-    </div>
+    </m.div>
   );
 };
 

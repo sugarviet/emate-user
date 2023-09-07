@@ -1,7 +1,8 @@
+"use client";
+
+import { motion as m } from "framer-motion";
 import Image from "next/image";
-
 import { Col, Row } from "antd";
-
 import styles from "./FourthSection.module.css";
 
 const SKILLS = [
@@ -57,7 +58,13 @@ const SKILLS = [
 
 const FourthSection = () => {
   return (
-    <div className={styles.container}>
+    <m.div
+      className={styles.container}
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      transition={{ duration: 0.75, ease: "easeInOut" }}
+      viewport={{once: true}}
+    >
       <h1 className={styles.title}>Học tất cả mọi thứ mà bạn muốn</h1>
 
       <div className="my-7">
@@ -72,6 +79,8 @@ const FourthSection = () => {
                     alt="skills"
                     height={120}
                     width={120}
+                    priority={false}
+                    loading="lazy"
                   />
                 </div>
                 <h1 className={styles.card_title}>IT và Phần mềm</h1>
@@ -85,6 +94,8 @@ const FourthSection = () => {
                     alt="skills"
                     height={120}
                     width={120}
+                    priority={false}
+                    loading="lazy"
                   />
                 </div>
                 <h1 className={styles.card_title}>Kỹ năng mềm</h1>
@@ -98,6 +109,8 @@ const FourthSection = () => {
                     alt="skills"
                     height={120}
                     width={120}
+                    priority={false}
+                    loading="lazy"
                   />
                 </div>
                 <h1 className={styles.card_title}>Kinh tế</h1>
@@ -111,6 +124,8 @@ const FourthSection = () => {
                     alt="skills"
                     height={120}
                     width={120}
+                    priority={false}
+                    loading="lazy"
                   />
                 </div>
                 <h1 className={styles.card_title}>Thủ công</h1>
@@ -124,6 +139,8 @@ const FourthSection = () => {
                     alt="skills"
                     height={120}
                     width={120}
+                    priority={false}
+                    loading="lazy"
                   />
                 </div>
                 <h1 className={styles.card_title}>Nấu ăn</h1>
@@ -137,6 +154,8 @@ const FourthSection = () => {
                     alt="skills"
                     height={120}
                     width={120}
+                    priority={false}
+                    loading="lazy"
                   />
                 </div>
                 <h1 className={styles.card_title}>Marketing</h1>
@@ -150,6 +169,8 @@ const FourthSection = () => {
                     alt="skills"
                     height={120}
                     width={120}
+                    priority={false}
+                    loading="lazy"
                   />
                 </div>
                 <h1 className={styles.card_title}>Dược</h1>
@@ -163,6 +184,8 @@ const FourthSection = () => {
                     alt="skills"
                     height={120}
                     width={120}
+                    priority={false}
+                    loading="lazy"
                   />
                 </div>
                 <h1 className={styles.card_title}>Âm nhạc</h1>
@@ -176,6 +199,8 @@ const FourthSection = () => {
                     alt="skills"
                     height={120}
                     width={120}
+                    priority={false}
+                    loading="lazy"
                   />
                 </div>
                 <h1 className={styles.card_title}>Ngôn ngữ</h1>
@@ -189,6 +214,8 @@ const FourthSection = () => {
                     alt="skills"
                     height={120}
                     width={120}
+                    priority={false}
+                    loading="lazy"
                   />
                 </div>
                 <h1 className={styles.card_title}>Sức khỏe thể hình</h1>
@@ -202,6 +229,8 @@ const FourthSection = () => {
                     alt="skills"
                     height={120}
                     width={120}
+                    priority={false}
+                    loading="lazy"
                   />
                 </div>
                 <h1 className={styles.card_title}>Nhiếp ảnh</h1>
@@ -215,6 +244,8 @@ const FourthSection = () => {
                     alt="skills"
                     height={120}
                     width={120}
+                    priority={false}
+                    loading="lazy"
                   />
                 </div>
                 <h1 className={styles.card_title}>Thiết kế</h1>
@@ -225,7 +256,7 @@ const FourthSection = () => {
       </div>
 
       <button className={styles.btn}>Học ngay</button>
-    </div>
+    </m.div>
   );
 };
 

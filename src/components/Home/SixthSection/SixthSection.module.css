@@ -1,47 +1,57 @@
 .container {
-    @apply flex flex-col justify-center items-center md:px-56 mt-10 relative;
-  }
-  
-  .title {
-    @apply text-center md:text-6xl font-black my-10 text-3xl;
-  }
+  @apply flex flex-col justify-center items-center md:px-56 mt-10 relative;
+}
 
-  .swiper_slide {
-    text-align: center;
-    font-size: 18px;
-    background: #fff;
-  
-    /* Center slide text vertically */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+.title {
+  @apply text-center md:text-6xl font-black my-10 text-3xl;
+}
 
-  .center_img {
-    @apply flex justify-center items-center;
-  }
+.swiper_slide {
+  text-align: center;
+  font-size: 18px;
+  background: #fff;
 
-  .center_carousel{
-    margin: 14px auto;
-    position: relative;
-  }
+  /* Center slide text vertically */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-  .pink_dot {
-    position: absolute;
-    right: -4%;
-    top: 60%;
-    z-index: -1;
-  
-    @apply hidden md:block;
+.center_img {
+  @apply flex justify-center items-center;
+}
+
+.center_carousel {
+  margin: 14px auto;
+  position: relative;
+}
+
+.pink_dot {
+  position: absolute;
+  right: -4%;
+  top: 60%;
+  z-index: -1;
+
+  @apply hidden md:block;
+  animation: pulse 1s infinite ease-in-out alternate;
+}
+
+.yellow_dot {
+  position: absolute;
+  left: -4%;
+  top: 0;
+  z-index: -1;
+
+  @apply hidden md:block;
+  animation: pulse 1s infinite ease-in-out alternate;
+}
+
+/* ANIMATIONS */
+@keyframes pulse {
+  from {
+    transform: scale(0.8);
   }
-  
-  .yellow_dot {
-    position: absolute;
-    left: -4%;
-    top: 0;
-    z-index: -1;
-  
-    @apply hidden md:block;
+  to {
+    transform: scale(1.2);
   }
-  
-  
+}

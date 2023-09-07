@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import { motion as m } from "framer-motion";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Autoplay, Zoom } from "swiper/modules";
@@ -29,7 +30,13 @@ const SixthSection = () => {
   }, []);
 
   return (
-    <div className="relative">
+    <m.div
+      className="relative"
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      transition={{ duration: 0.75, ease: "easeInOut" }}
+      viewport={{once: true}}
+    >
       <div className={styles.container}>
         <h1 className={styles.title}>Kết nối cùng gia sư của EMate</h1>
         <p>
@@ -63,6 +70,8 @@ const SixthSection = () => {
                 alt="character"
                 width={220}
                 height={220}
+                priority={false}
+                loading="lazy"
               />
             </div>
           </SwiperSlide>
@@ -73,7 +82,8 @@ const SixthSection = () => {
                 alt="character"
                 width={220}
                 height={220}
-                priority
+                priority={false}
+                loading="lazy"
               />
             </div>
           </SwiperSlide>
@@ -84,7 +94,8 @@ const SixthSection = () => {
                 alt="character"
                 width={220}
                 height={220}
-                priority
+                priority={false}
+                loading="lazy"
               />
             </div>
           </SwiperSlide>
@@ -95,16 +106,33 @@ const SixthSection = () => {
                 alt="character"
                 width={220}
                 height={220}
-                priority
+                priority={false}
+                loading="lazy"
               />
             </div>
           </SwiperSlide>
         </Swiper>
       </div>
 
-      <Image src="/images/pinkDot5.png" alt="img" width={150} height={150} className={styles.pink_dot}/>
-      <Image src="/images/yellowDot3.png" alt="img" width={140} height={140} className={styles.yellow_dot}/>
-    </div>
+      <Image
+        src="/images/pinkDot5.png"
+        alt="img"
+        width={150}
+        height={150}
+        className={styles.pink_dot}
+        priority={false}
+        loading="lazy"
+      />
+      <Image
+        src="/images/yellowDot3.png"
+        alt="img"
+        width={140}
+        height={140}
+        className={styles.yellow_dot}
+        priority={false}
+        loading="lazy"
+      />
+    </m.div>
   );
 };
 

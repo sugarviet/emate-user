@@ -37,7 +37,7 @@ body {
 
 .pink_btn {
   background: var(--element-pink-color); 
-  @apply rounded-3xl py-2 px-5 font-bold text-lg w-96 flex justify-center items-center;
+  @apply rounded-3xl py-2 px-5 font-bold text-lg md:w-96 w-72 flex justify-center items-center;
 }
 
 .blur_bg {
@@ -53,17 +53,75 @@ body {
   border: 1px solid white;
   backdrop-filter: blur(40px);
   margin-top: 50px;
-  z-index: 1000;
+}
+
+.hire_btn {
+  @apply rounded-3xl py-1.5 px-9 border border-black;
 }
 
 .black_border_input {
-  @apply w-96 h-14 rounded-2xl hover:border-black border border-black focus:border-black focus:shadow-none;
+  @apply md:w-96 md:h-14 w-72 h-10 rounded-2xl hover:border-black border border-black focus:border-black focus:shadow-none;
+}
+
+input[type="search"].dark {
+  background: #222;
+  color: #fff;
+}
+
+input[type="search"].light {
+  background: #fff;
+  color: #222;
+}
+
+input[type="search"]::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  height: 1em;
+  width: 1em;
+  border-radius: 50em;
+  background: url(https://pro.fontawesome.com/releases/v5.10.0/svgs/solid/times-circle.svg) no-repeat 50% 50%;
+  background-size: contain;
+  opacity: 0;
+  pointer-events: none;
+  cursor: pointer;
+}
+
+input[type="search"]:focus::-webkit-search-cancel-button {
+  opacity: .3;
+  pointer-events: all;
+}
+
+input[type="search"].dark::-webkit-search-cancel-button {
+  filter: invert(1);
+}
+
+.ant-menu-item-selected {
+  color: #222 !important;
+  @apply text-purple-400;
 }
 
 /*--------------------------------- APPERANCE ---------------------------------*/
 .hide_on_mobile {
   @apply hidden sm:block
 }
+
+.truncate_2_lines {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 2;
+}
+
+.truncate_1_lines {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 1;
+}
+
+
+/* lg:w-80 md:w-80 xl:w-80 flex flex-col items-center w-64 h-96 bg-gray-600  */
 
 /*--------------------------------- GESTURE ---------------------------------*/
 .cursor_pointer {
@@ -81,7 +139,7 @@ body {
 }
 
 .display_vertical {
-  @apply flex flex-col;
+  @apply flex flex-col items-center;
 }
 
 /*--------------------------------- SCREEN-SIZE ---------------------------------*/
