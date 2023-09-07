@@ -1,0 +1,72 @@
+.blur_bg {
+    background-color: rgba(251, 246, 246, 0.9);
+    border-radius: 67px;
+    border: 1px solid white;
+    backdrop-filter: blur(4px);
+
+    @apply relative flex justify-center items-center h-full md:w-3/4 mx-auto my-20;
+}
+  
+.title {
+  @apply text-center md:text-start md:text-3xl text-3xl text-xl mb-8 font-bold;
+}
+.custom_black_border_input {
+  @apply md:h-14 h-10 rounded-2xl hover:border-black border border-black focus:border-black focus:shadow-none w-full;
+}
+
+.custom_select {
+  background-color: #fff;
+  @apply flex items-center md:w-96 md:h-14 w-72 h-10 rounded-2xl hover:border-black border border-black focus:border-black focus:shadow-none !important;
+}
+
+.container {
+  @apply py-16 md:w-3/4 flex flex-col md:flex-row items-center md:items-start md:justify-center
+}
+
+.input_block 
+{
+  @apply md:w-96 w-72 
+}
+
+.add_image_button
+{
+    position: relative;
+    @apply w-28 h-28 border-2 border-black rounded-2xl border-dashed flex justify-center items-center
+}
+
+.plus_button_blur_bg
+{
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    background: #D3F0F9;
+    filter: blur(8px);
+    z-index: -1; 
+}
+
+.pink_dot_first {
+    position: absolute;
+    top: 10%;
+    left: -5%;
+
+    @apply sm:block hidden
+
+}
+
+.pink_dot_second {
+    position: absolute;
+    bottom: -5%;
+    right: -5%;
+}
+
+.yellow_dot_first {
+    position: absolute;
+    bottom: -8%;
+    right: 2%;
+}
+
+.yellow_dot_second {
+    position: absolute;
+    bottom: 0;
+    left: -5%;
+}
