@@ -139,7 +139,7 @@ input[type="search"].dark::-webkit-search-cancel-button {
 }
 
 .display_vertical {
-  @apply flex flex-col items-center;
+  @apply flex flex-col;
 }
 
 /*--------------------------------- SCREEN-SIZE ---------------------------------*/
