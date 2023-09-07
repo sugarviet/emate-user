@@ -23,10 +23,10 @@
   /* w-48 */
   /* md:w-96 md:h-14 w-72 h-10 */
   .form_wrapper {
-    @apply w-1/2 md:px-12 sm:px-6 px-0 pt-16 pb-48 rounded-lg;
+    @apply md:px-12 sm:px-6 px-0 pt-16 pb-48 rounded-lg;
   }
 
-  .radio_block 
+  .input_block 
   {
     @apply md:w-96 w-72 
   }

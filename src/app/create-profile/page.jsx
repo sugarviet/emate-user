@@ -6,6 +6,7 @@ import { Form, Input, Select, Radio } from "antd";
 import { motion as m } from "framer-motion";
 
 import styles from "./createProfile.module.css";
+import Link from "next/link";
 
 const CreateProfileFirstPage = () => {
   const onFinish = (values) => {
@@ -104,7 +105,7 @@ const CreateProfileFirstPage = () => {
 
           <Form.Item
             name="gender"
-            className={styles.radio_block}
+            className={styles.input_block}
             rules={[
               {
                 required: true,
@@ -124,6 +125,7 @@ const CreateProfileFirstPage = () => {
           {/* MAJOR START */}
           <Form.Item
             name="major"
+            className={styles.input_block}
             rules={[
               {
                 required: true,
@@ -173,6 +175,7 @@ const CreateProfileFirstPage = () => {
 
           <Form.Item
             name="follow_major"
+            className={styles.input_block}
             rules={[
               {
                 required: true,
@@ -225,6 +228,10 @@ const CreateProfileFirstPage = () => {
             </button>
           </Form.Item>
         </Form>
+
+        <Link className="font-thin text-sm" href={"/"}>
+          <u>Quay lại</u>
+        </Link>
       </div>
 
       {/* Images setup */}
