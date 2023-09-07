@@ -52,7 +52,7 @@ const Footer = () => {
           <div className="display_vertical">
             <b className="text-lg">Theo dõi chúng tôi tại</b>
             <div className="flex space-x-4 my-1">
-              <Link href="/" className="flex gap-2 flex-center">
+              <a href="/" className="flex gap-2 flex-center">
                 <Image
                   src="/icons/fb.png"
                   alt="Follow by facebook"
@@ -62,8 +62,8 @@ const Footer = () => {
                   priority={false}
                   loading="lazy"
                 />
-              </Link>
-              <Link href="/" className="flex gap-2 flex-center">
+              </a>
+              <a href="/" className="flex gap-2 flex-center">
                 <Image
                   src="/icons/instagram.png"
                   alt="Follow by instagram"
@@ -73,7 +73,7 @@ const Footer = () => {
                   priority={false}
                   loading="lazy"
                 />
-              </Link>
+              </a>
             </div>
           </div>
         </Col>
