@@ -1,0 +1,43 @@
+.blur_bg {
+    background-color: rgba(251, 246, 246, 0.9);
+    border-radius: 67px;
+    border: 1px solid white;
+    backdrop-filter: blur(4px);
+    
+    @apply relative flex justify-center items-center h-full w-3/4 mx-auto my-20;
+  }
+  
+  .title {
+    @apply md:text-4xl sm:text-2xl text-xl mb-16 text-center font-bold;
+  }
+  
+  .form_wrapper {
+    @apply w-1/2 md:px-12 sm:px-6 px-0 pt-16 pb-48 rounded-lg;
+  }
+  
+  .pink_dot_first {
+      position: absolute;
+      top: 10%;
+      left: -5%;
+  
+      @apply sm:block hidden
+  
+  }
+  
+  .pink_dot_second {
+      position: absolute;
+      bottom: -5%;
+      right: -5%;
+  }
+  
+  .yellow_dot_first {
+      position: absolute;
+      bottom: -8%;
+      right: 2%;
+  }
+  
+  .yellow_dot_second {
+      position: absolute;
+      bottom: 0;
+      left: -5%;
+  }
