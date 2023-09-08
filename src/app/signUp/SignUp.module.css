@@ -8,11 +8,11 @@
   }
   
   .title {
-    @apply md:text-3xl sm:text-2xl text-xl mb-16 text-center font-bold;
+    @apply md:text-4xl sm:text-2xl text-xl mb-16 text-center font-bold;
   }
   
   .form_wrapper {
-    @apply w-1/2 md:px-32 px-0 pt-16 pb-48 rounded-lg;
+    @apply w-1/2 md:px-12 sm:px-6 px-0 pt-16 pb-48 rounded-lg;
   }
   
   .pink_dot_first {

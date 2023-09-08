@@ -35,23 +35,26 @@ const SignUpPage = () => {
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
         >
-            <Form.Item
+          <Form.Item
             name="name"
             rules={[
               {
                 required: true,
-                message: "Please input your name!",
+                message: "Vui lòng nhập tên người dùng!",
               },
             ]}
           >
-            <Input placeholder="Tên người dùng" className="black_border_input" />
+            <Input
+              placeholder="Tên người dùng"
+              className="black_border_input"
+            />
           </Form.Item>
           <Form.Item
             name="username"
             rules={[
               {
                 required: true,
-                message: "Please input your username!",
+                message: "Vui Lòng nhập tên đăng nhập!",
               },
             ]}
           >
@@ -63,12 +66,36 @@ const SignUpPage = () => {
             rules={[
               {
                 required: true,
-                message: "Please input your password!",
+                message: "Vui lòng nhập mật khẩu!",
               },
             ]}
           >
             <Input.Password
               placeholder="Mật khẩu"
+              className="black_border_input focus-within:shadow-none focus:shadow-none focus-visible:shadow-none"
+            />
+          </Form.Item>
+
+          <Form.Item
+            name="confirm_password"
+            dependencies={["password"]}
+            rules={[
+              {
+                required: true,
+                message: "Vui lòng nhập lại mật khẩu!",
+              },
+              ({ getFieldValue }) => ({
+                validator(_, value) {
+                  if (!value || getFieldValue("password") === value) {
+                    return Promise.resolve();
+                  }
+                  return Promise.reject(new Error("Mật khẩu không khớp"));
+                },
+              }),
+            ]}
+          >
+            <Input.Password
+              placeholder="Nhập lại mật khẩu"
               className="black_border_input focus-within:shadow-none focus:shadow-none focus-visible:shadow-none"
             />
           </Form.Item>
