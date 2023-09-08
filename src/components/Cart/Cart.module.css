@@ -1,0 +1,4 @@
+.sub_course
+{
+    @apply flex flex-col absolute top-36 w-64
+}
