@@ -1,7 +1,7 @@
 "use client"
 
 import styles from './Cart.module.css'
-import {Input, Button, Image} from 'antd'
+import {Input, Button, Image, QRCode} from 'antd'
 import { CloseOutlined } from '@ant-design/icons'
 import { motion as m } from "framer-motion";
 import { useEffect, useState } from 'react';
@@ -75,7 +75,13 @@ const Cart = () => {
                         </div>
                     </div>
                     <div className='flex flex-col my-8 items-center justify-center relative'>
-                        <Image width={240} height={240} src='/images/momo-payment.jpg'/>
+                        <div className={styles.qr_wrapper}>
+                            <QRCode
+                                value={"https://www.youtube.com/watch?v=UNuogmk7oEA"}
+                                size={200}
+                                bordered={false}
+                            />
+                        </div>
                         <span className='font-thin'>Quét để thanh toán</span>
                         <button onClick={handlePayment} className='text-xl w-full sm:w-3/4 border my-4 py-4 border-black sm:absolute sm:-bottom-16'>Thanh toán</button>
                     </div>
