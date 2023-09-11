@@ -1,15 +1,14 @@
-import styles from './EmptyState.module.css';
-
 const EmptyState = () => {
     return ( 
       <div 
         className="
           px-4 
-          h-96 
+          h-full 
           flex 
           justify-center 
           items-center 
           bg-gray-100
+          rounded-tr-2xl
         "
       >
         <div className="text-center items-center flex flex-col">

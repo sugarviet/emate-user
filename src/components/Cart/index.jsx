@@ -55,6 +55,7 @@ const Cart = () => {
                                     <div key={index} className='grid grid-cols-10 mb-20 md:mb-24 flex items-center'>
                                         <div className='col-span-5 flex flex-col relative'>
                                             <Image
+                                                alt='product'
                                                 src={course.thumnail}
                                             />
                                             <div className={styles.sub_course}>
@@ -68,7 +69,7 @@ const Cart = () => {
                                 ))}
                             </div>
                         </div>
-                        <Input className='border-black my-4' placeholder='Nhập mã voucher của bạn' prefix={<Image width={32} src='/icons/voucher.png'/>}/>
+                        <Input className='border-black my-4' placeholder='Nhập mã voucher của bạn' prefix={<Image width={32} src='/icons/voucher.png' alt='voucher'/>}/>
                         <div className='flex justify-between items-center'>
                             <b>Tổng cộng</b>
                             <b>đ{total}</b>

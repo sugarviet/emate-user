@@ -1,11 +1,11 @@
 .container {
-    height: 650px;
+    height: 660px;
     overflow-y: scroll;
 
     scrollbar-width: thin;
     scrollbar-color: #d2d6da #f5f5f5;
 
-    @apply w-full border rounded-l-lg p-2;
+    @apply w-full border p-2;
 }
 
 .container::-webkit-scrollbar {

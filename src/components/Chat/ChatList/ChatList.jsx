@@ -19,8 +19,6 @@ const ChatList = () => {
       <Message me={false}/>
       <Message me={true}/>
       <Message me={true}/>
-     
-      
       
     </div>
   )

@@ -9,7 +9,7 @@ const Sidebar = () => {
   const increaseCount = useChatStore(state => state.increaseCount);
   return (
     <div className="h-full flex flex-col">
-      <div className="h-12 border">   
+      <div className="h-12 border rounded-tl-2xl">   
         <h1 className="text-center font-bold text-xl translate-y-2">Danh sách tin nhắn</h1>
         </div>
       <DesktopSidebar />
