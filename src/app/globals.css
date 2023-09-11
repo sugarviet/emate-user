@@ -120,9 +120,6 @@ input[type="search"].dark::-webkit-search-cancel-button {
   -webkit-line-clamp: 1;
 }
 
-
-/* lg:w-80 md:w-80 xl:w-80 flex flex-col items-center w-64 h-96 bg-gray-600  */
-
 /*--------------------------------- GESTURE ---------------------------------*/
 .cursor_pointer {
   @apply hover:cursor-pointer

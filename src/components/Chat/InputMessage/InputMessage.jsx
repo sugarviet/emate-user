@@ -1,10 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Upload, Button, Input } from "antd";
-import { InboxOutlined } from "@ant-design/icons";
-import styles from "./InputMessage.module.css";
-import { useChatStore } from "../stores/useChatStore";
+import { Upload } from "antd";
 import Image from "next/image";
 
 const InputMessage = () => {
@@ -13,7 +10,6 @@ const InputMessage = () => {
   const handleSendMessage = (e) => {
     e.preventDefault();
   };
-  const count = useChatStore((state) => state.count);
 
   const onChange = (newFileList) => {
     setFileList(newFileList);
