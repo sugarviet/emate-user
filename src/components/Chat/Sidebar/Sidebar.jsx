@@ -1,10 +1,18 @@
-import UserContact from "../UserContact/UserContact";
+'use client'
 
-const Sidebar = ({ children }) => {
+import UserContact from "../UserContact/UserContact";
+import { useChatStore } from "../stores/useChatStore";
+
+import styles from './Sidebar.module.css';
+
+const Sidebar = () => {
+  const increaseCount = useChatStore(state => state.increaseCount);
   return (
-    <div className="h-full mt-5 flex w-full">
+    <div className="h-full flex flex-col">
+      <div className="h-12 border">   
+        <h1 className="text-center font-bold text-xl translate-y-2">Danh sách tin nhắn</h1>
+        </div>
       <DesktopSidebar />
-      <main className="h-full flex-1">{children}</main>
     </div>
   );
 };
@@ -12,7 +20,7 @@ const Sidebar = ({ children }) => {
 const DesktopSidebar = () => {
   return (
     <div
-      className="w-80 border rounded-l-lg h-96 p-2 overflow-y-scroll"
+      className={styles.container}
     >
      <ul>
         <li>
@@ -27,6 +35,20 @@ const DesktopSidebar = () => {
         <li>
             <UserContact />
         </li>
+        <li>
+            <UserContact />
+        </li>
+        <li>
+            <UserContact />
+        </li>
+        <li>
+            <UserContact />
+        </li>
+        <li>
+            <UserContact />
+        </li>
+        
+        
         
      </ul>
 

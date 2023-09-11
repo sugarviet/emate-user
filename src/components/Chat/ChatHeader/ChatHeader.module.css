@@ -1,0 +1,16 @@
+.active {
+    @apply w-4 h-4 bg-green-600 rounded-full;
+  animation: pulse 1s infinite ease-in-out alternate;
+
+}
+
+/* ANIMATIONS */
+@keyframes pulse {
+    from {
+      transform: scale(0.8);
+    }
+    to {
+      transform: scale(1.2);
+    }
+  }
+  

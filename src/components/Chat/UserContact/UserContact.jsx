@@ -1,24 +1,30 @@
 import Image from "next/image"
+import { Row, Col } from "antd"
 
 const UserContact = () => {
   return (
-    <div className="border w-full h-24 relative flex items-center gap-3 my-2 rounded-xl">
-        <div className="flex items-center rounded-full overflow-hidden">
-            <Image src="/character/chauAnhTu.png" height={45} width={45} alt="avt" className="rounded-lg"/>
+    <div className="border w-full h-24 relative my-2 rounded-xl hover:cursor-pointer p-2">
+        <Row className=" translate-y-3" gutter={[4, 16]} align="middle" justify="center" >
+            <Col span={6} >
+            <div className="flex items-center rounded-full relative">
+            <Image src="/character/chauAnhTu.png" height={45} width={45} alt="avt" className="rounded-full"/>
+            <div className="w-4 h-4 bg-green-600 rounded-full absolute bottom-0 right-4"></div>
         </div>
-        <div className="flex justify-between items-center gap-5">
+            </Col>
+            <Col span={13}>
             <div>
-                <h1>Chau Anh Tu</h1>
+                <h1 className="text-lg font-bold">Chau Anh Tu</h1>
                 <p className="">Lorem ipsum ...</p>
             </div>
-            <div className="flex flex-col gap-2.5 relative justify-end items-end">
-                {/* ACTIVE STATUS */}
-                <div className="w-3 h-3 bg-green-600 rounded-full float-right"></div>
-                {/* ACTIVE STATUS */}
-
-                <p>12:30pm</p>
+            </Col>
+            <Col span={5}>
+            <div className="w-full">
+                <p className="text-sm">12:30pm</p>
             </div>
-        </div>
+            </Col>
+        </Row>
+        
+        
     </div>
   )
 }
