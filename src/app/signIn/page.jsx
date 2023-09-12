@@ -1,7 +1,7 @@
 import SignIn from "@/components/SignIn/SignIn";
 
 export const metadata = {
-  title: "Emate",
+  title: "Emate - Sign In",
   description: "Emate teaching",
 };
 

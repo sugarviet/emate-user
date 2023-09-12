@@ -1,0 +1,23 @@
+.container {
+    height: 600px;
+
+    overflow-y: scroll;
+
+    scrollbar-width: thin;
+    scrollbar-color: #d2d6da #f5f5f5;
+
+    @apply border-b-2 py-2 px-4;
+}
+
+.container::-webkit-scrollbar {
+    width: 8px; 
+  }
+  
+  .container::-webkit-scrollbar-thumb {
+    background-color: #d2d6da; 
+    border-radius: 20px;
+  }
+  
+  .container::-webkit-scrollbar-track {
+    background-color: #f5f5f5; 
+  }

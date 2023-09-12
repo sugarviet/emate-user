@@ -1,26 +1,17 @@
-"use client";
+import EmptyState from "@/components/Chat/EmptyState/EmptyState";
+import ChatWrapper from "@/components/Chat/ChatWrapper/ChatWrapper";
 
-import { Swiper, SwiperSlide } from "swiper/react";
-
-import "swiper/css";
+export const metadata = {
+  title: "Emate - Chat",
+  description: "Emate teaching",
+};
 
 const ChatPage = () => {
   return (
-    <div>
-       Chat Page
-       <Swiper
-      spaceBetween={50}
-      slidesPerView={3}
-      onSlideChange={() => console.log('slide change')}
-      onSwiper={(swiper) => console.log(swiper)}
-    >
-      <SwiperSlide>Slide 1</SwiperSlide>
-      <SwiperSlide>Slide 2</SwiperSlide>
-      <SwiperSlide>Slide 3</SwiperSlide>
-      <SwiperSlide>Slide 4</SwiperSlide>
-    </Swiper>
-    </div>
-  )
-}
+    <main className="mt-6">
+      <ChatWrapper />
+    </main>
+  );
+};
 
-export default ChatPage
+export default ChatPage;
