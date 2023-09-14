@@ -6,7 +6,7 @@
     backdrop-filter: blur(4px);
     margin-top: 50px;
     
-    @apply relative flex justify-center items-center h-full w-3/4 mx-auto;
+    @apply relative flex flex-col justify-center items-center h-full w-3/4 mx-auto;
   }
   
   .title {
@@ -23,7 +23,23 @@
       left: -5%;
   
       @apply sm:block hidden
-  
+  }
+
+  .line {
+    position: relative;
+    height: 1px;
+    width: 100%;
+    margin: 20px 0px;
+    background-color: #d4d4d4;
+  }
+
+  .line::before{
+    content: "Or";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(251, 246, 246, 0.9);
   }
   
   .pink_dot_second {
