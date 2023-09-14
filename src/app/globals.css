@@ -101,7 +101,7 @@ input[type="search"].dark::-webkit-search-cancel-button {
 
 /*--------------------------------- APPERANCE ---------------------------------*/
 .hide_on_mobile {
-  @apply hidden sm:block
+  @apply hidden lg:block
 }
 
 .truncate_2_lines {
