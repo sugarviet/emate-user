@@ -5,6 +5,7 @@ import { motion as m } from "framer-motion";
 import { Rate, Row, Col } from "antd";
 
 import Image from "next/image";
+import Link from "next/link";
 
 const BEFORE_4_SLIDES_PRIORITY = 4;
 
@@ -59,13 +60,15 @@ const HireMentorCard = ({cardData}) => {
                   </div>
                   <div className="flex text-yellow-400 items-center gap-7">
                     <h2 className="font-bold text-lg">{rate.toFixed(1)}</h2>
-                    <Rate value={rate} />
+                    <Rate allowHalf value={rate} />
                   </div>
                   <h1 className="font-bold text-lg">đ{pricePerHour} / giờ</h1>
                 </div>
+                <Link href={`/mentor/${name}`}>
                 <m.button className="hire_btn flex justify-end float-right items-center" whileHover={{scale: 1.2}}>
                   Thuê
                 </m.button>
+                </Link>
               </div>
             </div>
   )

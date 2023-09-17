@@ -6,13 +6,18 @@ import { Form, Input } from "antd";
 
 import { motion as m } from "framer-motion";
 
+import axios from "axios";
+
 import styles from "./SignIn.module.css";
 
 const SignIn = () => {
   const { data } = useSession();
   console.log("data", data);
-  const onFinish = (values) => {
+  const onFinish = async(values) => {
     console.log("Success:", values);
+
+    const res = await axios.post('http://localhost:8080/auth/login', values);
+    console.log('res', res);
   };
 
   const onFinishFailed = (errorInfo) => {

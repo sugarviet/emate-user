@@ -1,15 +1,14 @@
-import dynamic from 'next/dynamic'
+import dynamic from "next/dynamic";
 
 import Navbar from "@/components/public/Navbar";
 import "./globals.css";
 import { Inter } from "next/font/google";
 
 import { ConfigProvider } from "antd";
-import Providers from '@/components/public/Providers';
+import Providers from "@/utils/Providers";
 
 // const inter = Inter({ subsets: ["latin"] });
 const Footer = dynamic(() => import("@/components/public/Footer"));
-
 
 export default function RootLayout({ children }) {
   return (
@@ -20,22 +19,27 @@ export default function RootLayout({ children }) {
           theme={{
             components: {
               Input: {
-                colorPrimary: '#27272a',
-                algorithm: true, 
+                colorPrimary: "#27272a",
+                algorithm: true,
               },
               Button: {
                 algorithm: true,
-                borderRadius: '12px',
-                colorBorder: '#000',
+                borderRadius: "12px",
               },
-            }
+              Modal: {
+                algorithm: true,
+                colorBgContainer: "red",
+              },
+            },
           }}
         >
-          <Providers>
-            <Navbar />
-            {children}
-            <Footer />
-          </Providers>
+          
+            <Providers>
+              <Navbar />
+              {children}
+              <Footer />
+            </Providers>
+         
         </ConfigProvider>
       </body>
     </html>
