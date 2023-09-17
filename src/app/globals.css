@@ -37,7 +37,7 @@ body {
 
 .pink_btn {
   background: var(--element-pink-color); 
-  @apply rounded-3xl py-2 px-5 font-bold text-lg md:w-96 w-72 flex justify-center items-center;
+  @apply rounded-2xl py-2 px-5 font-bold text-lg md:w-96 w-72 flex justify-center items-center;
 }
 
 .blur_bg {
@@ -94,14 +94,34 @@ input[type="search"].dark::-webkit-search-cancel-button {
   filter: invert(1);
 }
 
+
+/* ANTD CUSTOM */
 .ant-menu-item-selected {
   color: #222 !important;
   @apply text-purple-400;
 }
 
+.ant-btn, .ant-btn-primary{
+  color: white !important;
+  background-color: #E087FC;
+  border-radius: 12px;
+}
+
+.ant-btn:hover {
+  color: white !important;
+  border-color: white !important;
+  background-color: #E087FC !important;
+}
+
+.ant-btn-primary:hover {
+  color: white !important;
+  border-color: white !important;
+  background-color: #E087FC !important;
+}
+
 /*--------------------------------- APPERANCE ---------------------------------*/
 .hide_on_mobile {
-  @apply hidden sm:block
+  @apply hidden lg:block
 }
 
 .truncate_2_lines {
@@ -120,9 +140,6 @@ input[type="search"].dark::-webkit-search-cancel-button {
   -webkit-line-clamp: 1;
 }
 
-
-/* lg:w-80 md:w-80 xl:w-80 flex flex-col items-center w-64 h-96 bg-gray-600  */
-
 /*--------------------------------- GESTURE ---------------------------------*/
 .cursor_pointer {
   @apply hover:cursor-pointer
@@ -139,7 +156,7 @@ input[type="search"].dark::-webkit-search-cancel-button {
 }
 
 .display_vertical {
-  @apply flex flex-col items-center;
+  @apply flex flex-col;
 }
 
 /*--------------------------------- SCREEN-SIZE ---------------------------------*/

@@ -64,7 +64,9 @@ export const metadata = {
   description: "Emate teaching",
 };
 
+
 const HomePage = () => {
+
   return (
     <>
     <Head>

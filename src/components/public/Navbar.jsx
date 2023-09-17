@@ -13,7 +13,6 @@ import { Avatar, Dropdown } from "antd";
 import {
   BellOutlined,
   MessageOutlined,
-  ShopOutlined,
   ShoppingCartOutlined,
   SettingOutlined,
   ContactsOutlined,
@@ -111,7 +110,7 @@ const Navbar = () => {
                 "/social" === pathname ? "text-purple-400" : "text-black"
               }`}
             >
-              <p className="text-xl">Cộng đồng</p>
+              <p className="lg:text-xl text-base">Cộng đồng</p>
             </Link>
           </motion.div>
         ) : (
@@ -130,7 +129,7 @@ const Navbar = () => {
                 nav.href === pathname ? "text-purple-400" : "text-black"
               }`}
             >
-              <p className="text-xl">{nav.text}</p>
+              <p className="lg:text-xl text-base">{nav.text}</p>
             </Link>
           </motion.div>
         ))}
@@ -160,7 +159,7 @@ const Navbar = () => {
 
         {/* LOG IN */}
         {isUserLogin ? (
-          <div className="hidden sm:flex sm:gap-12 items-center">
+          <div className="hidden lg:flex sm:gap-12 items-center">
             <Link href="/">
               <motion.span className="text-2xl" whileHover={{ scale: 1.1 }}>
                 <BellOutlined />
@@ -198,7 +197,7 @@ const Navbar = () => {
         ) : null}
 
         {/* Show if the screen is on mobile */}
-        <div className="sm:hidden block">
+        <div className="block lg:hidden">
           <MobileNavbar />
         </div>
       </nav>

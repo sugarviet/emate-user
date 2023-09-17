@@ -1,15 +1,23 @@
 "use client";
 
+import { useSession, signIn } from "next-auth/react";
 import Image from "next/image";
 import { Form, Input } from "antd";
 
 import { motion as m } from "framer-motion";
 
+import axios from "axios";
+
 import styles from "./SignIn.module.css";
 
 const SignIn = () => {
-  const onFinish = (values) => {
+  const { data } = useSession();
+  console.log("data", data);
+  const onFinish = async(values) => {
     console.log("Success:", values);
+
+    const res = await axios.post('http://localhost:8080/auth/login', values);
+    console.log('res', res);
   };
 
   const onFinishFailed = (errorInfo) => {
@@ -67,6 +75,16 @@ const SignIn = () => {
             </button>
           </Form.Item>
         </Form>
+
+      <div className={styles.line}/>
+    
+      </div>
+
+      <div className="-translate-y-44">
+        <button className="bg-blue-500 py-2 px-2 rounded-md flex items-center gap-3 w-48" onClick={() => signIn("google")}>
+          <Image src="/icons/google.png" alt="google" width={25} height={25}/>
+          <p className="text-white font-medium">Login with Google</p>
+        </button>
       </div>
 
       {/* Images setup */}
