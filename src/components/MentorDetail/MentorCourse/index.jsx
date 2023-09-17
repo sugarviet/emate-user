@@ -87,16 +87,11 @@ const MentorCourse = () => {
                 <Col xxl={6} xl={8} lg={12} md={12} key={item.id}>
                   <m.div key={index} variants={fadeInAnimationVariants} initial="initial" whileInView="animate" whileHover={"hoverInDesktop"} viewport={{once: true}} custom={index}>
                     <RegisterCourseCard index={index} cardData={item} />
-
                   </m.div>
                 </Col>
-
             ))}
-
         </Row>
         </div>
-       
-
     </div>
   )
 }

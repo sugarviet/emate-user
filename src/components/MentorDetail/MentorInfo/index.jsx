@@ -4,11 +4,14 @@ import { motion as m } from "framer-motion";
 
 import Image from "next/image";
 import Link from "next/link";
-import { TwitterOutlined, SendOutlined, YoutubeOutlined, FacebookOutlined } from "@ant-design/icons";
+import { SendOutlined, YoutubeOutlined, FacebookOutlined } from "@ant-design/icons";
+import { useState } from "react";
+import Modal from "@/components/public/Modal";
+import BookingCalender from "@/components/public/BookingCalender";
 
 const CONNECT_WITH_MENTOR = [
     {
-        text: 'Send message',
+        text: 'Nhắn tin',
         icon: <SendOutlined className="text-white text-base"/>,
         href: '/',
         priority: true
@@ -26,6 +29,21 @@ const CONNECT_WITH_MENTOR = [
 ]
 
 const MentorInfo = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+
+
   return (
     <div className="flex flex-col items-center mt-10">
 
@@ -53,7 +71,13 @@ const MentorInfo = () => {
           </Link>
           </m.div>
         ))}
-
+        <m.button whileHover={{scale:1.2}} className="bg-purple-300 w-40 h-12 text-white font-semibold rounded-lg text-lg" onClick={showModal}>Đặt lịch</m.button>
+          
+          {/* Show if user choose booking calender */}
+          <Modal isModalOpen={isModalOpen} handleCancel={handleCancel} handleOk={handleOk}>
+            <BookingCalender />
+          </Modal>
+        
       </div>
     </div>
   );

@@ -94,9 +94,29 @@ input[type="search"].dark::-webkit-search-cancel-button {
   filter: invert(1);
 }
 
+
+/* ANTD CUSTOM */
 .ant-menu-item-selected {
   color: #222 !important;
   @apply text-purple-400;
+}
+
+.ant-btn, .ant-btn-primary{
+  color: white !important;
+  background-color: #E087FC;
+  border-radius: 12px;
+}
+
+.ant-btn:hover {
+  color: white !important;
+  border-color: white !important;
+  background-color: #E087FC !important;
+}
+
+.ant-btn-primary:hover {
+  color: white !important;
+  border-color: white !important;
+  background-color: #E087FC !important;
 }
 
 /*--------------------------------- APPERANCE ---------------------------------*/
