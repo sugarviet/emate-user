@@ -4,7 +4,7 @@ import SecondSection from "@/components/TeachWithEmate/SecondSection/SecondSecti
 import BackToTopButton from "@/components/public/BackToTopButton"
 
 export const metadata = {
-  title: 'Teach With Emate',
+  title: 'Emate - Teach With Emate',
   description: 'Emate teaching',
 }
 

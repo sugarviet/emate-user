@@ -80,7 +80,7 @@ const it_data_courses = {
 const MentorCourse = () => {
   return (
     <div className="translate-x-10 md:translate-x-0">
-        <h1 className="font-bold text-xl my-2">Mentor Course ({it_data_courses.arrayData.length})</h1>
+        <h1 className="font-bold text-xl my-2">Mentor Course ({it_data_courses.arrayData.length - 1})</h1>
         <div className="-translate-x-8">
         <Row gutter={[66, 16]}>
             {it_data_courses.arrayData.map((item, index) => (

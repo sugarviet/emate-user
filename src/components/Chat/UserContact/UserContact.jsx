@@ -3,7 +3,7 @@ import { Row, Col } from "antd"
 
 const UserContact = () => {
   return (
-    <div className="border w-full h-24 relative my-2 rounded-xl hover:cursor-pointer p-2 z-30 overflow-hidden">
+    <div className="pink_border_color w-full h-24 relative my-2 rounded-xl hover:cursor-pointer p-2 z-30 overflow-hidden bg-white">
         <Row className="translate-y-3" align="middle" justify="center" >
             <Col span={4}>
             <div className="flex items-center rounded-full relative h-fit w-fit bg-red-700">
@@ -25,7 +25,7 @@ const UserContact = () => {
                 <div>
                     <p className="text-sm">12:30pm</p>
                 </div>
-                <div className="w-5 h-5 lg:w-6 lg:h-6 bg-blue-500 text-white rounded-full absolute bottom-0 right-4 text-center flex items-center justify-center">
+                <div className="w-5 h-5 lg:w-6 lg:h-6 primary_bg_pink_color text-white rounded-full absolute bottom-0 right-4 text-center flex items-center justify-center">
                     <p className="text-center lg:font-bold font-semibold ">2</p>
                 </div>
             </div>

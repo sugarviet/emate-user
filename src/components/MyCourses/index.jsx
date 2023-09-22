@@ -8,13 +8,12 @@ import { Col, Row } from "antd";
 
 import { motion as m } from "framer-motion";
 import CourseCard from "../public/CourseCard";
-import Loading from "@/app/loading";
 
 const MyCourse = () => {
   return (
     <main className="blur_custom">
       <m.div className={styles.container} initial={{bottom: -100, opacity: 0}} animate={{bottom: 0, opacity: 1}} transition={{duration: 0.4}}>
-          <h1 className={styles.main_text}>My courses</h1>
+          <h1 className={styles.main_text}>Khóa học của tôi</h1>
 
           <Suspense fallback={<>Loading...</>}>
             <CourseList />

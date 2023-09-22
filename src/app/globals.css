@@ -8,6 +8,7 @@
   --background-end-rgb: 255, 255, 255;
   --element-blue-color: #35CFED;
   --element-pink-color: #E087FC;
+  --element-light-blue-color: #c2ffff;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -30,8 +31,21 @@ body {
   background-color: var(--element-pink-color);
 }
 
+.light_bg_pink_color {
+  background: linear-gradient(to bottom, rgb(222, 140, 248), rgb(232, 192, 246));
+
+}
+
 .primary_bg_blue_color {
   background-color: var(--element-blue-color);
+}
+
+.primary_bg_light_blue {
+  background-color: var(--element-light-blue-color);
+}
+
+.pink_border_color {
+  border: 1px solid var(--element-pink-color);
 }
 
 .blue_btn_color {
