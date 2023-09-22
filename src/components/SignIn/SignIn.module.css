@@ -7,14 +7,17 @@
     margin-top: 50px;
     
     @apply relative flex flex-col justify-center items-center h-full w-3/4 mx-auto;
+
   }
   
   .title {
-    @apply md:text-3xl sm:text-2xl text-lg mb-16 text-center font-bold w-48 h-10 flex relative right-12 sm:static;
+    /* @apply md:text-3xl sm:text-2xl text-lg mb-16 text-center font-bold w-48 h-10 flex relative right-12 sm:static sm:-translate-x-1/2 lg:translate-x-0; */
+
+    @apply md:text-3xl sm:text-2xl text-lg mb-16 text-center font-bold ;
   }
   
   .form_wrapper {
-    @apply w-1/2 px-48 pt-16 pb-48 rounded-lg;
+    @apply w-1/2 px-10 pt-16 pb-48 rounded-lg;
   }
   
   .pink_dot_first {

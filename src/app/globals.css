@@ -26,6 +26,14 @@ body {
 }
 
 /*--------------------------------- ELEMENT ---------------------------------*/
+.primary_bg_pink_color {
+  background-color: var(--element-pink-color);
+}
+
+.primary_bg_blue_color {
+  background-color: var(--element-blue-color);
+}
+
 .blue_btn_color {
   background: linear-gradient(180deg, rgba(175.74, 241.95, 255, 0.73) 0%, #35CFED 100%);
   @apply py-2.5 px-7 text-black rounded-3xl flex items-center font-medium text-sm transition ease-in ;
@@ -118,6 +126,72 @@ input[type="search"].dark::-webkit-search-cancel-button {
   border-color: white !important;
   background-color: #E087FC !important;
 }
+
+.ant-picker-cell-inner {
+  color: white !important;
+  border-color: white !important;
+
+  background-color: rgba(225, 165, 242, 0.5) !important;
+
+}
+.ant-picker-calendar-date {
+  color: white !important;
+  border-color: white !important;
+}
+
+.ant-picker-cell-selected {
+  color: white !important;
+  font-weight: bold !important;
+}
+
+.ant-picker-cell-in-view {
+  color: white !important;
+  font-weight: bold !important;
+
+}
+
+.ant-picker-cell-inner{
+  color: white !important;
+  font-weight: bold !important;
+  border-radius: 12px !important;
+  margin: 2px !important;
+
+
+} 
+.ant-picker-calendar-date {
+  color: white !important;
+  font-weight: bold !important;
+
+}
+
+
+:where(.css-dev-only-do-not-override-6lhtb8).ant-picker-calendar.ant-picker-calendar-full .ant-picker-cell-selected .ant-picker-calendar-date .ant-picker-calendar-date-value, :where(.css-dev-only-do-not-override-6lhtb8).ant-picker-calendar.ant-picker-calendar-full .ant-picker-cell-selected:hover .ant-picker-calendar-date .ant-picker-calendar-date-value, :where(.css-dev-only-do-not-override-6lhtb8).ant-picker-calendar.ant-picker-calendar-full .ant-picker-cell-selected .ant-picker-calendar-date-today .ant-picker-calendar-date-value, :where(.css-dev-only-do-not-override-6lhtb8).ant-picker-calendar.ant-picker-calendar-full .ant-picker-cell-selected:hover .ant-picker-calendar-date-today .ant-picker-calendar-date-value {
+  color: #d04cf8 !important;
+}
+
+.ant-select-selector {
+  border: 1px solid #222 !important;
+}
+
+/* .ant-radio-button {
+  border: 1px solid #222 !important;
+}
+.ant-radio-button-checked{
+  border: 1px solid #222 !important;
+
+}
+span {
+  color: #222 !important;
+}
+
+:where(.css-dev-only-do-not-override-6lhtb8).ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled):first-child {
+  border-color: 1px solid rgba(0, 0,0 , 0.2) !important;
+}
+
+:where(.css-dev-only-do-not-override-6lhtb8).ant-radio-button-wrapper-checked:hover {
+  border-color: 1px solid rgba(0, 0,0 , 0.2) !important;
+} */
+
 
 /*--------------------------------- APPERANCE ---------------------------------*/
 .hide_on_mobile {

@@ -5,6 +5,9 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 
+import { useSession } from "next-auth/react";
+import { signOut } from "next-auth/react";
+
 import { motion } from "framer-motion";
 import MobileNavbar from "@/components/Navbar/MobileNavbar";
 import SearchBar from "@/components/SearchBar/SearchBar";
@@ -21,8 +24,9 @@ import {
   UserOutlined,
   MailOutlined
 } from "@ant-design/icons";
+import { BASE_URL_LOCAL_HOST } from "@/constants/url";
 
-const NAVBAR_LINKS_WITHOUT_LOG_IN = [
+const NAVBAR_LINKS_WITH_LOG_IN = [
   {
     href: "/courses",
     text: "Khoá học",
@@ -69,14 +73,14 @@ const items = [
     type: "divider",
   },
   {
-    label: <p>Đăng xuất</p>,
+    label: <p onClick={() => signOut({callbackUrl: BASE_URL_LOCAL_HOST})}>Đăng xuất</p>,
     key: "5",
     icon: <LogoutOutlined />
   },
 ];
 
 const Navbar = () => {
-  const [isUserLogin] = useState(true);
+  const { data: isUserLogin } = useSession();
   const pathname = usePathname();
 
   return (
@@ -117,7 +121,7 @@ const Navbar = () => {
           <></>
         )}
 
-        {NAVBAR_LINKS_WITHOUT_LOG_IN.map((nav) => (
+        {isUserLogin ? NAVBAR_LINKS_WITH_LOG_IN.map((nav) => (
           <motion.div
             key={nav.text}
             className="cursor_pointer hide_on_mobile"
@@ -132,11 +136,11 @@ const Navbar = () => {
               <p className="lg:text-xl text-base">{nav.text}</p>
             </Link>
           </motion.div>
-        ))}
+        )) : <></>}
 
         {/* NOT LOGGED IN */}
         {isUserLogin ? null : (
-          <div className="hidden sm:flex sm:gap-5">
+          <div className="hidden lg:flex sm:gap-5">
             <Link href="/signIn">
               <motion.button
                 className="none_btn_color"
