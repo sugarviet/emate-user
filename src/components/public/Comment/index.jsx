@@ -5,7 +5,6 @@ import { Row, Col } from 'antd';
 import { StarFilled, RightOutlined } from '@ant-design/icons';
 import { motion as m } from 'framer-motion';
 import { Rate, List } from 'antd';
-import styles from './Comment.module.css';
 
 const Comment = ({comments}) => {
   const [visibleComments, setVisibleComments] = useState(4);
@@ -36,17 +35,15 @@ const Comment = ({comments}) => {
             }}
              dataSource={comments.slice(0, visibleComments)}
              renderItem={(comment) => (
-                <List.Item>
-                   {/* <Col xl={12}> */}
+                <List.Item>     
                      <CommentItem />
-                   {/* </Col> */}
                  </List.Item>
              )}
             >
             </List>
           {/* </Row> */}
 
-          {comments.length === 3 ? null : <button className='float-right my-5 underline font-semibold flex gap-2 items-center' onClick={loadMore}>Xem thêm đánh giá <RightOutlined /> </button>}
+          {comments.length === 3 || comments.length === visibleComments ? null : <button className='float-right my-5 underline font-semibold flex gap-2 items-center' onClick={loadMore}>Xem thêm đánh giá <RightOutlined /> </button>}
           
         </div>
     </div>
