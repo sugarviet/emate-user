@@ -2,12 +2,13 @@
 
 import { Suspense } from "react";
 import Image from "next/image";
-import styles from "./MyCourses.module.css";
 
 import { Col, Row } from "antd";
 
 import { motion as m } from "framer-motion";
 import CourseCard from "../public/CourseCard";
+import styles from "./MyCourses.module.css";
+import SuggestCourse from "../public/SuggestCourse";
 
 const MyCourse = () => {
   return (
@@ -19,7 +20,9 @@ const MyCourse = () => {
             <CourseList />
           </Suspense>
 
-
+          <Suspense fallback={<>Loading...</>}>
+            <SuggestCourse />
+          </Suspense>
 
           <Image
           src="/images/pinkDot4.png"
@@ -55,20 +58,17 @@ const MyCourse = () => {
 const CourseList = ({data}) => {
   return (
     <div className="mt-10 w-full">
-      <Row gutter={[16, 16]} align="middle">
-        <Col xxl={6} xl={6} lg={8} md={12} xs={24} className="">
+      <Row gutter={[16, 40]} align="middle">
+        <Col span={24}>
             <CourseCard />
         </Col>
-        <Col xxl={6} xl={6} lg={8} md={12} xs={24}>
+        <Col span={24}>
             <CourseCard />
         </Col>
-        <Col xxl={6} xl={6} lg={8} md={12} xs={24}>
+        <Col span={24}>
             <CourseCard />
         </Col>
-        <Col xxl={6} xl={6} lg={8} md={12} xs={24}>
-            <CourseCard />
-        </Col>
-        <Col xxl={6} xl={6} lg={8} md={12} xs={24}>
+        <Col span={24}>
             <CourseCard />
         </Col>
       </Row>

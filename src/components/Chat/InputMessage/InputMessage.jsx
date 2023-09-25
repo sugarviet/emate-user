@@ -18,7 +18,7 @@ const InputMessage = () => {
   const customRequest = ({ file, onSuccess }) => {};
 
   return (
-    <div className="px-2 h-full border-r-2">
+    <div className="px-2 h-full border-r-2 bg-white">
       <div>
         <form
           className="flex h-full items-center gap-2 translate-y-1"

@@ -19,7 +19,7 @@ const CONNECT_WITH_MENTOR = [
     
 ]
 
-const MentorInfo = () => {
+const UserBio = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const showModal = () => {
@@ -74,4 +74,4 @@ const MentorInfo = () => {
   );
 };
 
-export default MentorInfo;
+export default UserBio;

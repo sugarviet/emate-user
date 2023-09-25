@@ -1,9 +1,8 @@
 .blur_bg {
-  background-color: rgba(251, 246, 246, 0.9);
-
+  background-color: rgba(245, 241, 241, 0.45);
   border-radius: 67px;
   border: 1px solid white;
-  backdrop-filter: blur(4px);
+  backdrop-filter: blur(40px);
   margin-top: 50px;
   
   @apply relative flex justify-center items-center h-full w-3/4 mx-auto;
@@ -14,6 +13,8 @@
 }
 
 .form_wrapper {
+
+  
   @apply w-1/2 px-48 pt-16 pb-48 rounded-lg;
 }
 

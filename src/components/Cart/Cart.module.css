@@ -18,3 +18,20 @@
   
     @apply flex justify-center items-center p-4;
   }
+
+  .cart_item {
+    @apply py-4 h-80 md:h-96 overflow-y-scroll scroll-smooth;
+  }
+
+  .cart_item::-webkit-scrollbar {
+    width: 8px; 
+  }
+  
+  .cart_item::-webkit-scrollbar-thumb {
+    background-color: #d2d6da; 
+    border-radius: 20px;
+  }
+  
+  .cart_item::-webkit-scrollbar-track {
+    background-color: #f5f5f5; 
+  }

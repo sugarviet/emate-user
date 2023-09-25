@@ -9,7 +9,8 @@ import { Rate } from "antd";
 const RegisterCourseCard = ({cardData}) => {
   const {id, index, thumbnail, courseTitle, author, rate, numberOfRates, price} = cardData;
   return (
-    <div className="lg:w-80 md:w-80 xl:w-80 flex flex-col items-center py-3 w-64">
+    <div className="flex flex-col items-center py-3 w-80">
+      {/* lg:w-80 md:w-80 xl:w-80 flex flex-col items-center py-3 w-64 */}
       <div>
         <Image src={thumbnail} alt="img" height={250} width={250} />
       </div>

@@ -1,42 +1,44 @@
-.blur_bg {
-    background-color: rgba(251, 246, 246, 0.9);
-    border-radius: 67px;
-    border: 1px solid white;
-    backdrop-filter: blur(4px);
-
-    @apply mt-6 lg:px-52 py-2 relative px-28;
+.container {
+    @apply md:px-16 sm:px-2 relative px-12 md:pb-40 pt-16 pb-16;
   }
-
+  .main_text {
+    @apply text-black font-bold leading-tight md:text-5xl text-3xl text-center mb-6;
+  }
+  
+  
+  /* Images */
+  
   .pink_dot_first {
     position: absolute;
-    right: -2%;
-    top: -4%;
-    @apply md:block hidden;
+    right: -3%;
+    top: 35%;
+    @apply sm:block hidden;
     animation: pulse 1s infinite ease-in-out alternate;
   }
   
   .pink_dot_second {
     position: absolute;
     left: -3%;
-    top: 40%;
-    @apply md:block hidden;
+    top: 70%;
+    @apply sm:block hidden;
     animation: pulse 1s infinite ease-in-out alternate;
   }
   
+  
   .yellow_dot_first {
     position: absolute;
-    top: 0;
-    left: -4%;
+    top: 5%;
+    left: -3%;
     z-index: -1000;
-    @apply md:block hidden;
+    @apply sm:block hidden;
     animation: pulse 1s infinite ease-in-out alternate;
   }
   .yellow_dot_second {
     position: absolute;
-    top: 60%;
-    right: -5%;
+    bottom: 15%;
+    left: -3%;
     z-index: -1000;
-    @apply md:block hidden;
+    @apply sm:block hidden;
     animation: pulse 1s infinite ease-in-out alternate;
   }
   
