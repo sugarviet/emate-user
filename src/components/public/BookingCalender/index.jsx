@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React, { useState } from "react";
 import { Calendar, Select } from "antd";
@@ -6,7 +6,7 @@ import { Calendar, Select } from "antd";
 const { Option } = Select;
 
 const BookingCalender = () => {
-const [selectedDate, setSelectedDate] = useState();
+  const [selectedDate, setSelectedDate] = useState();
   const [selectedTime, setSelectedTime] = useState("");
 
   const handleDateChange = (date) => {
@@ -17,10 +17,27 @@ const [selectedDate, setSelectedDate] = useState();
     setSelectedTime(time);
   };
 
-  const timeSlots = ["10:00 AM", "11:00 AM", "2:00 PM", "3:00 PM", "4:00 PM"];
+  const timeSlots = [
+    "7:00 AM",
+    "8:00 AM",
+    "9:00 AM",
+    "10:00 AM",
+    "11:00 AM",
+    "12:00 AM",
+    "1:00 PM",
+    "2:00 PM",
+    "3:00 PM",
+    "4:00 PM",
+    "5:00 PM",
+    "6:00 PM",
+    "7:00 PM",
+    "8:00 PM",
+    "9:00 PM",
+  ];
+
 
   const onPanelChange = (value, mode) => {
-    console.log(value.format('YYYY-MM-DD'), mode);
+    // console.log(value.format("YYYY-MM-DD"), mode);
   };
 
   return (
@@ -40,10 +57,10 @@ const [selectedDate, setSelectedDate] = useState();
           ))}
         </Select>
 
-         <Calendar onPanelChange={onPanelChange} />
-        </div>
+        <Calendar onPanelChange={onPanelChange} />
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default BookingCalender
+export default BookingCalender;

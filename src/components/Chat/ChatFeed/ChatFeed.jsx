@@ -4,7 +4,7 @@ import InputMessage from "../InputMessage/InputMessage"
 
 const ChatFeed = () => {
   return (
-    <div className="border w-full h-full rounded-rs-lg rounded-tr-2xl overflow-hidden">
+    <div className="border-b-2 w-full h-full rounded-rs-lg rounded-tr-2xl overflow-hidden">
         <ChatHeader />
         <ChatList />
         <InputMessage />

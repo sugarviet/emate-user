@@ -16,19 +16,10 @@ const CONNECT_WITH_MENTOR = [
         href: '/',
         priority: true
     },
-    {
-        text: 'Youtube',
-        icon: <YoutubeOutlined className="text-white text-base"/>,
-        href: '/'
-    },
-    {
-        text: 'Facebook',
-        icon: <FacebookOutlined className="text-white text-lg"/>,
-        href: '/'
-    },
+    
 ]
 
-const MentorInfo = () => {
+const UserBio = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const showModal = () => {
@@ -83,4 +74,4 @@ const MentorInfo = () => {
   );
 };
 
-export default MentorInfo;
+export default UserBio;

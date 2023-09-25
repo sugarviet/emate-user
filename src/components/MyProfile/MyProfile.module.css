@@ -1,0 +1,54 @@
+.container {
+    @apply md:px-16 sm:px-2 relative px-12 md:pb-40 pt-16 pb-16;
+  }
+  .main_text {
+    @apply text-black font-bold leading-tight md:text-5xl text-3xl text-center mb-6;
+  }
+  
+  
+  /* Images */
+  
+  .pink_dot_first {
+    position: absolute;
+    right: -3%;
+    top: 35%;
+    @apply sm:block hidden;
+    animation: pulse 1s infinite ease-in-out alternate;
+  }
+  
+  .pink_dot_second {
+    position: absolute;
+    left: -3%;
+    top: 70%;
+    @apply sm:block hidden;
+    animation: pulse 1s infinite ease-in-out alternate;
+  }
+  
+  
+  .yellow_dot_first {
+    position: absolute;
+    top: 5%;
+    left: -3%;
+    z-index: -1000;
+    @apply sm:block hidden;
+    animation: pulse 1s infinite ease-in-out alternate;
+  }
+  .yellow_dot_second {
+    position: absolute;
+    bottom: 15%;
+    left: -3%;
+    z-index: -1000;
+    @apply sm:block hidden;
+    animation: pulse 1s infinite ease-in-out alternate;
+  }
+  
+  /* ANIMATIONS */
+  @keyframes pulse {
+    from {
+      transform: scale(0.8);
+    }
+    to {
+      transform: scale(1.2);
+    }
+  }
+  

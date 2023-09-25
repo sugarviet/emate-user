@@ -16,12 +16,12 @@ const ChatWrapper = () => {
       transition={{ duration: 0.4 }}
     >
       <Row justify="space-between">
-        <Col xl={5} lg={8} sm={24} xs={24}>
+        <Col xl={6} lg={8} md={8} sm={24} xs={24}>
           <Suspense fallback={<div>Loading ...</div>}>
             <Sidebar />
           </Suspense>
         </Col>
-        <Col xl={19} lg={16} sm={24} xs={24}>
+        <Col xl={18} lg={16} md={16} sm={24} xs={24}>
            <ChatFeed />
           {/* <EmptyState /> */}
         </Col>

@@ -6,10 +6,21 @@ import { Form, Input } from "antd";
 import { motion as m } from "framer-motion";
 
 import styles from "./SignUp.module.css";
+import { request } from "@/utils/serverSideRequest";
+import { REGISTER_URL } from "@/constants/url";
+import { METHOD } from "@/constants/method";
+import { VALIDATOR } from "@/utils/validate";
 
 const SignUpPage = () => {
-  const onFinish = (values) => {
+  
+  const onFinish = async(values) => {
     console.log("Success:", values);
+    const res = await request(REGISTER_URL, METHOD.POST, {
+      ...values,
+      isLoginWithGoogle: false
+    });
+
+    console.log('res', res);
   };
 
   const onFinishFailed = (errorInfo) => {
@@ -49,15 +60,18 @@ const SignUpPage = () => {
             />
           </Form.Item>
           <Form.Item
-            name="username"
+            name="email"
             rules={[
               {
                 required: true,
-                message: "Vui Lòng nhập tên đăng nhập!",
+                message: "Vui Lòng nhập email!",
               },
+              {
+                validator: VALIDATOR.VALIDATE_EMAIL
+              }
             ]}
           >
-            <Input placeholder="Tên đăng nhập" className="black_border_input" />
+            <Input placeholder="Email" className="black_border_input" />
           </Form.Item>
 
           <Form.Item
@@ -67,6 +81,9 @@ const SignUpPage = () => {
                 required: true,
                 message: "Vui lòng nhập mật khẩu!",
               },
+              {
+                validator: VALIDATOR.VALIDATE_PASSWORD
+              }
             ]}
           >
             <Input.Password
@@ -76,7 +93,7 @@ const SignUpPage = () => {
           </Form.Item>
 
           <Form.Item
-            name="confirm_password"
+            name="confirmPassword"
             dependencies={["password"]}
             rules={[
               {

@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 const Message = ({ me }) => {
     if (me) {
       return <MyMessage />;
@@ -8,10 +10,10 @@ const Message = ({ me }) => {
   
   const MyMessage = () => {
     return (
-      <div className="w-full flex justify-end items-center gap-2">
+      <div className="w-full flex justify-end items-center gap-2 box-border">
         <p className="text-gray-400">12:30 PM</p>
-        <div className="bg-blue-400 text-white rounded-lg p-2 w-44 mt-2">
-          <p className="">Nice to meet you</p>
+        <div className="primary_bg_light_blue text-white rounded-3xl p-2 w-fit mt-2 max-w-sm box-border">
+          <p className="p-1 text-black">Nice to meet you uuuu Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora sapiente sequi dolores harum illo quod odit voluptatum corporis at. Reprehenderit illo iure corrupti architecto earum ducimus veritatis aliquam, consequatur dicta.</p>
         </div>
       </div>
     );
@@ -20,8 +22,9 @@ const Message = ({ me }) => {
   const GuestMessage = () => {
     return (
       <div className="w-full flex justify-start items-center gap-2">
-        <div className="border-2 text-gray-500 rounded-lg p-2 w-44 mt-2">
-          <p>Hi there</p>
+        <Image src={'/character/chauAnhTu.png'} alt="user" width={40} height={40} className="rounded-full"/>
+        <div className="text-gray-500 rounded-3xl p-2 w-fit mt-2 max-w-sm pink_border_color">
+          <p className="p-1">Hi there</p>
         </div>
         <p className="text-gray-400">12:30 PM</p>
       </div>

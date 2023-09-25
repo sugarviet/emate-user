@@ -1,6 +1,6 @@
 "use client"
 
-const MentorBio = () => {
+const UserBio = () => {
   return (
     <div>
         <div className="flex flex-col gap-3">
@@ -41,4 +41,4 @@ const MentorBio = () => {
   )
 }
 
-export default MentorBio
+export default UserBio

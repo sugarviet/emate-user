@@ -1,15 +1,29 @@
 'use client'
 
 import { motion as m } from "framer-motion"
-import styles from './MentorDetail.module.css';
+import styles from './UserDetail.module.css';
 import { Col, Row } from "antd";
 
-import MentorBio from "./MentorBio";
-import MentorCourse from "./MentorCourse";
-import MentorInfo from "./MentorInfo";
+import UserBio from "./UserBio";
+import UserCourse from "./UserCourse";
+import UserInfo from "./UserInfo";
 import Image from "next/image";
+import Comment from "../public/Comment";
 
 const MentorDetail = () => {
+  const comments = [
+    { id: 1, text: 'Comment 1' },
+    { id: 2, text: 'Comment 2' },
+    { id: 3, text: 'Comment 3' },
+    { id: 4, text: 'Comment 4' },
+    { id: 5, text: 'Comment 5' },
+    { id: 6, text: 'Comment 6' },
+    { id: 7, text: 'Comment 7' },
+    { id: 8, text: 'Comment 8' },
+
+
+  ];
+
   return (
     <m.main
     className={styles.blur_bg}
@@ -17,17 +31,20 @@ const MentorDetail = () => {
     animate={{ y: 0, opacity: 1 }}
     transition={{ duration: 0.4 }}
   >
-    <Row gutter={[100,16]}>
+    <Row gutter={[100,16]} justify="center">
       <Col xl={14} md={24} lg={24}>
         <div>
-          <MentorBio />
+          <UserBio />
         </div>
       </Col>
       <Col xl={10} md={24} lg={24}>
-        <MentorInfo />
+        <UserInfo />
       </Col>
       <Col span={24}>
-        <MentorCourse />
+        <UserCourse />
+      </Col>
+      <Col span={24}>
+        <Comment comments={comments}/>
       </Col>
     </Row>
 

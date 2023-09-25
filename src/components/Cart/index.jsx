@@ -50,7 +50,7 @@ const Cart = () => {
                                 <b className='col-span-5'>{selectedCourses.length} Sản phẩm</b>
                                 <b className='col-span-4 text-center'>Giá</b>
                             </div>
-                            <div className='py-4 h-80 md:h-96 overflow-y-scroll scroll-smooth'>
+                            <div className={styles.cart_item}>
                                 {selectedCourses.map((course, index) => (
                                     <div key={index} className='grid grid-cols-10 mb-20 md:mb-24 flex items-center'>
                                         <div className='col-span-5 flex flex-col relative'>
