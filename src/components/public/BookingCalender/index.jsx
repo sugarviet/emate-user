@@ -1,7 +1,13 @@
 "use client";
 
+// 
+
+import dayjs from 'dayjs';
+import 'dayjs/locale/zh-cn';
+import dayLocaleData from 'dayjs/plugin/localeData';
+
 import React, { useState } from "react";
-import { Calendar, Select } from "antd";
+import { Calendar, Col, Radio, Row, Select, Typography } from "antd";
 
 const { Option } = Select;
 
@@ -42,7 +48,7 @@ const BookingCalender = () => {
 
   return (
     <div>
-      <h2>Booking Calendar</h2>
+      <h2 className='font-bold text-xl my-2'>Đặt lịch hẹn</h2>
       <div>
         <Select
           placeholder="Select a time slot"
@@ -57,7 +63,65 @@ const BookingCalender = () => {
           ))}
         </Select>
 
-        <Calendar onPanelChange={onPanelChange} />
+        <Calendar onPanelChange={onPanelChange}  headerRender={({ value, type, onChange, onTypeChange }) => {
+          const start = 0;
+          const end = 12;
+          const monthOptions = [];
+          let current = value.clone();
+          const localeData = value.localeData();
+          const months = [];
+          for (let i = 0; i < 12; i++) {
+            current = current.month(i);
+            months.push(localeData.monthsShort(current));
+          }
+          for (let i = start; i < end; i++) {
+            monthOptions.push(
+              <Select.Option key={i} value={i} className="month-item">
+                {months[i]}
+              </Select.Option>,
+            );
+          }
+          const year = value.year();
+          const month = value.month();
+          const options = [];
+          for (let i = year - 10; i < year + 10; i += 1) {
+            options.push(
+              <Select.Option key={i} value={i} className="year-item">
+                {i}
+              </Select.Option>,
+            );
+          }
+          return (
+            <div
+             className='flex relative right-0 w-full justify-end gap-5'
+            >
+                  <Select
+                    size="large"
+                    popupMatchSelectWidth={false}
+                    className="my-year-select"
+                    value={year}
+                    onChange={(newYear) => {
+                      const now = value.clone().year(newYear);
+                      onChange(now);
+                    }}
+                  >
+                    {options}
+                  </Select>
+                 
+                  <Select
+                    size="large"
+                    popupMatchSelectWidth={false}
+                    value={month}
+                    onChange={(newMonth) => {
+                      const now = value.clone().month(newMonth);
+                      onChange(now);
+                    }}
+                  >
+                    {monthOptions}
+                  </Select> 
+            </div>
+          );
+        }}/>
       </div>
     </div>
   );

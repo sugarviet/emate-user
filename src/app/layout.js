@@ -15,7 +15,7 @@ export default function RootLayout({ children }) {
   
   return (
     <html lang="en">
-      <link rel="icon" href="/images/logo.png" />
+      <link rel="icon" href="/emate.svg" />
       <body>
         <ConfigProvider
           theme={{
@@ -38,7 +38,9 @@ export default function RootLayout({ children }) {
           
             <Providers >
               <Navbar />
-              {children}
+        
+                {children}
+         
               <Footer />
             </Providers>
          

@@ -12,7 +12,7 @@ import { motion } from "framer-motion";
 import MobileNavbar from "@/components/Navbar/MobileNavbar";
 import SearchBar from "@/components/SearchBar/SearchBar";
 
-import { Avatar, Dropdown } from "antd";
+import { Avatar, Dropdown, Badge } from "antd";
 import {
   BellOutlined,
   MessageOutlined,
@@ -22,9 +22,21 @@ import {
   LogoutOutlined,
   ReadOutlined,
   UserOutlined,
-  MailOutlined
+  MailOutlined,
 } from "@ant-design/icons";
-import { BASE_URL_LOCAL_HOST, CART_PAGE_URL, CHAT_PAGE_URL, COURSES_PAGE_URL, LOGIN_PAGE_URL, MENTOR_PAGE_URL, MY_COURSES_PAGE_URL, SIGN_UP_PAGE_URL, SOCIAL_PAGE_URL, TEACH_WITH_EMATE_PAGE_URL } from "@/constants/url";
+
+import {
+  BASE_URL_LOCAL_HOST,
+  CART_PAGE_URL,
+  CHAT_PAGE_URL,
+  COURSES_PAGE_URL,
+  LOGIN_PAGE_URL,
+  MENTOR_PAGE_URL,
+  MY_COURSES_PAGE_URL,
+  SIGN_UP_PAGE_URL,
+  SOCIAL_PAGE_URL,
+  TEACH_WITH_EMATE_PAGE_URL,
+} from "@/constants/url";
 
 const NAVBAR_LINKS_WITH_LOG_IN = [
   {
@@ -43,39 +55,41 @@ const NAVBAR_LINKS_WITH_LOG_IN = [
 
 const items = [
   {
-    label: (
-      <Link href={MY_COURSES_PAGE_URL}>Khóa học của tôi </Link>
-    ),
+    label: <Link href={MY_COURSES_PAGE_URL}>Khóa học của tôi </Link>,
     key: "0",
-    icon: <ReadOutlined/>
+    icon: <ReadOutlined />,
   },
   {
     label: <Link href="#">Gia sư của tôi </Link>,
     key: "1",
-    icon: <ContactsOutlined/>,
+    icon: <ContactsOutlined />,
   },
   {
     label: <Link href="#">Chỉnh sửa hồ sơ</Link>,
     key: "2",
-    icon: <UserOutlined />
+    icon: <UserOutlined />,
   },
   {
     label: <Link href="#">Cài đặt tài khoản</Link>,
     key: "3",
-    icon: <SettingOutlined />
+    icon: <SettingOutlined />,
   },
   {
     label: <Link href="#">Trợ giúp</Link>,
     key: "4",
-    icon: <MailOutlined />
+    icon: <MailOutlined />,
   },
   {
     type: "divider",
   },
   {
-    label: <p onClick={() => signOut({callbackUrl: BASE_URL_LOCAL_HOST})}>Đăng xuất</p>,
+    label: (
+      <p onClick={() => signOut({ callbackUrl: BASE_URL_LOCAL_HOST })}>
+        Đăng xuất
+      </p>
+    ),
     key: "5",
-    icon: <LogoutOutlined />
+    icon: <LogoutOutlined />,
   },
 ];
 
@@ -121,22 +135,25 @@ const Navbar = () => {
           <></>
         )}
 
-        {isUserLogin ? NAVBAR_LINKS_WITH_LOG_IN.map((nav) => (
-          <motion.div
-            key={nav.text}
-            className="cursor_pointer hide_on_mobile"
-            whileHover={{ scale: 1.2 }}
-          >
-            <Link
-              href={nav.href}
-              className={`${
-                nav.href === pathname ? "text-purple-400" : "text-black"
-              }`}
+    {
+          NAVBAR_LINKS_WITH_LOG_IN.map((nav) => (
+            <motion.div
+              key={nav.text}
+              className="cursor_pointer hide_on_mobile"
+              whileHover={{ scale: 1.2 }}
             >
-              <p className="lg:text-xl text-base">{nav.text}</p>
-            </Link>
-          </motion.div>
-        )) : <></>}
+              <Link
+                href={nav.href}
+                className={`${
+                  nav.href === pathname ? "text-purple-400" : "text-black"
+                }`}
+              >
+                <p className="lg:text-xl text-base">{nav.text}</p>
+              </Link>
+            </motion.div>
+          ))
+        }
+        
 
         {/* NOT LOGGED IN */}
         {isUserLogin ? null : (
@@ -165,33 +182,40 @@ const Navbar = () => {
         {isUserLogin ? (
           <div className="hidden lg:flex sm:gap-12 items-center">
             <Link href="/">
-              <motion.span className="text-2xl" whileHover={{ scale: 1.1 }}>
-                <BellOutlined />
-              </motion.span>
+              <Badge count={2}>
+                <motion.span className="text-2xl" whileHover={{ scale: 1.1 }}>
+                  <BellOutlined />
+                </motion.span>
+              </Badge>
             </Link>
 
             <Link href={CHAT_PAGE_URL}>
-              <motion.span className="text-2xl" whileHover={{ scale: 1.1 }}>
-                <MessageOutlined />
-              </motion.span>
+              <Badge count={3}>
+                <motion.span className="text-2xl" whileHover={{ scale: 1.1 }}>
+                  <MessageOutlined />
+                </motion.span>
+              </Badge>
             </Link>
 
             <Link href={CART_PAGE_URL}>
-              <motion.span className="text-2xl" whileHover={{ scale: 1.1 }}>
-                <ShoppingCartOutlined />
-              </motion.span>
+              <Badge count={6}>
+                <motion.span className="text-2xl" whileHover={{ scale: 1.1 }}>
+                  <ShoppingCartOutlined />
+                </motion.span>
+              </Badge>
             </Link>
 
             <div>
-            <Dropdown
+              <Dropdown
                 menu={{
                   items,
                 }}
                 trigger={["hover"]}
-                align="middle"            
+                align="middle"
               >
                 <Avatar
                   src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=1"
+                  alt="User Image"
                   style={{ cursor: "pointer" }}
                   size="large"
                 />
