@@ -4,8 +4,7 @@ export const metadata = {
   title: "Emate - Mentor",
   description: "Emate teaching",
 };
-
-const page = () => {
+const MentorPage = () => {
   return (
     <div>
         <Mentor />
@@ -13,4 +12,4 @@ const page = () => {
   )
 }
 
-export default page
+export default MentorPage

@@ -23,7 +23,7 @@ const SecondSection = () => {
         <Row gutter={[16, 50]} align="middle" justify="center">
           <Col span={24}>
             <div className="display_vertical">
-              <div>
+              <div className="mx-auto">
                 <Image
                   src="/images/online-course.png"
                   alt="video"
@@ -36,14 +36,14 @@ const SecondSection = () => {
                 <p className="text-center text-base">
                   Tạo khóa học bằng video là một cách hiệu quả để chia sẻ kiến
                   thức và kinh nghiệm của bạn với một số lượng lớn người học
-                  trên toàn thế giới.{" "}
+                  trên toàn thế giới.
                 </p>
               </div>
             </div>
           </Col>
           <Col span={24}>
             <div className="display_vertical">
-              <div>
+              <div className="mx-auto">
                 <Image
                   src="/images/video.png"
                   alt="video"
@@ -51,21 +51,21 @@ const SecondSection = () => {
                   height={250}
                 />
               </div>
-              <h1 className={styles.card_description}>Xây dựng khách hàng </h1>
+              <h1 className={styles.card_description}>Xây dựng khách hàng</h1>
               <div className={styles.card_description_wrapper}>
                 <p className="text-center text-base">
                   Xây dựng khách hàng là một quá trình quan trọng và không thể
                   thiếu đối với bất kỳ việc kinh doanh nào. Để có thể thành công
                   với khóa học, bạn cần có một lượng khách hàng đáng tin cậy,
                   đóng góp cho doanh số bán hàng và giúp tăng trưởng cho bạn
-                  trong tương lai{" "}
+                  trong tương lai
                 </p>
               </div>
             </div>
           </Col>
           <Col span={24}>
             <div className="display_vertical">
-              <div>
+              <div className="mx-auto">
                 <Image
                   src="/images/rating.png"
                   alt="video"
@@ -73,10 +73,9 @@ const SecondSection = () => {
                   height={250}
                 />
               </div>
-              <h1 className="text-black font-bold leading-normal text-4xl mt-4">Thu về lợi nhuận</h1>
+              <h1 className={styles.card_description}>Thu về lợi nhuận</h1>
               <div className={styles.card_description_wrapper}>
                 <p className="text-center text-base">
-                  {" "}
                   Thu lợi nhuận trực tuyến một cách hiệu quả và dễ dàng thông
                   qua việc chia sẻ kiến thức của bạn với cộng đồng. Với khóa học
                   của bạn, bạn có thể giúp người học học được những kỹ năng mới,

@@ -77,11 +77,11 @@ const it_data_courses = {
   }
   
 
-const MentorCourse = () => {
+const UserCourse = () => {
   return (
-    <div className="translate-x-10 md:translate-x-0">
-        <h1 className="font-bold text-xl my-2">Mentor Course ({it_data_courses.arrayData.length})</h1>
-        <div className="-translate-x-8">
+    <div className="md:translate-x-0">
+        <h1 className="font-bold text-xl my-2">Mentor Course ({it_data_courses.arrayData.length - 1})</h1>
+        <div className="">
         <Row gutter={[66, 16]}>
             {it_data_courses.arrayData.map((item, index) => (
                 <Col xxl={6} xl={8} lg={12} md={12} key={item.id}>
@@ -96,5 +96,5 @@ const MentorCourse = () => {
   )
 }
 
-export default MentorCourse
+export default UserCourse
 

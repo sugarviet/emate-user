@@ -1,23 +1,36 @@
 "use client";
 
-import { useSession, signIn } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import Image from "next/image";
 import { Form, Input } from "antd";
-
 import { motion as m } from "framer-motion";
-
-import axios from "axios";
-
 import styles from "./SignIn.module.css";
+import { useRouter } from "next/navigation";
+import { notification } from "antd";
+import { STATUS_CODE } from "@/constants/statusCode";
+import { VALIDATOR } from "@/utils/validate";
 
 const SignIn = () => {
-  const { data } = useSession();
-  console.log("data", data);
-  const onFinish = async(values) => {
-    console.log("Success:", values);
+  const router = useRouter();
 
-    const res = await axios.post('http://localhost:8080/auth/login', values);
-    console.log('res', res);
+  const onFinish = async (values) => {
+    await signIn("credentials", {
+      email: values.email,
+      password: values.password,
+      redirect: false,
+    })
+      .then(async (res) => {
+        const { error, status } = JSON.parse(res.error);
+
+        if (status !== STATUS_CODE.OK) {
+          notification.error({
+            message: error,
+          });
+        }
+      })
+      .catch((e) => {
+        router.push("/");
+      });
   };
 
   const onFinishFailed = (errorInfo) => {
@@ -43,15 +56,18 @@ const SignIn = () => {
           onFinishFailed={onFinishFailed}
         >
           <Form.Item
-            name="username"
+            name="email"
             rules={[
               {
                 required: true,
-                message: "Please input your username!",
+                message: "Vui lòng nhập Email !",
               },
+              {
+                validator: VALIDATOR.VALIDATE_EMAIL
+              }
             ]}
           >
-            <Input placeholder="Tên đăng nhập" className="black_border_input" />
+            <Input placeholder="Email" className="black_border_input" />
           </Form.Item>
 
           <Form.Item
@@ -59,7 +75,7 @@ const SignIn = () => {
             rules={[
               {
                 required: true,
-                message: "Please input your password!",
+                message: "Vui lòng nhâp mật khẩu!",
               },
             ]}
           >
@@ -70,19 +86,25 @@ const SignIn = () => {
           </Form.Item>
 
           <Form.Item>
-            <button className="pink_btn" type="submit">
+            <m.button
+              className="pink_btn"
+              type="submit"
+              whileHover={{ scale: 1.1 }}
+            >
               Đăng nhập
-            </button>
+            </m.button>
           </Form.Item>
         </Form>
 
-      <div className={styles.line}/>
-    
+        <div className={styles.line} />
       </div>
 
       <div className="-translate-y-44">
-        <button className="bg-blue-500 py-2 px-2 rounded-md flex items-center gap-3 w-48" onClick={() => signIn("google")}>
-          <Image src="/icons/google.png" alt="google" width={25} height={25}/>
+        <button
+          className="bg-blue-500 py-2 px-2 rounded-md flex items-center gap-3 w-48"
+          onClick={() => signIn("google")}
+        >
+          <Image src="/icons/google.png" alt="google" width={25} height={25} />
           <p className="text-white font-medium">Login with Google</p>
         </button>
       </div>

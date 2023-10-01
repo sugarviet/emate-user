@@ -6,7 +6,7 @@
   }
 
   .card_description {
-    @apply text-black font-bold leading-tight text-4xl
+    @apply text-black font-bold leading-tight text-4xl text-center my-2;
    }
 
    .card_description_wrapper {

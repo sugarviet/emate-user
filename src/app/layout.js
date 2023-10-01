@@ -1,3 +1,4 @@
+
 import dynamic from "next/dynamic";
 
 import Navbar from "@/components/public/Navbar";
@@ -11,9 +12,10 @@ import Providers from "@/utils/Providers";
 const Footer = dynamic(() => import("@/components/public/Footer"));
 
 export default function RootLayout({ children }) {
+  
   return (
     <html lang="en">
-      <link rel="icon" href="/images/logo.png" />
+      <link rel="icon" href="/emate.svg" />
       <body>
         <ConfigProvider
           theme={{
@@ -34,9 +36,11 @@ export default function RootLayout({ children }) {
           }}
         >
           
-            <Providers>
+            <Providers >
               <Navbar />
-              {children}
+        
+                {children}
+         
               <Footer />
             </Providers>
          

@@ -14,7 +14,7 @@ const FirstSection = () => {
   };
 
   return (
-    <motion.div className={styles.container} initial={{opacity: 0, x: -100}} animate={{opacity: 1, x: 0}}>
+    <motion.div className={styles.container} initial={{opacity: 0, x: -100}} animate={{opacity: 1, x: 0}} transition={{duration: 0.4}}>
       <Row gutter={[16, 16]} justify="center" align="middle">
         <Col xs={24} lg={14}>
           <div className="py-52">

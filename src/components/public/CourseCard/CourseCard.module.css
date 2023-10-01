@@ -1,0 +1,5 @@
+.container {
+    background-color: rgba(245, 241, 241, 0.45);
+  backdrop-filter: blur(40px);
+    @apply border border-pink-500 w-full rounded-3xl px-12 py-7;
+}

@@ -6,8 +6,12 @@ import { motion } from "framer-motion";
 import { Col, Row } from "antd";
 
 import styles from "./FirstSection.module.css";
+import { getSession, useSession } from "next-auth/react";
 
 const FirstSection = () => {
+
+  const { data: session } = useSession();
+  console.log('session', session);
   const dotAnimationVariants = {
     hidden: { opacity: 0 },
     visible: { opacity: 1 },
