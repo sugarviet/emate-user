@@ -135,7 +135,7 @@ const Navbar = () => {
           <></>
         )}
 
-        {isUserLogin ? (
+    {
           NAVBAR_LINKS_WITH_LOG_IN.map((nav) => (
             <motion.div
               key={nav.text}
@@ -152,9 +152,8 @@ const Navbar = () => {
               </Link>
             </motion.div>
           ))
-        ) : (
-          <></>
-        )}
+        }
+        
 
         {/* NOT LOGGED IN */}
         {isUserLogin ? null : (

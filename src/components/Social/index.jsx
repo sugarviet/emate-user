@@ -7,25 +7,27 @@ import { motion as m } from "framer-motion";
 import styles from "./Social.module.css";
 import UserCard from "../public/UserCard";
 
+import Image from "next/image";
+
 const Social = () => {
   const [data, setData] = useState([
-    {id: 1, name: 'John'},
-    {id: 2, name: 'John'},
-    {id: 3, name: 'John'},
-    {id: 4, name: 'John'},
+    {id: 1, name: 'Châu Anh Tú', img: '/character/chauAnhTu.png', age: 20, major: 'Kinh tế', interest: "Kinh Tế"},
+    {id: 2, name: 'Diệu My', img: '/character/dieuMy.png', age: 22, major: 'Kinh tế', interest: "Ngôn ngữ Anh"},
+    {id: 3, name: 'Hải Đăng Khánh', img: '/character/haiDangKhanh.png', age: 24, major: 'Thiết kế', interest: "Nấu ăn"},
+    {id: 4, name: 'Khoa Anh Lê', img: '/character/khoaAnhLe.png', age: 21, major: 'IT', interest: "Kinh Tế"},
     
 
 ]);
   const [hasMore, setHasMore] = useState(true);
 
   const fetchMoreData = () => {
-    if(data.length < 12){
+    if(data.length < 9){
         setTimeout(() => {
             setData((prev) => [...prev, 
-            {id: 5, name: 'John'},
-            {id: 6, name: 'John'},
-            {id: 7, name: 'John'},
-            {id: 8, name: 'John'},
+              {id: 5, name: 'Quốc Tuấn', img: '/character/quocTuan.png', age: 21, major: 'IT', interest: "Thiết kế"},
+              {id: 6, name: 'Quốc Phong', img: '/character/quocPhong.png', age: 21, major: 'Y Sinh', interest: "Thiết kế"},
+              {id: 7, name: 'Phạm Linh', img: '/character/phamLinh.png', age: 23, major: 'Marketing', interest: "Thiết kế"},
+              {id: 8, name: 'Quốc Tuấn', img: '/character/quocTuan.png', age: 22, major: 'IT', interest: "Thiết kế"},
             ]);
     
         }, 500)
@@ -41,7 +43,7 @@ const Social = () => {
       transition={{ duration: 0.4 }}
     >
    
-        <InfiniteScroll dataLength={data.length} next={fetchMoreData} hasMore={hasMore} loader={<p>Loading...</p>} endMessage={<p>Het r</p>} style={{overflowX: 'hidden'}}>
+        <InfiniteScroll dataLength={data.length} next={fetchMoreData} hasMore={hasMore} loader={<p>Loading...</p>} style={{overflowX: 'hidden '}}>
             <List 
             grid={{
                 gutter: 16,
@@ -53,13 +55,50 @@ const Social = () => {
             }}
             dataSource={data}
             renderItem={(user,index) => (
-                <UserCard key={user.id}/>
+                <UserCard key={user.id} data={user}/>
             )}
             >
 
             </List>
         </InfiniteScroll>
-      {/* </div> */}
+        
+
+
+        {/* Images setup */}
+        <Image
+          src="/images/pinkDot4.png"
+          alt="img"
+          width={120}
+          height={120}
+          className={styles.pink_dot_first}
+        />
+               <Image
+          src="/images/pinkDot2.png"
+          alt="img"
+          width={120}
+          height={120}
+          className={styles.pink_dot_third}
+        />
+        <Image
+          src="/images/pinkDot4.png"
+          alt="img"
+          width={120}
+          height={120}
+          className={styles.pink_dot_second}
+          loading="lazy"
+          priority={false}
+        />
+        <Image
+          src="/images/yellowDot1.png"
+          alt="img"
+          width={120}
+          height={120}
+          className={styles.yellow_dot_first}
+          loading="lazy"
+          priority={false}
+        />
+
+
 
     </m.main>
   );

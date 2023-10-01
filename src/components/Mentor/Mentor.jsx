@@ -209,6 +209,7 @@ const Mentor = () => {
           height={120}
           className={styles.pink_dot_first}
         />
+  
         <Image
           src="/images/pinkDot4.png"
           alt="img"
