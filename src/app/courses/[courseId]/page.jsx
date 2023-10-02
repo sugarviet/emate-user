@@ -1,9 +1,9 @@
 import CourseDetail from "@/components/CourseDetail";
 
-function CourseDetailPage() {
+function CourseDetailPage({ params }) {
   return (
     <div>
-      <CourseDetail />
+      <CourseDetail id={params.courseId} />
     </div>
   );
 }

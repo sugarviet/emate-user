@@ -1,15 +1,22 @@
 .blur_bg {
     background-color: rgba(251, 246, 246, 0.9);
-    border-radius: 67px;
     border: 1px solid white;
+    border-radius: 67px;
     backdrop-filter: blur(4px);
 
-    @apply mt-6 lg:px-28 py-2 relative px-12;
+    @apply mt-6 md:px-28 py-8 relative px-4 lg:py-2;
   }
+
+  .primary_btn
+{
+    background-color: #a435f0;
+    color: white;
+    @apply font-bold h-14 text-xl my-1 w-72
+}
 
   .list {
     list-style-type: "✔";
-    @apply grid grid-cols-2 gap-2 text-sm pl-4 mt-4
+    @apply grid grid-cols-1 md:grid-cols-2 gap-2 text-sm pl-4 mt-4
   }
 
   .list li {

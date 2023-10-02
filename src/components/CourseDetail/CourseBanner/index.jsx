@@ -17,8 +17,8 @@ function CourseBanner({ course }) {
       <span className="font-bold text-3xl my-0.5">{course.name}</span>
       <span className="font-medium text-1xl my-0.5">{course.description}</span>
       <div className="flex text-yellow-400 items-center gap-2 text-sm">
-        <h2 className="font-bold ">4.0</h2>
-        <Rate value={4} className="text-sm" />
+        <h2 className="font-bold ">{course.rating}</h2>
+        <Rate value={course.rating} className="text-sm" disabled />
       </div>
       <span className="text-sm my-1">
         Created by:{" "}

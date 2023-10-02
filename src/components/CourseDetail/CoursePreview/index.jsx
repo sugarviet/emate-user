@@ -44,7 +44,12 @@ function CoursePreview({ course }) {
     <div
       className={`flex flex-col items-center shadow-xl w-96 ${styles.white_bg}`}
     >
-      <Image width={480} height={240} src={course.image} />
+      <Image
+        alt="Course's image review"
+        width={480}
+        height={240}
+        src={course.image}
+      />
       <div className="w-full px-8 py-4">
         <span className="font-bold text-5xl">{price}</span>
         <div className="flex flex-col mt-4">
