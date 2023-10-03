@@ -48,7 +48,7 @@ function CourseDetail({ id }) {
             <button className={styles.primary_btn}>Add To Cart</button>
           </div>
           <div className={styles.learning_about}>
-            <span className="font-bold text-xl">What you'll learn</span>
+            <span className="font-bold text-xl">What you will learn</span>
             <ul className={`${styles.list}`}>
               {course.whatWillLearn.map((item, index) => (
                 <li key={`${item} + ${index}`}>{item}</li>

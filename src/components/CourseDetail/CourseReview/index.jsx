@@ -49,7 +49,7 @@ function CourseReview({ id }) {
           </div>
           <span>
             Great course, If the video is to fast you can slow it down and if
-            the chapter is outdated you can google it and figure it out, that' s
+            the chapter is outdated you can google it and figure it out, that is
             part of the learning process.
           </span>
         </div>
@@ -63,7 +63,7 @@ function CourseReview({ id }) {
           </div>
           <span>
             Great course, If the video is to fast you can slow it down and if
-            the chapter is outdated you can google it and figure it out, that' s
+            the chapter is outdated you can google it and figure it out, that is
             part of the learning process.
           </span>
         </div>
