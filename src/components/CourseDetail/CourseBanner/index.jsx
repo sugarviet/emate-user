@@ -1,16 +1,23 @@
 import Link from "next/link";
 import styles from "./CourseBanner.module.css";
 import { Breadcrumb, Rate } from "antd";
+import { COURSES_PAGE_URL } from "@/constants/url";
 
 function CourseBanner({ course }) {
+  const paths = COURSES_PAGE_URL.split("/").map((item) => "/" + item);
+
   return (
     <div className={styles.container}>
       <Breadcrumb
         separator=">"
         items={[
-          { title: "Home", href: "/" },
-          { title: "Courses", href: "/courses" },
-          { title: "Course detail" },
+          ...paths.map((path) => ({
+            title: path.replace("/", "") || "Home",
+            href: path,
+          })),
+          {
+            title: course.name,
+          },
         ]}
         className="font-bold text-md"
       />

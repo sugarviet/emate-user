@@ -1,4 +1,4 @@
-const BASE_API = "http://localhost:8080"
+const BASE_API = "https://back-end-ematee.vercel.app"
 const COURSE_API = `${BASE_API}/course`
 const REVIEW_API = `${BASE_API}/review`
 const RATING_API = `${REVIEW_API}/rating`

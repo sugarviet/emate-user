@@ -1,5 +1,4 @@
 "use client";
-
 import { motion as m } from "framer-motion";
 import styles from "./CourseDetail.module.css";
 import Image from "next/image";
