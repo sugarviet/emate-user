@@ -45,7 +45,12 @@ const Footer = () => {
         <Col lg={4} xs={8}>
           <div className="display_vertical">
             <b className="text-lg">Tải ứng dụng EMate</b>
-            <img className="w-32" src="/images/download-app.png" />
+            <Image
+              alt="download-on-app-store-or-google-play"
+              width={120}
+              height={120}
+              src="/images/download-app.png"
+            />
           </div>
         </Col>
         <Col lg={4} xs={8}>
