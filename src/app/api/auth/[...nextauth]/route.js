@@ -24,27 +24,27 @@ callbacks:{
     async signIn(data){
 
       // Trigger if user login with google
-      // if(data.account.provider === PROVIDERS.GOOGLE){
-      //   try {
-      //     const res = await fetch(urlcat(BASE_URL_LOCAL_HOST,LOGIN_URL ), {
-      //       method: "POST",
-      //       headers: {
-      //         "Content-Type": "application/json",
-      //       },
-      //       body: JSON.stringify({
-      //         email: data?.user?.email,
-      //         name: data?.user?.name,
-      //         isLoginWithGoogle: true
-      //       }),
-      //     });
+      if(data.account.provider === PROVIDERS.GOOGLE){
+        try {
+          const res = await fetch(urlcat(BASE_URL_LOCAL_HOST,LOGIN_URL ), {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              email: data?.user?.email,
+              name: data?.user?.name,
+              isLoginWithGoogle: true
+            }),
+          });
 
-      //     const user = await res.json();
-      //     console.log('user', user);
-      //   } catch (error) {
+          const user = await res.json();
+          console.log('user', user);
+        } catch (error) {
           
-      //   }
+        }
         
-      // }
+      }
         return true;
     },
     async jwt({token, user}){
