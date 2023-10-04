@@ -1,0 +1,17 @@
+.white_bg
+{
+    background-color: white;
+}
+
+.primary_btn
+{
+    background-color: #a435f0;
+    color: white;
+    @apply font-bold h-16 text-xl my-1
+}
+
+.secondary_btn
+{
+    color: black;
+    @apply font-bold border-2 border-black h-16 text-xl my-1
+}
