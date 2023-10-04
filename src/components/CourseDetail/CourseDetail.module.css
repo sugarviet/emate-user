@@ -1,0 +1,72 @@
+.blur_bg {
+    background-color: rgba(251, 246, 246, 0.9);
+    border: 1px solid white;
+    border-radius: 67px;
+    backdrop-filter: blur(4px);
+
+    @apply mt-6 md:px-28 py-8 relative px-4 lg:py-2;
+  }
+
+  .primary_btn
+{
+    background-color: #a435f0;
+    color: white;
+    @apply font-bold h-14 text-xl my-1 w-72
+}
+
+  .list {
+    list-style-type: "✔";
+    @apply grid grid-cols-1 md:grid-cols-2 gap-2 text-sm pl-4 mt-4
+  }
+
+  .list li {
+    @apply pl-2 pr-4
+  }
+
+  .learning_about {
+    @apply border border-slate-700 p-4
+  }
+
+  .pink_dot_first {
+    position: absolute;
+    right: -2%;
+    top: -4%;
+    @apply md:block hidden;
+    animation: pulse 1s infinite ease-in-out alternate;
+  }
+  
+  .pink_dot_second {
+    position: absolute;
+    left: -3%;
+    top: 40%;
+    @apply md:block hidden;
+    animation: pulse 1s infinite ease-in-out alternate;
+  }
+  
+  .yellow_dot_first {
+    position: absolute;
+    top: 0;
+    left: -4%;
+    z-index: -1000;
+    @apply md:block hidden;
+    animation: pulse 1s infinite ease-in-out alternate;
+  }
+  .yellow_dot_second {
+    position: absolute;
+    top: 60%;
+    right: -5%;
+    z-index: -1000;
+    @apply md:block hidden;
+    animation: pulse 1s infinite ease-in-out alternate;
+  }
+  
+  /* ANIMATIONS */
+  @keyframes pulse {
+    from {
+      transform: scale(0.8);
+    }
+    to {
+      transform: scale(1.2);
+    }
+  }
+  

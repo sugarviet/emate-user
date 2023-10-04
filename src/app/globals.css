@@ -129,6 +129,26 @@ input[type="search"].dark::-webkit-search-cancel-button {
   filter: invert(1);
 }
 
+.ant-radio-checked .ant-radio-inner{
+  border-color: white !important ;
+}
+
+.ant-radio-checked .ant-radio-inner:after{
+  background-color: white !important;
+}
+
+.ant-radio:hover .ant-radio-inner {
+  border-color: var(--element-pink-color) ;
+}
+
+.ant-radio-checked .ant-radio-inner:focus{
+  border-color: var(--element-pink-color);
+}
+
+:where(.css-dev-only-do-not-override-jid9jq).ant-radio-wrapper .ant-radio-checked .ant-radio-inner {
+  border-color: var(--element-pink-color) !important;
+  background-color: var(--element-pink-color) !important;
+}
 
 /* ANTD CUSTOM */
 .ant-menu-item-selected {

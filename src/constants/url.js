@@ -22,6 +22,7 @@ export const MENTOR_PACKAGE_PAGE_URL = "/mentor-package";
 export const TEACH_WITH_EMATE_PAGE_URL = "/teach-with-emate";
 export const MY_COURSES_PAGE_URL = "/my-courses";
 export const SOCIAL_PAGE_URL = "/social";
+export const SEARCH_PAGE_URL = "/search";
 
 
 

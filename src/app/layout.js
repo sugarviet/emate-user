@@ -32,6 +32,10 @@ export default function RootLayout({ children }) {
                 algorithm: true,
                 colorBgContainer: "red",
               },
+              Radio: {
+                algorithm: true,
+
+              }
             },
           }}
         >
