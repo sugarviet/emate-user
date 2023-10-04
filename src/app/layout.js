@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import Navbar from "@/components/public/Navbar";
 import "./globals.css";
 import { Inter } from "next/font/google";
+import 'next-cloudinary/dist/cld-video-player.css';
 
 import { ConfigProvider } from "antd";
 import Providers from "@/utils/Providers";
@@ -12,7 +13,7 @@ import Providers from "@/utils/Providers";
 const Footer = dynamic(() => import("@/components/public/Footer"));
 
 export default function RootLayout({ children }) {
-  
+
   return (
     <html lang="en">
       <link rel="icon" href="/emate.svg" />
@@ -35,15 +36,15 @@ export default function RootLayout({ children }) {
             },
           }}
         >
-          
-            <Providers >
-              <Navbar />
-        
-                {children}
-         
-              <Footer />
-            </Providers>
-         
+
+          <Providers >
+            <Navbar />
+
+            {children}
+
+            <Footer />
+          </Providers>
+
         </ConfigProvider>
       </body>
     </html>
