@@ -10,6 +10,8 @@ import Providers from "@/utils/Providers";
 
 const Footer = dynamic(() => import("@/components/public/Footer"));
 
+const pinkColor = '#E087FC'
+
 export default function RootLayout({ children }) {
   
   return (
@@ -29,19 +31,36 @@ export default function RootLayout({ children }) {
               },
               Modal: {
                 algorithm: true,
-                colorBgContainer: "red",
               },
+              Radio: {
+                algorithm: true,            
+                colorPrimary: pinkColor,
+                colorBorder: pinkColor,
+                colorPrimaryActive: pinkColor
+              },
+              Pagination: {
+                algorithm: true,
+                colorPrimaryBorder: pinkColor,
+                colorPrimary: pinkColor,
+              },
+              Collapse:{
+                colorBorder: 'black',
+              },
+              Checkbox:{
+                colorBorder: pinkColor,
+                colorPrimaryHover: pinkColor,
+                colorPrimaryBorder: pinkColor,
+                colorPrimary: pinkColor
+              }
             },
           }}
         >
-          
             <Providers >
               <Navbar />
               {children}
               {true && <DepositModal/>}
               <Footer />
             </Providers>
-         
         </ConfigProvider>
       </body>
     </html>
