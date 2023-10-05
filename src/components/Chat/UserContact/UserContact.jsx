@@ -5,7 +5,7 @@ import { Row, Col } from "antd"
 import useSWR from "swr";
 import { useState, useEffect } from "react";
 import fetcher from "@/utils/fetcher";
-import { useChatStore } from "../stores/useChatStore";
+import { useChatStore } from "@/stores/useChatStore";
 
 const UserContact = ({message}) => {
     const {name, img='/character/chauAnhTu.png', time, username:messageTo, id:number} = message;

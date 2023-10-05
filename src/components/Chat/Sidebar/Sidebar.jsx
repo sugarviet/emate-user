@@ -1,7 +1,7 @@
 'use client'
 
 import UserContact from "../UserContact/UserContact";
-import { useChatStore } from "../stores/useChatStore";
+import { useChatStore } from "@/stores/useChatStore";
 
 import styles from './Sidebar.module.css';
 

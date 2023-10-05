@@ -7,7 +7,7 @@ import Sidebar from "../Sidebar/Sidebar";
 import ChatFeed from "../ChatFeed/ChatFeed";
 import { motion as m } from "framer-motion";
 import EmptyState from "../EmptyState/EmptyState";
-import { useChatStore } from "../stores/useChatStore";
+import { useChatStore } from "@/stores/useChatStore";
 import fetcher from "@/utils/fetcher";
 import useSWR from "swr";
 import io from "socket.io-client";

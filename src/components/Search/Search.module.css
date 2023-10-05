@@ -5,7 +5,7 @@
     backdrop-filter: blur(40px);
     margin-top: 50px;
     
-    @apply relative h-full w-full px-16;
+    @apply relative h-full w-full px-16 py-8;
 
   }
   

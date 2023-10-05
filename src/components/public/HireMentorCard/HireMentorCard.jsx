@@ -12,7 +12,6 @@ const BEFORE_4_SLIDES_PRIORITY = 4;
 const HireMentorCard = ({cardData}) => {
   const {id, avatar, age, name, education, level, rate, pricePerHour, index} = cardData; 
 
-  console.log(cardData);
   return (
     <div className="lg:w-80 md:w-80 xl:w-80 flex flex-col items-center py-3 w-64" key={id}>
               <div>

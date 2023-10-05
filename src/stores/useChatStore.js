@@ -8,6 +8,7 @@ export const useChatStore = create((set) => ({
     listUsers: [],
     selectedUserId: null,
     firstSelected: false,
+    currentUserInfo: null,
 
     increaseCount: () => set(state => ({
         count: state.count + 1
@@ -21,5 +22,8 @@ export const useChatStore = create((set) => ({
     setSelectedUserId: (userId) => set(state => ({
         selectedUserId: userId,
         firstSelected: true
+    })),
+    storeCurrentUser: (currentUser) => set(state => ({
+        currentUserInfo: currentUser
     }))
 }))

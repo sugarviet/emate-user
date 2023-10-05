@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { SearchOutlined } from '@ant-design/icons';
 import { useRouter } from 'next/navigation'
 import { motion as m } from 'framer-motion';
-import { SEARCH_PAGE_URL } from '@/constants/url';
+import { HOME_PAGE_URL, SEARCH_PAGE_URL } from '@/constants/url';
 
 const SearchBar = () => {
   const [searchContent, setSearchContent] = useState("");
@@ -15,7 +15,11 @@ const SearchBar = () => {
   }
 
   const handleSubmitSearch = (e) => {
-    router.push(`${SEARCH_PAGE_URL}?q=${searchContent}`)
+    if(!searchContent){
+      router.push(HOME_PAGE_URL)
+    }else{
+      router.push(`${SEARCH_PAGE_URL}?q=${searchContent}`)
+    }
   }
 
   const handleKeyPress = (e) => {

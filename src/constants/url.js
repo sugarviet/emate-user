@@ -6,6 +6,7 @@ export const BASE_URL_STAGING = "";
 /* API END POINT */
 export const LOGIN_URL = "auth/login";
 export const REGISTER_URL = "auth/register";
+export const LOGIN_GG_URL = "auth/loginGG"
 
 
 /* PAGE END POINT */
