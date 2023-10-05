@@ -1,7 +1,7 @@
 import ChatHeader from "../ChatHeader/ChatHeader"
 import ChatList from "../ChatList/ChatList"
 import InputMessage from "../InputMessage/InputMessage"
-import { useChatStore } from "../stores/useChatStore";
+import { useChatStore } from "@/stores/useChatStore"
 
 const ChatFeed = () => {
 
