@@ -1,10 +1,8 @@
 "use client";
 
-import { useState } from "react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-
 import { useSession } from "next-auth/react";
 import { signOut } from "next-auth/react";
 
@@ -23,6 +21,7 @@ import {
   ReadOutlined,
   UserOutlined,
   MailOutlined,
+  WalletOutlined
 } from "@ant-design/icons";
 
 import {
@@ -80,6 +79,16 @@ const items = [
     icon: <MailOutlined />,
   },
   {
+    label: <Link href="#">
+      <div className="flex items-center">
+        <p>20.0</p>
+        <Image src="/emate-coin.svg" alt="coin" height={30} width={30}/>
+      </div>
+    </Link>,
+    key: "5",
+    icon: <WalletOutlined />,
+  },
+  {
     type: "divider",
   },
   {
@@ -88,7 +97,7 @@ const items = [
         Đăng xuất
       </p>
     ),
-    key: "5",
+    key: "6",
     icon: <LogoutOutlined />,
   },
 ];
@@ -181,6 +190,15 @@ const Navbar = () => {
         {/* LOG IN */}
         {isUserLogin ? (
           <div className="hidden lg:flex sm:gap-12 items-center">
+
+            <div className="flex items-center">
+              <p className="flex items-center">20.0
+              <Image src={"/emate-coin.svg"} alt="coin" height={50} width={35}/>
+
+              </p>
+
+            </div>
+
             <Link href="/">
               <Badge count={2}>
                 <motion.span className="text-2xl" whileHover={{ scale: 1.1 }}>

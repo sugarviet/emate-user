@@ -1,10 +1,12 @@
 /* BASE URL */
+export const SERVER_BASE_URL_LOCAL_HOST = "http://localhost:8080/";
 export const BASE_URL_LOCAL_HOST = "http://localhost:8080/";
 export const BASE_URL_STAGING = "";
 
 /* API END POINT */
 export const LOGIN_URL = "auth/login";
 export const REGISTER_URL = "auth/register";
+export const LOGIN_GG_URL = "auth/loginGG"
 
 
 /* PAGE END POINT */
@@ -21,6 +23,7 @@ export const MENTOR_PACKAGE_PAGE_URL = "/mentor-package";
 export const TEACH_WITH_EMATE_PAGE_URL = "/teach-with-emate";
 export const MY_COURSES_PAGE_URL = "/my-courses";
 export const SOCIAL_PAGE_URL = "/social";
+export const SEARCH_PAGE_URL = "/search";
 
 
 
