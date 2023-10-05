@@ -1,9 +1,11 @@
 'use client'
+import { useModalStore } from "@/stores/useModalStore";
 import { formattedCoin, formattedCurrency } from "@/utils/formatedCurrency";
 import { CloseCircleFilled } from "@ant-design/icons";
 import { QRCode, Table } from "antd";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 
 const columns = [
     {
@@ -61,7 +63,10 @@ const data = [
     }
 ]
 
-export default function DepositModal({handleCloseModal}) {
+export default function DepositModal() {
+    const isDepositModalOpened = useModalStore((state) => state.isDepositModalOpened)
+    const switchDepositModalState = useModalStore(state => state.switchDepositModalState)
+
     const [selectedDepositOption, setSelectedDepositOption] = useState(undefined)
     const [paymentCode, setPaymentCode] = useState(undefined)
 
@@ -73,12 +78,23 @@ export default function DepositModal({handleCloseModal}) {
         setPaymentCode("NOAN_CUTEDANGIUXINHDEP")
     }
 
+    const handleCloseModal = () => {
+        switchDepositModalState(false)
+    }
+
     useEffect(() => {
         setPaymentCode(undefined)
     }, [selectedDepositOption])
 
+    if(!isDepositModalOpened) return null
+
     return (
-        <div className="fixed top-0 bottom-0 left-0 right-0 flex items-center justify-center bg-pink-300 bg-opacity-80">
+        <motion.div 
+            initial={{ opacity: 0, top: -100 }}
+            animate={{ opacity: 1, top: 0 }}
+            transition={{ duration: 0.5, ease: "easeInOut" }} 
+            className="fixed top-0 bottom-0 left-0 right-0 flex items-center justify-center bg-pink-300 bg-opacity-80"
+            >
             <div className="w-3/5 h-fit bg-white rounded-3xl grid grid-cols-2 p-4 relative">
                     <Table className="w-full h-full" rowSelection={{type: 'radio', onSelect: handleSelectDeposit}} columns={columns} dataSource={data} pagination={false} bordered/>
                     {selectedDepositOption ?
@@ -117,6 +133,6 @@ export default function DepositModal({handleCloseModal}) {
                     }
                     <button onClick={handleCloseModal} className="absolute top-0 right-0 p-4 w-fit h-fit text-xl text-pink-400"><CloseCircleFilled /></button>
             </div>
-        </div>
+        </motion.div>
     )
 }
