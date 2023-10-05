@@ -80,8 +80,19 @@ function CourseLearning({ course }) {
   const [lessons, setLessons] = useState(
     [].concat(...data.content.map((item) => item.sections))
   );
-  const [contents, SetContents] = useState(data.content);
+  const [contents, setContents] = useState(data.content);
   const [currentLesson, setCurrentLesson] = useState();
+
+  const handleUpdateLesson = (lesson) => {
+    setContents(
+      contents.map((item) => ({
+        ...item,
+        sections: item.sections.map((section) =>
+          section._id === lesson._id ? lesson : section
+        ),
+      }))
+    );
+  };
 
   useEffect(() => {
     const isNotCompletedLesson =
@@ -196,7 +207,16 @@ function CourseLearning({ course }) {
                 <ul>
                   {content.sections.map((lesson, index) => (
                     <li key={`${lesson} + ${index}`} className="text-md my-2">
-                      <Checkbox />
+                      <Checkbox
+                        onChange={(value) => {
+                          const newLesson = {
+                            ...lesson,
+                            isCompleted: value.target.checked,
+                          };
+                          console.log(value);
+                          handleUpdateLesson(newLesson);
+                        }}
+                      />
                       <span className="ml-2">{`${index + 1}. ${
                         lesson.name
                       }`}</span>
