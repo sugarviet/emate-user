@@ -8,5 +8,5 @@ export const formattedCurrency = (value) => {
 }
 
 export const formattedCoin = (value) => {
-    return <span className="flex items-center"><Image width={32} height={32} src={'/images/emate-coin-02.svg'}/> x {value}</span>
+    return <span className="flex items-center"><Image width={32} height={32} src={'/emate-coin.svg'}/> x {value}</span>
 }
