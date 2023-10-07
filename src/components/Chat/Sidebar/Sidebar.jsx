@@ -2,7 +2,6 @@
 
 import UserContact from "../UserContact/UserContact";
 import { useChatStore } from "@/stores/useChatStore";
-
 import styles from './Sidebar.module.css';
 
 const messages = [
@@ -33,8 +32,6 @@ const Sidebar = () => {
 const DesktopSidebar = () => {
   const listUsers = useChatStore(state => state.listUsers)
 
-  console.log('after store' , listUsers);
-
   return (
     <div
       className={styles.container}
@@ -45,7 +42,6 @@ const DesktopSidebar = () => {
             <UserContact message={message}/>
         </li>
       ))}
-       
         
      </ul>
 

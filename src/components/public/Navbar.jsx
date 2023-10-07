@@ -25,10 +25,11 @@ import {
 } from "@ant-design/icons";
 
 import {
-  BASE_URL_LOCAL_HOST,
+  BASE_URL,
   CART_PAGE_URL,
   CHAT_PAGE_URL,
   COURSES_PAGE_URL,
+  HOME_PAGE_URL,
   LOGIN_PAGE_URL,
   MENTOR_PAGE_URL,
   MY_COURSES_PAGE_URL,
@@ -36,6 +37,7 @@ import {
   SOCIAL_PAGE_URL,
   TEACH_WITH_EMATE_PAGE_URL,
 } from "@/constants/url";
+import { DEFAULT } from "@/constants/defaultElement";
 
 const NAVBAR_LINKS_WITH_LOG_IN = [
   {
@@ -93,7 +95,7 @@ const items = [
   },
   {
     label: (
-      <p onClick={() => signOut({ callbackUrl: BASE_URL_LOCAL_HOST })}>
+      <p onClick={() => signOut({ callbackUrl: HOME_PAGE_URL })}>
         Đăng xuất
       </p>
     ),
@@ -192,10 +194,9 @@ const Navbar = () => {
           <div className="hidden lg:flex sm:gap-12 items-center">
 
             <div className="flex items-center">
-              <p className="flex items-center">20.0
-              <Image src={"/emate-coin.svg"} alt="coin" height={50} width={35}/>
-
+              <p>20.0
               </p>
+              <Image src={"/emate-coin.svg"} alt="coin" height={50} width={35}/>
 
             </div>
 
@@ -232,7 +233,7 @@ const Navbar = () => {
                 align="middle"
               >
                 <Avatar
-                  src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=1"
+                  src={DEFAULT.AVATAR_IMAGE_PATH}
                   alt="User Image"
                   style={{ cursor: "pointer" }}
                   size="large"

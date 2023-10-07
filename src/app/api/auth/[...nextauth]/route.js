@@ -3,7 +3,7 @@ import NextAuth from "next-auth/next";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials"
 
-import { BASE_URL_LOCAL_HOST, LOGIN_GG_URL, LOGIN_URL } from '@/constants/url';
+import { BASE_URL, LOGIN_GG_URL, LOGIN_URL } from '@/constants/url';
 import jwtDecode from "jwt-decode";
 import urlcat from "urlcat";
 import { STATUS_CODE } from "@/constants/statusCode";
@@ -28,7 +28,7 @@ callbacks:{
       // Trigger if user login with google
       if(data.account.provider === PROVIDERS.GOOGLE){
         try {
-          const res = await fetch(urlcat(BASE_URL_LOCAL_HOST,LOGIN_GG_URL ), {
+          const res = await fetch(urlcat(BASE_URL,LOGIN_GG_URL ), {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -40,7 +40,10 @@ callbacks:{
             }),
           });
           const user = await res.json();
-          myAccessToken = user.metaData.accessToken;
+
+          console.log('user', user);
+          const decodeToken = jwtDecode(user?.metaData.accessToken);
+          myAccessToken = decodeToken;
         } catch (error) {
           
         }
@@ -76,7 +79,7 @@ callbacks:{
       },
       async authorize(credentials, req){
 
-        const res = await fetch(urlcat(BASE_URL_LOCAL_HOST,LOGIN_URL ), {
+        const res = await fetch(urlcat(BASE_URL,LOGIN_URL ), {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -91,12 +94,15 @@ callbacks:{
         console.log('res.json', user);
           const decodeToken = jwtDecode(user?.metaData.accessToken);
 
+          console.log('decodeToken', decodeToken);
+
         if(user?.error?.code === STATUS_CODE.BAD_REQUEST){
           console.log('Loi ne');
           throw new Error(JSON.stringify({ error:user?.error?.message, status: false }))
         }
         else {
           console.log('Ok r do');
+          myAccessToken = decodeToken;
           
           return {
             name: decodeToken?.email,

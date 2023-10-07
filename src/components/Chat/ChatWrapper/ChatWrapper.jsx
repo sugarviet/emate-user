@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect } from "react";
-import { Suspense } from "react";
 import { Row, Col } from "antd";
 import Sidebar from "../Sidebar/Sidebar";
 import ChatFeed from "../ChatFeed/ChatFeed";
@@ -10,46 +9,69 @@ import EmptyState from "../EmptyState/EmptyState";
 import { useChatStore } from "@/stores/useChatStore";
 import fetcher from "@/utils/fetcher";
 import useSWR from "swr";
-import io from "socket.io-client";
+import io  from "socket.io-client";
 import { BASE_URL_LOCAL_HOST } from "@/constants/url";
+import { formatCurrentTime } from "@/utils/formatCurrentTime";
 
+const socket = io.connect(BASE_URL_LOCAL_HOST);
 
 const ChatWrapper = () => {
   const {data} = useSWR("https://jsonplaceholder.typicode.com/users", fetcher)
-  console.log('list user', data);
+  
   const selectedUser = useChatStore(state => state.selectedUser)
   const storeChattedUsers = useChatStore(state => state.storeChattedUsers)
   const firstSelected = useChatStore(state => state.firstSelected)
+  const currentUserInfo = useChatStore((state) => state.currentUserInfo);
+
+  const addToContactList = useChatStore(state => state.addToContactList)
+  const setStoreMessage = useChatStore(state => state.setStoreMessage)
+
+  // console.log('listUsers', listUsers);
 
   storeChattedUsers(data)
+  
+  useEffect(() => {
+    socket.on("msg-recieve", (data) => {
+      console.log(data);
+      const newUser = {
+        id: 11,
+        name: "Viet",
+        email:"viet123@gmail.com",
+        image: ''
+      }
+      addToContactList(newUser)
 
-  console.log(selectedUser);
+      setStoreMessage({...data, time: formatCurrentTime()})
+  
+    })
+  },[socket])
+  
+  useEffect(() => {
+    socket.emit("add-user", currentUserInfo.userId)
+
+  }, [currentUserInfo])
+  
+  console.log('selected user', selectedUser);
+
+  const setupSocketConnection = () => {
+    socket.on("connect", () => {
+      console.log("Connected to Socket.io server");
+    });
+    socket.on("disconnect", () => {
+      console.log("Disconnected from Socket.io server");
+    });
+  
+    return socket;
+  };
 
   useEffect(() => {
-    // Establish a WebSocket connection to your server
-    const socket = io(BASE_URL_LOCAL_HOST); 
-    // Listen for events from the server
-    socket.on("connect", () => {
-      console.log("Connected to the WebSocket server");
-    });
-
-    
-
-    // Handle other WebSocket events here
-    socket.emit("send-msg", {
-      from: "UserA",
-      to: "UserB",
-      message: "Hello, UserB!",
-    });
-    
-    socket.on("msg-recieve", (data) => {
-      console.log("Received message:", data.message);
-    });
-    // Clean up the socket connection when the component unmounts
+    const socket = setupSocketConnection();
+   
     return () => {
       socket.disconnect();
     };
   }, []);
+
 
   return (
     <m.div
@@ -58,10 +80,8 @@ const ChatWrapper = () => {
       transition={{ duration: 0.4 }}
     >
       <Row justify="space-between">
-        <Col xl={6} lg={8} md={8} sm={24} xs={24}>
-          <Suspense fallback={<div>Loading ...</div>}>
-            <Sidebar />
-          </Suspense>
+        <Col xl={6} lg={8} md={8} sm={24} xs={24}>   
+           <Sidebar />
         </Col>
         <Col xl={18} lg={16} md={16} sm={24} xs={24}>
           {

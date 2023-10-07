@@ -1,21 +1,32 @@
 "use client";
 
 import Image from "next/image";
-
 import { motion } from "framer-motion";
 import { Col, Row } from "antd";
-
+import { signOut } from "next-auth/react";
+import { useEffect } from "react";
 import styles from "./FirstSection.module.css";
 import { getSession, useSession } from "next-auth/react";
+import { useChatStore } from "@/stores/useChatStore";
+import { HOME_PAGE_URL } from "@/constants/url";
 
 const FirstSection = () => {
-
   const { data: session } = useSession();
+  const storeCurrentUser = useChatStore((state) => state.storeCurrentUser);
   console.log('session', session);
+
+  storeCurrentUser({userId: session?.accessToken._id , ...session?.user})
+
   const dotAnimationVariants = {
     hidden: { opacity: 0 },
     visible: { opacity: 1 },
   };
+
+  useEffect(() => {
+    if(session?.accessToken == ''){
+      signOut({callbackUrl: HOME_PAGE_URL})
+    }
+  }, [session])
 
   return (
     <motion.div
