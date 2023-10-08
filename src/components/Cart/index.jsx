@@ -124,9 +124,19 @@ const Cart = () => {
             <b className="text-xl">Tổng cộng: </b>
             <b className="text-5xl my-2">{formattedCurrency(total)}</b>
           </div>
-          <div className="text-xl md:w-full w-3/4 border my-4 py-4 border-black flex items-center justify-center">
-            <Link href={"/cart/checkout"}>Tiến hành thanh toán</Link>
-          </div>
+          {purchasingCourses.length > 0 ? (
+            <div className="text-xl md:w-full w-3/4 border my-4 py-4 border-black flex items-center justify-center">
+              <Link className="w-full text-center" href={"/cart/checkout"}>
+                Tiến hành thanh toán
+              </Link>
+            </div>
+          ) : (
+            <div className="text-xl md:w-full w-3/4 my-4 bg-gray-300 py-4 flex items-center justify-center">
+              <button className="w-full text-center text-white">
+                Tiến hành thanh toán
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </m.main>
