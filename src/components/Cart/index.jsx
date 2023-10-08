@@ -5,7 +5,7 @@ import { CloseOutlined } from "@ant-design/icons";
 import { motion as m } from "framer-motion";
 import { useEffect, useState } from "react";
 import { formattedCurrency } from "@/utils/formatedCurrency";
-import { useCart } from "@/stores/useCartStore";
+import { useCartStore } from "@/stores/useCartStore";
 import Link from "next/link";
 
 const course_data = [
