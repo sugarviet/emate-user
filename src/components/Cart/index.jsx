@@ -1,11 +1,12 @@
 "use client";
-
 import styles from "./Cart.module.css";
-import { Input, Button, Image, QRCode, Checkbox } from "antd";
+import { Input, Button, Image, Checkbox } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
 import { motion as m } from "framer-motion";
 import { useEffect, useState } from "react";
 import { formattedCurrency } from "@/utils/formatedCurrency";
+import { useCart } from "@/stores/useCartStore";
+import Link from "next/link";
 
 const course_data = [
   {
@@ -23,13 +24,14 @@ const course_data = [
 ];
 
 const Cart = () => {
-  const [selectedCourses, setSelectedCourses] = useState(course_data);
-  const [purchasingCourses, setPurchasingCourses] = useState([]);
-  const [total, setTotal] = useState(0);
-
-  const handleCheckout = () => {
-    console.log("On payment");
-  };
+  const {
+    purchasingCourses,
+    setPurchasingCourses,
+    selectedCourses,
+    setSelectedCourses,
+    total,
+    setTotal,
+  } = useCartStore();
 
   const handleSelectCourse = (e) => {
     const { checked, value: course } = e.target;
@@ -54,6 +56,10 @@ const Cart = () => {
 
     setTotal(result);
   }, [purchasingCourses]);
+
+  useEffect(() => {
+    setSelectedCourses(course_data);
+  }, []);
 
   return (
     <m.main
@@ -118,13 +124,8 @@ const Cart = () => {
             <b className="text-xl">Tổng cộng: </b>
             <b className="text-5xl my-2">{formattedCurrency(total)}</b>
           </div>
-          <div>
-            <button
-              onClick={handleCheckout}
-              className="text-xl md:w-full w-3/4 border my-4 py-4 border-black"
-            >
-              Tiến hành thanh toán
-            </button>
+          <div className="text-xl md:w-full w-3/4 border my-4 py-4 border-black flex items-center justify-center">
+            <Link href={"/cart/checkout"}>Tiến hành thanh toán</Link>
           </div>
         </div>
       </div>
