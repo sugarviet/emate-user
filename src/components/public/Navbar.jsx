@@ -21,7 +21,7 @@ import {
   ReadOutlined,
   UserOutlined,
   MailOutlined,
-  WalletOutlined
+  WalletOutlined,
 } from "@ant-design/icons";
 
 import {
@@ -36,6 +36,7 @@ import {
   SOCIAL_PAGE_URL,
   TEACH_WITH_EMATE_PAGE_URL,
 } from "@/constants/url";
+import Wallet from "../Wallet";
 
 const NAVBAR_LINKS_WITH_LOG_IN = [
   {
@@ -79,12 +80,7 @@ const items = [
     icon: <MailOutlined />,
   },
   {
-    label: <Link href="#">
-      <div className="flex items-center">
-        <p>20.0</p>
-        <Image src="/emate-coin.svg" alt="coin" height={30} width={30}/>
-      </div>
-    </Link>,
+    label: <Wallet />,
     key: "5",
     icon: <WalletOutlined />,
   },
@@ -144,25 +140,22 @@ const Navbar = () => {
           <></>
         )}
 
-    {
-          NAVBAR_LINKS_WITH_LOG_IN.map((nav) => (
-            <motion.div
-              key={nav.text}
-              className="cursor_pointer hide_on_mobile"
-              whileHover={{ scale: 1.2 }}
+        {NAVBAR_LINKS_WITH_LOG_IN.map((nav) => (
+          <motion.div
+            key={nav.text}
+            className="cursor_pointer hide_on_mobile"
+            whileHover={{ scale: 1.2 }}
+          >
+            <Link
+              href={nav.href}
+              className={`${
+                nav.href === pathname ? "text-purple-400" : "text-black"
+              }`}
             >
-              <Link
-                href={nav.href}
-                className={`${
-                  nav.href === pathname ? "text-purple-400" : "text-black"
-                }`}
-              >
-                <p className="lg:text-xl text-base">{nav.text}</p>
-              </Link>
-            </motion.div>
-          ))
-        }
-        
+              <p className="lg:text-xl text-base">{nav.text}</p>
+            </Link>
+          </motion.div>
+        ))}
 
         {/* NOT LOGGED IN */}
         {isUserLogin ? null : (
@@ -190,13 +183,10 @@ const Navbar = () => {
         {/* LOG IN */}
         {isUserLogin ? (
           <div className="hidden lg:flex sm:gap-12 items-center">
-
             <div className="flex items-center">
-              <p className="flex items-center">20.0
-              <Image src={"/emate-coin.svg"} alt="coin" height={50} width={35}/>
-
+              <p className="flex items-center">
+                <Wallet />
               </p>
-
             </div>
 
             <Link href="/">

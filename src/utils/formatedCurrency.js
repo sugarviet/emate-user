@@ -8,5 +8,10 @@ export const formattedCurrency = (value) => {
 }
 
 export const formattedCoin = (value) => {
-    return <span className="flex items-center"><Image width={32} height={32} src={'/emate-coin.svg'}/> x {value}</span>
+    const newValue = Intl.NumberFormat('vi-VN', {
+        style: 'currency',
+        currency: 'VND',
+    }).format(value).replace("₫", "");
+
+    return <span className="flex items-center">{newValue} <Image width={32} height={32} src={'/emate-coin.svg'} /></span>
 }
