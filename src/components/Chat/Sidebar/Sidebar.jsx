@@ -17,8 +17,6 @@ const messages = [
 ]
 
 const Sidebar = () => {
-  const increaseCount = useChatStore(state => state.increaseCount);
-  
   return (
     <div className="h-full flex flex-col">
       <div className="h-12 rounded-tl-2xl light_bg_pink_color border-r-2 border-white">   
@@ -32,13 +30,15 @@ const Sidebar = () => {
 const DesktopSidebar = () => {
   const listUsers = useChatStore(state => state.listUsers)
 
+  console.log('listUsers', listUsers);
+
   return (
     <div
       className={styles.container}
     >
      <ul>
-      {listUsers.map(message => (
-        <li key={message.id}>
+      {listUsers?.map((message, index) => (
+        <li key={index}>
             <UserContact message={message}/>
         </li>
       ))}

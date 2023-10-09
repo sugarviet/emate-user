@@ -10,6 +10,8 @@ export const LOGIN_URL = "auth/login";
 export const REGISTER_URL = "auth/register";
 export const LOGIN_GG_URL = "auth/loginGG"
 export const POST_MSG_URL = "message";
+export const GET_ALL_STUDENTS = "student";
+
 
 
 /* PAGE END POINT */

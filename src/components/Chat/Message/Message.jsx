@@ -1,3 +1,4 @@
+import { DEFAULT } from "@/constants/defaultElement";
 import Image from "next/image";
 
 const Message = ({msg}) => {
@@ -22,7 +23,7 @@ const Message = ({msg}) => {
   const GuestMessage = ({msg}) => {
     return (
       <div className="w-full flex justify-start items-center gap-2">
-        <Image src={'/character/chauAnhTu.png'} alt="user" width={40} height={40} className="rounded-full"/>
+        <Image src={DEFAULT.AVATAR_IMAGE_PATH} alt="user" width={40} height={40} className="rounded-full"/>
         <div className="text-gray-500 rounded-3xl p-2 w-fit mt-2 max-w-sm pink_border_color">
           <p className="p-1">{msg.message}</p>
         </div>

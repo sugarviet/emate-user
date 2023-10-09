@@ -10,12 +10,14 @@ import { BASE_URL_LOCAL_HOST } from "@/constants/url";
 
 
 const ChatFeed = () => {
-  // const currentUserInfo = useChatStore((state) => state.currentUserInfo);
-  // const listUsers = useChatStore(state => state.listUsers)
+  const currentUserInfo = useChatStore((state) => state.currentUserInfo);
+  const listUsers = useChatStore(state => state.listUsers)
+  console.log('listUsers', listUsers);
+  console.log('currentUserInfo', currentUserInfo);
 
   return (
     <div className="border-b-2 w-full h-full rounded-rs-lg rounded-tr-2xl overflow-hidden">
-        <ChatHeader username={"Viet"}/>
+        <ChatHeader />
         <ChatList />
         <InputMessage />
     </div>

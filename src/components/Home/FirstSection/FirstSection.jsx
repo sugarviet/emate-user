@@ -15,7 +15,7 @@ const FirstSection = () => {
   const storeCurrentUser = useChatStore((state) => state.storeCurrentUser);
   console.log('session', session);
 
-  storeCurrentUser({userId: session?.accessToken._id , ...session?.user})
+  storeCurrentUser({id: session?.accessToken._id, token: session?.accessToken.token , ...session?.user})
 
   const dotAnimationVariants = {
     hidden: { opacity: 0 },

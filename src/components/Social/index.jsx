@@ -1,24 +1,36 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useState } from "react";
 import { List, Row, Col } from "antd";
 import { motion as m } from "framer-motion";
 import styles from "./Social.module.css";
 import UserCard from "../public/UserCard";
-
+import useSWR from "swr";
+import fetcher from "@/utils/fetcher";
+import urlcat from "urlcat";
+import { useChatStore } from "@/stores/useChatStore";
 import Image from "next/image";
+import { BASE_URL, CHAT_PAGE_URL, GET_ALL_STUDENTS } from "@/constants/url";
 
 const Social = () => {
+  const router = useRouter();
+  const selectedUser = useChatStore(state => state.selectedUser)
+  const setSelectedUserId = useChatStore(state => state.setSelectedUserId)
+  const storeSelectedUser = useChatStore(state => state.storeSelectedUser)
+
   const [data, setData] = useState([
-    {id: 1, name: 'Châu Anh Tú', img: '/character/chauAnhTu.png', age: 20, major: 'Kinh tế', interest: "Kinh Tế"},
+    {id: 1, name: 'Châu Anh Tú', img: '/default-avatar.svg', age: 20, major: 'Kinh tế', interest: "Kinh Tế"},
     {id: 2, name: 'Diệu My', img: '/character/dieuMy.png', age: 22, major: 'Kinh tế', interest: "Ngôn ngữ Anh"},
     {id: 3, name: 'Hải Đăng Khánh', img: '/character/haiDangKhanh.png', age: 24, major: 'Thiết kế', interest: "Nấu ăn"},
     {id: 4, name: 'Khoa Anh Lê', img: '/character/khoaAnhLe.png', age: 21, major: 'IT', interest: "Kinh Tế"},
-    
-
 ]);
   const [hasMore, setHasMore] = useState(true);
+  const {data:listStudents, isLoading} = useSWR(urlcat(BASE_URL, GET_ALL_STUDENTS), fetcher);
+
+
+  console.log('list students', listStudents);
 
   const fetchMoreData = () => {
     if(data.length < 9){
@@ -35,6 +47,20 @@ const Social = () => {
         setHasMore(false)
     }
   }
+
+  const handleChatWithUser = (user) => {
+    console.log(user);
+    setSelectedUserId(user._id)
+    storeSelectedUser({
+      id: user._id,
+      name: "Toan",
+    })
+    router.push(CHAT_PAGE_URL)
+  }
+
+  if(isLoading){
+    return <>Loading...</>
+  }
   return (
     <m.main
       className="blur_custom"
@@ -43,7 +69,7 @@ const Social = () => {
       transition={{ duration: 0.4 }}
     >
    
-        <InfiniteScroll dataLength={data.length} next={fetchMoreData} hasMore={hasMore} loader={<p>Loading...</p>} style={{overflowX: 'hidden '}}>
+        {/* <InfiniteScroll dataLength={data.length} next={fetchMoreData} hasMore={hasMore} loader={<p>Loading...</p>} style={{overflowX: 'hidden '}}> */}
             <List 
             grid={{
                 gutter: 16,
@@ -53,25 +79,21 @@ const Social = () => {
                 md: 2,
                 xs: 1
             }}
-            dataSource={data}
+            dataSource={listStudents?.metaData}
             renderItem={(user,index) => (
-                <UserCard key={user.id} data={user}/>
+                <div key={user._id} onClick={()=> handleChatWithUser(user)} className="hover:cursor-pointer">
+                <UserCard key={user._id} data={user}/>
+                </div>
             )}
             >
 
             </List>
-        </InfiniteScroll>
+        {/* </InfiniteScroll> */}
         
 
 
         {/* Images setup */}
-        <Image
-          src="/images/pinkDot4.png"
-          alt="img"
-          width={120}
-          height={120}
-          className={styles.pink_dot_first}
-        />
+    
                <Image
           src="/images/pinkDot2.png"
           alt="img"

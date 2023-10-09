@@ -43,7 +43,10 @@ callbacks:{
 
           console.log('user', user);
           const decodeToken = jwtDecode(user?.metaData.accessToken);
-          myAccessToken = decodeToken;
+          myAccessToken = {
+            token:user?.metaData.accessToken,
+            ...decodeToken
+          };
         } catch (error) {
           
         }
@@ -102,7 +105,10 @@ callbacks:{
         }
         else {
           console.log('Ok r do');
-          myAccessToken = decodeToken;
+          myAccessToken = {
+            token:user?.metaData.accessToken,
+            ...decodeToken
+          };
           
           return {
             name: decodeToken?.email,

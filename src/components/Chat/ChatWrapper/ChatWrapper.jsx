@@ -1,5 +1,6 @@
 "use client";
 
+import axios from "axios";
 import { useEffect } from "react";
 import { Row, Col } from "antd";
 import Sidebar from "../Sidebar/Sidebar";
@@ -12,34 +13,57 @@ import useSWR from "swr";
 import io  from "socket.io-client";
 import { BASE_URL_LOCAL_HOST } from "@/constants/url";
 import { formatCurrentTime } from "@/utils/formatCurrentTime";
+import LoadingMessageSkeleton from "@/components/public/LoadingMessageSkeleton";
+import { FAKE_TOKEN } from "@/constants/fakeToken";
 
 const socket = io.connect(BASE_URL_LOCAL_HOST);
 
+
 const ChatWrapper = () => {
-  const {data} = useSWR("https://jsonplaceholder.typicode.com/users", fetcher)
+
   
   const selectedUser = useChatStore(state => state.selectedUser)
-  const storeChattedUsers = useChatStore(state => state.storeChattedUsers)
   const firstSelected = useChatStore(state => state.firstSelected)
   const currentUserInfo = useChatStore((state) => state.currentUserInfo);
 
   const addToContactList = useChatStore(state => state.addToContactList)
   const setStoreMessage = useChatStore(state => state.setStoreMessage)
+  const addToContactListByReceive = useChatStore(state => state.addToContactListByReceive)
+  
+  // storeChattedUsers(data)
+  // storeChattedUsers([])
 
-  // console.log('listUsers', listUsers);
+  useEffect(() => {
+    axios.get('http://localhost:8080/getDetail/651a6949baf2f58aa1cb63a8', {
+      headers: {
+        'Authorization': `Bearer ${FAKE_TOKEN}`
+      }
+    })
+      .then(function (response) {
+        console.log('Data:', response.data);
+      })
+      .catch(function (error) {
+        console.error('Error:', error);
+      });
+  }, [])
 
-  storeChattedUsers(data)
   
   useEffect(() => {
     socket.on("msg-recieve", (data) => {
       console.log(data);
       const newUser = {
-        id: 11,
+        id: 13,
+        from: data.recieve,
         name: "Viet",
         email:"viet123@gmail.com",
         image: ''
       }
+      // addToContactListByReceive(selectedUser)
+      // addToContactListByReceive(data.recieve)
+
+
       addToContactList(newUser)
+
 
       setStoreMessage({...data, time: formatCurrentTime()})
   
@@ -47,11 +71,10 @@ const ChatWrapper = () => {
   },[socket])
   
   useEffect(() => {
-    socket.emit("add-user", currentUserInfo.userId)
+    socket.emit("add-user", currentUserInfo.id)
 
   }, [currentUserInfo])
   
-  console.log('selected user', selectedUser);
 
   const setupSocketConnection = () => {
     socket.on("connect", () => {
@@ -85,7 +108,7 @@ const ChatWrapper = () => {
         </Col>
         <Col xl={18} lg={16} md={16} sm={24} xs={24}>
           {
-            !firstSelected ? <EmptyState /> : (selectedUser ? <ChatFeed /> : <>Loading...</>)
+            !firstSelected ? <EmptyState /> : (selectedUser ? <ChatFeed /> : <LoadingMessageSkeleton />)
           }
         </Col>
       </Row>

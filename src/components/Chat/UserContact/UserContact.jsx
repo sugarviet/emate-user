@@ -10,8 +10,7 @@ import { DEFAULT } from "@/constants/defaultElement";
 
 const UserContact = ({message}) => {
     
-    const {name, img=DEFAULT.AVATAR_IMAGE_PATH, time, username:messageTo, id:number} = message;
-
+    const {name="Emate", img=DEFAULT.AVATAR_IMAGE_PATH, time, username:messageTo, id:number} = message;
     const storeSelectedUserId = useChatStore((state) => state.selectedUserId);
     const setSelectedUserId = useChatStore((state) => state.setSelectedUserId);
     const storeSelectedUser = useChatStore(state => state.storeSelectedUser)
@@ -20,10 +19,18 @@ const UserContact = ({message}) => {
 
     const lastetMsg = currentMsg[currentMsg.length -1]
     
-    const {data} = useSWR(storeSelectedUserId ? `https://jsonplaceholder.typicode.com/users/${storeSelectedUserId}` : null, fetcher)
+    // const {data} = useSWR(storeSelectedUserId ? `https://jsonplaceholder.typicode.com/users/${storeSelectedUserId}` : null, fetcher)
+
+    const {data} = useSWR(storeSelectedUserId ? `https://jsonplaceholder.typicode.com/users/1` : null, fetcher)
     
     useEffect(() => {
-        storeSelectedUser(data)
+        // storeSelectedUser(data)
+
+        storeSelectedUser({
+            id: '651a6949baf2f58aa1cb63a8',
+            name: "Toan"
+        })
+
         
     }, [data, storeSelectedUser])
 
@@ -31,7 +38,6 @@ const UserContact = ({message}) => {
         setSelectedUserId(userId);
     }
 
-    console.log('latest', lastetMsg);
   return (
     <div className="pink_border_color w-full h-24 relative my-2 rounded-xl hover:cursor-pointer p-2 z-30 overflow-hidden bg-white" onClick={() => handleFetchChooseUser(number)}>
         <Row className="translate-y-3" align="middle" justify="center" gutter={[2]}>

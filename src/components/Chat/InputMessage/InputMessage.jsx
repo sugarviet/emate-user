@@ -18,9 +18,6 @@ const InputMessage = () => {
 
   const setStoreMessage = useChatStore(state => state.setStoreMessage)
 
-
-
-
   const handleSetText = (e) => {
     setTextChatContent(e.target.value);
   }
@@ -32,8 +29,9 @@ const InputMessage = () => {
 
     socket.emit("send-msg", {
       message: textChatContent,
-      to: "651a6949baf2f58aa1cb63a8" || selectedUser?.userId
+      to: "651a6949baf2f58aa1cb63a8"
   })
+  // Toan: 651a6949baf2f58aa1cb63a8
   // 651e3228f541cff397ab7590
 
   setTextChatContent("")
@@ -44,16 +42,19 @@ const InputMessage = () => {
     // return res;
 
       const newUser = {
-        id: "651a6949baf2f58aa1cb63a8",
-        name: "Viet",
-        email:"viet123@gmail.com",
+        id: selectedUser.id,
+        name: selectedUser.name,
+        email:"toan123@gmail.com",
         image: ''
       }
+
+      console.log('newUser', newUser);
 
       // if(handleCheckIfUserInContactAlreadyExists(newUser.id)) return;
 
       addToContactList(newUser);
-      setStoreMessage({message: textChatContent, to: "651a6949baf2f58aa1cb63a8" ,time: formatCurrentTime()})
+      // setStoreMessage({message: textChatContent, to: "651a6949baf2f58aa1cb63a8" ,time: formatCurrentTime()})
+      setStoreMessage({message: textChatContent, to: selectedUser.id ,time: formatCurrentTime()})
 
     
   }
