@@ -41,6 +41,7 @@ const steps = [
 function CourseCreation() {
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const [title, setTitle] = useState("");
+  
 
   const handleContinue = () => {
     setCurrentStepIndex(currentStepIndex + 1);
@@ -58,7 +59,7 @@ function CourseCreation() {
     <div className={styles.blur_bg}>
       <Steps progressDot current={currentStepIndex} items={steps} />
       <div className="my-12 flex-1">{steps[currentStepIndex].component}</div>
-      <div className="flex sticky bottom-0 w-full h-32 justify-between">
+      <div className="flex w-full h-32 justify-between">
         {steps[currentStepIndex].isPrevious ? (
           <button
             onClick={handlePrevious}

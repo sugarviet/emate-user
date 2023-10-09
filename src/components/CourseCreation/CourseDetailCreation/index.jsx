@@ -28,10 +28,88 @@ const INITIAL_REQUIREMENTS = [
   },
 ];
 
+const INITIAL_CONTENT = [
+  {
+    name: "Introduction",
+    sections: [
+      {
+        name: "Introduction",
+        description:
+          "Welcome to this Node.js course! Let me introduce myself and give you a rough overview of this course and what it's all about!",
+        video: "introduction.mp4",
+        status: false,
+        _id: "651d78dee930bca272fb3008",
+      },
+    ],
+  },
+];
+
+const SectionItem = ({ content, sectionIndex }) => {
+  const [lessons, setLessons] = useState(content.sections);
+
+  const handleAddNewLesson = () => {
+    const newLesson = {
+      name: "",
+      description: "",
+      video: "",
+    };
+
+    setLessons([...lessons, newLesson]);
+  };
+
+  const handleUpdateNameLesson = (value, index) => {
+    const newLessons = [...lessons];
+
+    newLessons[index].name = value;
+
+    setLessons(newLessons);
+  };
+
+  return (
+    <div className="w-full border border-black bg-gray-50 p-4 my-2">
+      <div className="flex items-center">
+        <span className="font-bold">Nội dung {sectionIndex}:</span>
+        <Input value={content.name} bordered={false} className="w-fit" />
+      </div>
+      <div className="ml-8 my-2">
+        {lessons.map((lesson, index) => (
+          <div className="border border-black bg-white w-full p-2 my-2">
+            <div className="flex items-center justify-between">
+              <div>
+                <span className="font-semibold">Bài học {index + 1}: </span>
+                <Input
+                  onChange={(e) =>
+                    handleUpdateNameLesson(e.target.value, index)
+                  }
+                  value={lesson.name}
+                  bordered={false}
+                  className="w-fit"
+                />
+              </div>
+              <button className="border border-black text-pink-300 p-2 font-bold">
+                <PlusCircleFilled /> Video
+              </button>
+            </div>
+          </div>
+        ))}
+        <button
+          onClick={handleAddNewLesson}
+          className="text-pink-300 font-semibold mt-4"
+        >
+          <PlusCircleFilled />
+          <span>Thêm</span>
+        </button>
+      </div>
+    </div>
+  );
+};
+
 function CourseDetailCreation() {
   const [whatWillLearn, setWhatWillLearn] = useState(INITIAL_WHAT_WILL_LEARN);
   const [requirements, setRequirements] = useState(INITIAL_REQUIREMENTS);
   const [level, setLevel] = useState("");
+
+  const [contents, setContents] = useState(INITIAL_CONTENT);
 
   const handleAddMoreWhatWillLearnOption = () => {
     const newOption =
@@ -64,6 +142,21 @@ function CourseDetailCreation() {
 
   const handleUpdateLevelValue = (value) => {
     setLevel(value);
+  };
+
+  const handleAddNewSection = () => {
+    const newContent = {
+      name: "",
+      sections: [
+        {
+          name: "",
+          description: "",
+          video: "",
+        },
+      ],
+    };
+
+    setContents([...contents, newContent]);
   };
 
   return (
@@ -127,34 +220,17 @@ function CourseDetailCreation() {
         </div>
       </div>
       <div className="col-span-1">
-        <div className="w-full border border-black bg-gray-50 p-4">
-          <div className="flex items-center">
-            <span className="font-bold">Section 1:</span>
-            <Input value={"introduction"} bordered={false} className="w-fit" />
-          </div>
-          <div className="ml-8 my-2">
-            <div className="border border-black bg-white w-full p-2">
-              <div className="flex items-center justify-between">
-                <div>
-                  <span className="font-semibold">Lecture 1: </span>
-                  <Input
-                    value={"Introduction"}
-                    bordered={false}
-                    className="w-fit"
-                  />
-                </div>
-                <button className="border border-black text-pink-300 p-2 font-bold">
-                  <PlusCircleFilled /> Video
-                </button>
-              </div>
-            </div>
-            <button className="text-pink-300 font-semibold mt-4">
-              <PlusCircleFilled />
-              <span>Thêm</span>
-            </button>
-          </div>
-        </div>
-        <button className="text-pink-300 font-semibold mt-4">
+        {contents.map((content, index) => (
+          <SectionItem
+            key={`${content} + ${index}`}
+            content={content}
+            sectionIndex={index + 1}
+          />
+        ))}
+        <button
+          onClick={handleAddNewSection}
+          className="text-pink-300 font-semibold mt-4"
+        >
           <PlusCircleFilled />
           <span>Thêm</span>
         </button>
