@@ -13,14 +13,13 @@ import { get_fetcher } from "@/utils/fetcher";
 import { formattedCurrency } from "@/utils/formatedCurrency";
 
 function CourseDetail({ id }) {
-  const { data, isLoading } = useSWR(course_item_api(id), get_fetcher);
+  const { data, isLoading, error } = useSWR(course_item_api(id), get_fetcher);
 
-  if (isLoading) return null;
+  if (isLoading || error) return null;
 
   const course = {
     ...data,
     image: "https://s.udemycdn.com/meta/default-meta-image-v2.png",
-    whatWillLearn: [data.whatWillLearn, "hehe"],
   };
 
   const price = formattedCurrency(course.price);
@@ -83,7 +82,11 @@ function CourseDetail({ id }) {
               }))}
             />
           </div>
-          <CourseReview id={course._id} />
+          <CourseReview
+            id={course._id}
+            average_rating={course.rating}
+            top_reviews={course.topReview}
+          />
         </div>
         {/* Images */}
         <Image
