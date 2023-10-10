@@ -41,7 +41,6 @@ const steps = [
 function CourseCreation() {
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const [title, setTitle] = useState("");
-  
 
   const handleContinue = () => {
     setCurrentStepIndex(currentStepIndex + 1);

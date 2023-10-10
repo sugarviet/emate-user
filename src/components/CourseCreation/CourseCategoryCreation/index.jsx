@@ -1,6 +1,17 @@
+import { subject_api } from "@/constants/api";
+import { get_fetcher } from "@/utils/fetcher";
 import { Select } from "antd";
+import useSWR from "swr";
 
 function CourseCategoryCreation() {
+  const {
+    data: subjectsData,
+    isLoading: subjectsDataLoading,
+    error: subjectError,
+  } = useSWR(subject_api, get_fetcher);
+
+  if (subjectsDataLoading || subjectError) return;
+
   return (
     <div className="flex flex-col items-center">
       <span className="font-bold text-3xl w-3/5 text-center mb-4">
@@ -10,7 +21,15 @@ function CourseCategoryCreation() {
         Bạn chưa chắc chắn về lĩnh vực mình muốn truyền tải? Không sao, bạn có
         thể thay đổi nó sau.
       </span>
-      <Select className="my-4 w-3/5 text-lg h-16" size="large" />
+      <Select
+        options={subjectsData.map((subject) => ({
+          value: subject.name,
+          label: subject.name,
+        }))}
+        placeholder="e.g Game Developer"
+        className="my-4 w-3/5 text-lg flex items-center"
+        size="large"
+      />
     </div>
   );
 }

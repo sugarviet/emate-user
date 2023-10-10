@@ -6,7 +6,7 @@ function CourseManagement() {
   return (
     <div className={styles.blur_bg}>
       <div className="grid grid-cols-2 gap-8">
-        <div className="col-span-2 flex items-center justify-between bg-white border border-black shadow-lg h-40 p-8">
+        <div className="col-span-2 flex items-center justify-between bg-white border border-black shadow-lg h-40 p-8 rounded-lg">
           <span className="text-xl">Bắt đầu tạo khóa học</span>
           <Link
             href={"/instructor/courses/create"}
@@ -15,7 +15,7 @@ function CourseManagement() {
             Tạo Khóa Học
           </Link>
         </div>
-        <div className="col-span-2 flex items-center justify-between bg-white border border-black shadow-lg h-40 p-8">
+        <div className="col-span-2 flex items-center justify-between bg-white border border-black shadow-lg h-40 p-8 rounded-lg">
           <div className="grid grid-cols-5">
             <div className="col-span-2 flex items-center justify-center">
               <Image
@@ -37,7 +37,7 @@ function CourseManagement() {
             </div>
           </div>
         </div>
-        <div className="col-span-1 flex items-center justify-between bg-white border border-black shadow-lg h-40 p-8">
+        <div className="col-span-1 flex items-center justify-between bg-white border border-black shadow-lg h-40 p-8 rounded-lg">
           <div className="grid grid-cols-5">
             <div className="col-span-2 flex items-center justify-center">
               <Image
@@ -56,7 +56,7 @@ function CourseManagement() {
             </div>
           </div>
         </div>
-        <div className="col-span-1 flex items-center justify-between bg-white border border-black shadow-lg h-40 p-8">
+        <div className="col-span-1 flex items-center justify-between bg-white border border-black shadow-lg h-40 p-8 rounded-lg">
           <div className="grid grid-cols-5">
             <div className="col-span-2 flex items-center justify-center">
               <Image
@@ -76,7 +76,7 @@ function CourseManagement() {
             </div>
           </div>
         </div>
-        <div className="col-span-2 flex items-center justify-between bg-white border border-black shadow-lg h-40 p-8">
+        <div className="col-span-2 flex items-center justify-between bg-white border border-black shadow-lg h-40 p-8 rounded-lg">
           <div className="grid grid-cols-5">
             <div className="col-span-2 flex items-center justify-center">
               <Image
