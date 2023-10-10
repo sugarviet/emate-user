@@ -6,6 +6,7 @@ import { useState } from "react";
 import CourseTitleCreation from "./CourseTitleCreation";
 import CourseCategoryCreation from "./CourseCategoryCreation";
 import CourseDetailCreation from "./CourseDetailCreation";
+import { useForm } from "react-hook-form";
 
 const DEFAULT_STATE = {
   title: "Course Title",
@@ -20,29 +21,30 @@ const steps = [
     ...DEFAULT_STATE,
     title: "Bước 1",
     description: "Chọn tiêu đề cho khóa học.",
-    component: <CourseTitleCreation />,
+    component: CourseTitleCreation,
     isPrevious: false,
   },
   {
     ...DEFAULT_STATE,
     title: "Bước 2",
     description: "Chọn lĩnh vực mà bạn muốn truyền tải.",
-    component: <CourseCategoryCreation />,
+    component: CourseCategoryCreation,
   },
   {
     ...DEFAULT_STATE,
     title: "Bước 3",
     description: "Chi tiết về khóa học của bạn.",
-    component: <CourseDetailCreation />,
+    component: CourseDetailCreation,
     isContinue: false,
   },
 ];
 
 function CourseCreation() {
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
-  const [title, setTitle] = useState("");
+  const { control, handleSubmit } = useForm();
 
-  const handleContinue = () => {
+  const handleContinue = (data) => {
+    console.log(data);
     setCurrentStepIndex(currentStepIndex + 1);
   };
 
@@ -50,14 +52,18 @@ function CourseCreation() {
     setCurrentStepIndex(currentStepIndex - 1);
   };
 
-  const handleCreateCourse = () => {
-    console.log("Create Course");
+  const handleCreateCourse = (data) => {
+    console.log(data);
   };
+
+  const Form = steps[currentStepIndex].component;
 
   return (
     <div className={styles.blur_bg}>
       <Steps progressDot current={currentStepIndex} items={steps} />
-      <div className="my-12 flex-1">{steps[currentStepIndex].component}</div>
+      <div className="my-12 flex-1">
+        <Form control={control} />
+      </div>
       <div className="flex w-full h-32 justify-between">
         {steps[currentStepIndex].isPrevious ? (
           <button
@@ -71,14 +77,15 @@ function CourseCreation() {
         )}
         {steps[currentStepIndex].isContinue ? (
           <button
-            onClick={handleContinue}
+            // onClick={handleContinue}
+            onClick={handleSubmit(handleContinue)}
             className="bg-pink-300 w-40 h-16 text-white font-bold text-xl"
           >
             Bước tiếp
           </button>
         ) : (
           <button
-            onClick={handleCreateCourse}
+            onClick={handleSubmit(handleCreateCourse)}
             className="bg-pink-300 w-40 h-16 text-white font-bold text-xl"
           >
             Tạo khóa học

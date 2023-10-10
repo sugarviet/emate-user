@@ -1,9 +1,10 @@
 import { subject_api } from "@/constants/api";
 import { get_fetcher } from "@/utils/fetcher";
 import { Select } from "antd";
+import { Controller } from "react-hook-form";
 import useSWR from "swr";
 
-function CourseCategoryCreation() {
+function CourseCategoryCreation({ control }) {
   const {
     data: subjectsData,
     isLoading: subjectsDataLoading,
@@ -21,14 +22,21 @@ function CourseCategoryCreation() {
         Bạn chưa chắc chắn về lĩnh vực mình muốn truyền tải? Không sao, bạn có
         thể thay đổi nó sau.
       </span>
-      <Select
-        options={subjectsData.map((subject) => ({
-          value: subject.name,
-          label: subject.name,
-        }))}
-        placeholder="e.g Game Developer"
-        className="my-4 w-3/5 text-lg flex items-center"
-        size="large"
+      <Controller
+        name="subject"
+        control={control}
+        render={({ field }) => (
+          <Select
+            options={subjectsData.map((subject) => ({
+              value: subject.name,
+              label: subject.name,
+            }))}
+            placeholder="e.g Game Developer"
+            className="my-4 w-3/5 text-lg flex items-center"
+            size="large"
+            {...field}
+          />
+        )}
       />
     </div>
   );

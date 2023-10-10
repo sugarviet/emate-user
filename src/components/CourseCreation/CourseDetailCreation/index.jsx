@@ -1,8 +1,14 @@
 "use client";
-import { PlusCircleFilled } from "@ant-design/icons";
+import {
+  CloseCircleFilled,
+  DeleteFilled,
+  PlusCircleFilled,
+} from "@ant-design/icons";
 import { Input, InputNumber } from "antd";
+import TextArea from "antd/es/input/TextArea";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { Controller, useFieldArray } from "react-hook-form";
 
 const INITIAL_WHAT_WILL_LEARN = [
   {
@@ -30,66 +36,108 @@ const INITIAL_REQUIREMENTS = [
 
 const INITIAL_CONTENT = [
   {
-    name: "Introduction",
+    name: "Viết phần giới thiệu ở đây...",
     sections: [
       {
-        name: "Introduction",
-        description:
-          "Welcome to this Node.js course! Let me introduce myself and give you a rough overview of this course and what it's all about!",
-        video: "introduction.mp4",
-        status: false,
-        _id: "651d78dee930bca272fb3008",
+        name: "Viết nội dung của bạn ở đây...",
+        description: "Viết mô tả của bạn ở đây...",
+        video: "",
       },
     ],
   },
 ];
 
-const SectionItem = ({ content, sectionIndex }) => {
+const SectionItem = ({ content, sectionIndex, onChange }) => {
   const [lessons, setLessons] = useState(content.sections);
 
-  const handleAddNewLesson = () => {
-    const newLesson = {
-      name: "",
-      description: "",
-      video: "",
+  const handleUpdateContent = (value) => {
+    const newContent = {
+      ...content,
+      ...value,
     };
+
+    onChange(newContent);
+  };
+
+  const handleAddNewLesson = () => {
+    const newLesson = INITIAL_CONTENT[0].sections[0];
 
     setLessons([...lessons, newLesson]);
   };
 
-  const handleUpdateNameLesson = (value, index) => {
+  const handleRemoveLesson = (index) => {
     const newLessons = [...lessons];
 
-    newLessons[index].name = value;
+    newLessons.splice(index, 1);
 
     setLessons(newLessons);
   };
+
+  const handleUpdateLesson = (value, index) => {
+    const newLessons = [...lessons];
+
+    newLessons[index] = {
+      ...newLessons[index],
+      ...value,
+    };
+
+    setLessons(newLessons);
+  };
+
+  useEffect(() => {
+    handleUpdateContent({ sections: lessons });
+  }, [lessons]);
 
   return (
     <div className="w-full border border-black bg-gray-50 p-4 my-2">
       <div className="flex items-center">
         <span className="font-bold">Nội dung {sectionIndex}:</span>
-        <Input value={content.name} bordered={false} className="w-fit" />
+        <Input
+          value={content.name}
+          onChange={(e) => handleUpdateContent({ name: e.target.value })}
+          bordered={false}
+          className="w-fit"
+        />
       </div>
       <div className="ml-8 my-2">
         {lessons.map((lesson, index) => (
-          <div className="border border-black bg-white w-full p-2 my-2">
-            <div className="flex items-center justify-between">
-              <div>
-                <span className="font-semibold">Bài học {index + 1}: </span>
-                <Input
-                  onChange={(e) =>
-                    handleUpdateNameLesson(e.target.value, index)
-                  }
-                  value={lesson.name}
-                  bordered={false}
-                  className="w-fit"
-                />
+          <div key={`${lesson} + ${index}`} className="flex">
+            <div className="border border-black bg-white w-full p-2 my-2">
+              <div className="flex flex-col">
+                <div className="flex items-center justify-between">
+                  <div className="flex-1 flex items-center">
+                    <span className="font-semibold">Bài học {index + 1}: </span>
+                    <Input
+                      onChange={(e) =>
+                        handleUpdateLesson({ name: e.target.value }, index)
+                      }
+                      value={lesson.name}
+                      bordered={false}
+                      className="flex-1"
+                    />
+                  </div>
+                  <button className="border border-black text-pink-300 p-2 font-bold">
+                    <PlusCircleFilled /> Video
+                  </button>
+                </div>
+                <div className="flex-1">
+                  <TextArea
+                    onChange={(e) =>
+                      handleUpdateLesson({ description: e.target.value }, index)
+                    }
+                    value={lesson.description}
+                    bordered={false}
+                    className="w-full"
+                  />
+                </div>
               </div>
-              <button className="border border-black text-pink-300 p-2 font-bold">
-                <PlusCircleFilled /> Video
-              </button>
             </div>
+            <button
+              onClick={() => handleRemoveLesson(index)}
+              className="text-pink-300 font-semibold ml-2"
+            >
+              <DeleteFilled />
+            </button>
           </div>
         ))}
         <button
@@ -104,59 +152,75 @@ const SectionItem = ({ content, sectionIndex }) => {
   );
 };
 
-function CourseDetailCreation() {
-  const [whatWillLearn, setWhatWillLearn] = useState(INITIAL_WHAT_WILL_LEARN);
-  const [requirements, setRequirements] = useState(INITIAL_REQUIREMENTS);
-  const [level, setLevel] = useState("");
+function CourseDetailCreation({ control }) {
+  const {
+    fields: whatWillLearn,
+    append: appendWhatWillLearn,
+    remove: removeWhatWillLearn,
+    insert: insertWhatWillLearn,
+  } = useFieldArray({
+    control,
+    name: "whatWillLearn",
+  });
 
-  const [contents, setContents] = useState(INITIAL_CONTENT);
+  const {
+    fields: requirements,
+    append: appendRequirements,
+    remove: removeRequirements,
+    insert: insertRequirements,
+  } = useFieldArray({
+    control,
+    name: "requirements",
+  });
+
+  const {
+    fields: contents,
+    append: appendContents,
+    remove: removeContents,
+    insert: insertContents,
+  } = useFieldArray({
+    control,
+    name: "contents",
+  });
+
+  useEffect(() => {
+    if (whatWillLearn.length > 0) return;
+    INITIAL_WHAT_WILL_LEARN.forEach((value, index) => {
+      insertWhatWillLearn(index, value);
+    });
+  }, []);
+
+  useEffect(() => {
+    if (requirements.length > 0) return;
+    INITIAL_REQUIREMENTS.forEach((value, index) => {
+      insertRequirements(index, value);
+    });
+  }, []);
+
+  useEffect(() => {
+    if (contents.length > 0) return;
+    INITIAL_CONTENT.forEach((item, index) => {
+      insertContents(index, { value: item });
+    });
+  }, []);
 
   const handleAddMoreWhatWillLearnOption = () => {
     const newOption =
       INITIAL_WHAT_WILL_LEARN[
         whatWillLearn.length % INITIAL_WHAT_WILL_LEARN.length
       ];
-    setWhatWillLearn([...whatWillLearn, newOption]);
+    appendWhatWillLearn(newOption);
   };
 
   const handleAddMoreRequirementOption = () => {
     const newOption = INITIAL_REQUIREMENTS[0];
-    setRequirements([...requirements, newOption]);
-  };
-
-  const handleUpdateWhatWillLearnValue = (value, index) => {
-    const newWhatWillLearn = [...whatWillLearn];
-
-    newWhatWillLearn[index].value = value;
-
-    setWhatWillLearn([...newWhatWillLearn]);
-  };
-
-  const handleUpdateRequirementsValue = (value, index) => {
-    const newRequirements = [...requirements];
-
-    newRequirements[index].value = value;
-
-    setRequirements(newRequirements);
-  };
-
-  const handleUpdateLevelValue = (value) => {
-    setLevel(value);
+    appendRequirements(newOption);
   };
 
   const handleAddNewSection = () => {
-    const newContent = {
-      name: "",
-      sections: [
-        {
-          name: "",
-          description: "",
-          video: "",
-        },
-      ],
-    };
+    const newContent = INITIAL_CONTENT[0];
 
-    setContents([...contents, newContent]);
+    appendContents({ value: newContent });
   };
 
   return (
@@ -167,16 +231,26 @@ function CourseDetailCreation() {
             Học sinh sẽ học được những gì từ khóa học?
           </span>
           {whatWillLearn.map((item, index) => (
-            <Input
-              className="my-2"
-              size="large"
-              key={`${item} + ${index}`}
-              placeholder={item.placeholder}
-              value={item.value}
-              onChange={(e) =>
-                handleUpdateWhatWillLearnValue(e.target.value, index)
-              }
-            />
+            <div className="flex items-center" key={item.id}>
+              <Controller
+                name={`whatWillLearn[${index}].value`}
+                control={control}
+                render={({ field }) => (
+                  <Input
+                    className="my-2"
+                    size="large"
+                    placeholder={item.placeholder}
+                    {...field}
+                  />
+                )}
+              />
+              <button
+                onClick={() => removeWhatWillLearn(index)}
+                className="text-pink-300 font-semibold ml-2"
+              >
+                <DeleteFilled />
+              </button>
+            </div>
           ))}
           <button
             onClick={handleAddMoreWhatWillLearnOption}
@@ -190,16 +264,26 @@ function CourseDetailCreation() {
             Các yêu cầu và điều kiện tiên quyết để tham gia khóa học của bạn?
           </span>
           {requirements.map((item, index) => (
-            <Input
-              className="my-2"
-              size="large"
-              key={`${item} + ${index}`}
-              placeholder={item.placeholder}
-              value={item.value}
-              onChange={(e) =>
-                handleUpdateRequirementsValue(e.target.value, index)
-              }
-            />
+            <div className="flex items-center" key={item.id}>
+              <Controller
+                name={`requirements[${index}].value`}
+                control={control}
+                render={({ field }) => (
+                  <Input
+                    className="my-2"
+                    size="large"
+                    placeholder={item.placeholder}
+                    {...field}
+                  />
+                )}
+              />
+              <button
+                onClick={() => removeRequirements(index)}
+                className="text-pink-300 font-semibold ml-2"
+              >
+                <DeleteFilled />
+              </button>
+            </div>
           ))}
           <button
             onClick={handleAddMoreRequirementOption}
@@ -210,22 +294,43 @@ function CourseDetailCreation() {
         </div>
         <div className="my-2">
           <span className="font-bold">Khóa học của bạn dành cho những ai?</span>
-          <Input
-            className="my-2"
-            size="large"
-            placeholder="Example: Beginner Python developers curious about data science"
-            value={level}
-            onChange={(e) => handleUpdateLevelValue(e.target.value)}
+          <Controller
+            name="level"
+            control={control}
+            render={({ field }) => (
+              <Input
+                className="my-2"
+                size="large"
+                placeholder="Example: Beginner Python developers curious about data science"
+                {...field}
+              />
+            )}
           />
         </div>
       </div>
       <div className="col-span-1">
-        {contents.map((content, index) => (
-          <SectionItem
-            key={`${content} + ${index}`}
-            content={content}
-            sectionIndex={index + 1}
-          />
+        {contents.map((item, index) => (
+          <div className="flex items-center relative" key={item.id}>
+            <Controller
+              name={`contents[${index}].value`}
+              control={control}
+              render={({ field: { value, onChange } }) => {
+                return (
+                  <SectionItem
+                    content={value}
+                    onChange={onChange}
+                    sectionIndex={index + 1}
+                  />
+                );
+              }}
+            />
+            <button
+              onClick={() => removeContents(index)}
+              className="text-pink-300 font-semibold ml-2 absolute top-3 right-2"
+            >
+              <CloseCircleFilled />
+            </button>
+          </div>
         ))}
         <button
           onClick={handleAddNewSection}
@@ -243,9 +348,16 @@ function CourseDetailCreation() {
               src={"/emate-coin.svg"}
             />
           </div>
-          <InputNumber
-            placeholder="Giá khóa học"
-            className="border w-32 border-black ml-4 flex items-center justify-center text-md"
+          <Controller
+            name="price"
+            control={control}
+            render={({ field }) => (
+              <InputNumber
+                placeholder="Giá khóa học"
+                className="border w-32 border-black ml-4 flex items-center justify-center text-md"
+                {...field}
+              />
+            )}
           />
         </div>
       </div>
