@@ -32,6 +32,7 @@ import {
   LOGIN_PAGE_URL,
   MENTOR_PAGE_URL,
   MY_COURSES_PAGE_URL,
+  MY_PROFILE_PAGE_URL,
   SIGN_UP_PAGE_URL,
   SOCIAL_PAGE_URL,
   TEACH_WITH_EMATE_PAGE_URL,
@@ -65,7 +66,7 @@ const items = [
     icon: <ContactsOutlined />,
   },
   {
-    label: <Link href="#">Chỉnh sửa hồ sơ</Link>,
+    label: <Link href={MY_PROFILE_PAGE_URL}>Chỉnh sửa hồ sơ</Link>,
     key: "2",
     icon: <UserOutlined />,
   },

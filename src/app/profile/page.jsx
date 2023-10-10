@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import { Form, Input, Avatar, Image as Img } from "antd";
+import { Form, Input, Avatar, Image as Img, Radio, Select } from "antd";
 
 import { motion as m } from "framer-motion";
 
@@ -61,6 +61,92 @@ const ProfilePage = () => {
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
           >
+            <Form.Item
+              className="w-full"
+              name="name"
+              rules={[
+                {
+                  required: true,
+                  message: "Tên của bạn đang trống kìa!",
+                },
+              ]}
+            >
+              <div>
+                <span>Tên của bạn</span>
+                <Input className={styles.custom_black_border_input} />
+              </div>
+            </Form.Item>
+
+            <Form.Item
+              name="gender"
+              className={styles.input_block}
+              rules={[
+                {
+                  required: true,
+                  message: "Giới tính của bạn là gì?",
+                },
+              ]}
+            >
+              <div className="grid grid-cols-4">
+                <span>Giới tính</span>
+                <Radio.Group className="col-span-3 flex justify-evenly">
+                  <Radio value={1}>Nam</Radio>
+                  <Radio value={0}>Nữ </Radio>
+                </Radio.Group>
+              </div>
+            </Form.Item>
+
+            <Form.Item
+              name="follow_major"
+              className={styles.input_block}
+              rules={[
+                {
+                  required: true,
+                  message: "Hãy nói ra lĩnh vực và trình độ mà bạn muốn học!",
+                },
+              ]}
+            >
+              <div>
+                <span>Lĩnh vực bạn muốn học</span>
+                <Select
+                  className={`${styles.custom_select}`}
+                  showSearch
+                  bordered={false}
+                  optionFilterProp="children"
+                  // onChange={onChange}
+                  // onSearch={onSearch}
+                  filterOption={(input, option) =>
+                    (option?.label ?? "")
+                      .toLowerCase()
+                      .includes(input.toLowerCase())
+                  }
+                  options={[
+                    {
+                      value: "IT",
+                      label: "IT",
+                    },
+                    {
+                      value: "economy",
+                      label: "Kinh Tế",
+                    },
+                    {
+                      value: "design",
+                      label: "Thiết kế",
+                    },
+                  ]}
+                />
+
+                <div className="grid grid-cols-4 mt-8">
+                  <span>Trình độ</span>
+                  <Radio.Group className="col-span-3">
+                    <Radio value={1}>Sơ cấp</Radio>
+                    <Radio value={2}>Trung cấp</Radio>
+                    <Radio value={3}>Nâng cao</Radio>
+                  </Radio.Group>
+                </div>
+              </div>
+            </Form.Item>
+
             <Form.Item className="display_vertical" name="about">
               <div>
                 <span>Nói điều gì đó về bạn</span>
