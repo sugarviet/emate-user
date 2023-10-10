@@ -59,7 +59,7 @@ const MentorRevenue = () => {
                     <div>
                       <button className='bg-pink-400 rounded-xl px-3 py-2 text-white' onClick={showModal}>Rút tiền</button>
 
-                      <WithdrawModal isModalOpen={openModal} onOk={handleOk} onCancel={handleCancel}/>
+                      <WithdrawModal isModalOpen={openModal} onOk={handleOk} onCancel={handleCancel} setOpenModal={setOpenModal}/>
                     </div>
                   </div>
                 
@@ -83,7 +83,16 @@ const MentorRevenue = () => {
   )
 }
 
-const WithdrawModal = ({isModalOpen, handleCancel, handleOk}) => {
+const WithdrawModal = ({isModalOpen, setOpenModal}) => {
+  const showModal = () => {
+    setOpenModal(true);
+  };
+  const handleOk = () => {
+    setOpenModal(false);
+  };
+  const handleCancel = () => {
+    setOpenModal(false);
+  };
   const onFinish = (values) => {
     console.log('Success:', values);
   };

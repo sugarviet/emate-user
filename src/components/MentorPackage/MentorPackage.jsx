@@ -24,7 +24,7 @@ const MentorPackage = () => {
         </div>
         {/* flex gap-2 items-center justify-center my-20 flex-wrap md:flex-nowrap */}
 
-        <div className="w-full flex my-11 items-center justify-around flex-wrap">
+        <div className="w-full flex my-11 items-center justify-around flex-wrap px-52">
           <div className={styles.card_wrapper_1}>
             <div className={styles.card}></div>
             <div className={styles.card_1}>
@@ -61,7 +61,13 @@ const MentorPackage = () => {
                   </div>
                 </div>
               </div>
-              <Link href="register-mentor-package">
+              {/* <Link href="register-mentor-package">
+                <button className="blue_btn_color">Đăng kí</button>
+              </Link> */}
+               <Link href={{
+                pathname: 'register-mentor-package',
+                query: {package: "monthly"}
+              }}>
                 <button className="blue_btn_color">Đăng kí</button>
               </Link>
             </div>
@@ -103,7 +109,10 @@ const MentorPackage = () => {
                   </div>
                 </div>
               </div>
-              <Link href="register-mentor-package">
+              <Link href={{
+                pathname: 'register-mentor-package',
+                query: {package: "yearly"}
+              }}>
                 <button className="blue_btn_color">Đăng kí</button>
               </Link>
             </div>

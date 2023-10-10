@@ -6,11 +6,11 @@
   }
   
   .card_wrapper_1 {
-    @apply relative;
+    @apply relative mt-10;
   }
   
   .card_wrapper_2 {
-    @apply relative;
+    @apply relative mt-10;
   }
   
   .card {

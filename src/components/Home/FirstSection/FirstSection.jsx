@@ -8,14 +8,18 @@ import { useEffect } from "react";
 import styles from "./FirstSection.module.css";
 import { getSession, useSession } from "next-auth/react";
 import { useChatStore } from "@/stores/useChatStore";
+import { useCurrentUserInfoStore } from "@/stores/useCurrentUserInfoStore";
+
 import { HOME_PAGE_URL } from "@/constants/url";
 
 const FirstSection = () => {
   const { data: session } = useSession();
   const storeCurrentUser = useChatStore((state) => state.storeCurrentUser);
+  const storeCurrentUserInfo = useCurrentUserInfoStore((state) => state.storeCurrentUserInfo);
   console.log('session', session);
 
   storeCurrentUser({id: session?.accessToken._id, token: session?.accessToken.token , ...session?.user})
+  storeCurrentUserInfo({id: session?.accessToken._id, token: session?.accessToken.token , ...session?.user})
 
   const dotAnimationVariants = {
     hidden: { opacity: 0 },

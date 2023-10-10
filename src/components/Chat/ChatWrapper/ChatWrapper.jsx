@@ -11,41 +11,28 @@ import { useChatStore } from "@/stores/useChatStore";
 import fetcher from "@/utils/fetcher";
 import useSWR from "swr";
 import io  from "socket.io-client";
-import { BASE_URL_LOCAL_HOST } from "@/constants/url";
+import { BASE_URL, BASE_URL_LOCAL_HOST } from "@/constants/url";
 import { formatCurrentTime } from "@/utils/formatCurrentTime";
 import LoadingMessageSkeleton from "@/components/public/LoadingMessageSkeleton";
 import { FAKE_TOKEN } from "@/constants/fakeToken";
 
-const socket = io.connect(BASE_URL_LOCAL_HOST);
-
+const socket = io.connect(BASE_URL,{
+  "transports": ['websocket', 'polling'],
+  addTrailingSlash: false
+});
 
 const ChatWrapper = () => {
-
-  
   const selectedUser = useChatStore(state => state.selectedUser)
   const firstSelected = useChatStore(state => state.firstSelected)
   const currentUserInfo = useChatStore((state) => state.currentUserInfo);
 
   const addToContactList = useChatStore(state => state.addToContactList)
   const setStoreMessage = useChatStore(state => state.setStoreMessage)
-  const addToContactListByReceive = useChatStore(state => state.addToContactListByReceive)
-  
-  // storeChattedUsers(data)
-  // storeChattedUsers([])
+  const initializeDataListUser = useChatStore(state => state.initializeDataListUser)
 
   useEffect(() => {
-    axios.get('http://localhost:8080/getDetail/651a6949baf2f58aa1cb63a8', {
-      headers: {
-        'Authorization': `Bearer ${FAKE_TOKEN}`
-      }
-    })
-      .then(function (response) {
-        console.log('Data:', response.data);
-      })
-      .catch(function (error) {
-        console.error('Error:', error);
-      });
-  }, [])
+    initializeDataListUser();
+  }, [initializeDataListUser])
 
   
   useEffect(() => {
@@ -58,9 +45,6 @@ const ChatWrapper = () => {
         email:"viet123@gmail.com",
         image: ''
       }
-      // addToContactListByReceive(selectedUser)
-      // addToContactListByReceive(data.recieve)
-
 
       addToContactList(newUser)
 
@@ -68,7 +52,7 @@ const ChatWrapper = () => {
       setStoreMessage({...data, time: formatCurrentTime()})
   
     })
-  },[socket])
+  },[socket, addToContactList, setStoreMessage])
   
   useEffect(() => {
     socket.emit("add-user", currentUserInfo.id)
@@ -79,6 +63,7 @@ const ChatWrapper = () => {
   const setupSocketConnection = () => {
     socket.on("connect", () => {
       console.log("Connected to Socket.io server");
+      
     });
     socket.on("disconnect", () => {
       console.log("Disconnected from Socket.io server");

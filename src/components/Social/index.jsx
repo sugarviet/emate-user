@@ -1,5 +1,6 @@
 "use client";
 
+import axios from "axios";
 import { useRouter } from "next/navigation";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useState } from "react";
@@ -12,9 +13,10 @@ import fetcher from "@/utils/fetcher";
 import urlcat from "urlcat";
 import { useChatStore } from "@/stores/useChatStore";
 import Image from "next/image";
-import { BASE_URL, CHAT_PAGE_URL, GET_ALL_STUDENTS } from "@/constants/url";
+import { BASE_URL, CHAT_PAGE_URL, GET_ALL_STUDENTS, GET_SOCIALS_BY_FIELDS } from "@/constants/url";
 
 const Social = () => {
+  const [socialData, setSocialData] = useState(null);
   const router = useRouter();
   const selectedUser = useChatStore(state => state.selectedUser)
   const setSelectedUserId = useChatStore(state => state.setSelectedUserId)
@@ -27,10 +29,21 @@ const Social = () => {
     {id: 4, name: 'Khoa Anh Lê', img: '/character/khoaAnhLe.png', age: 21, major: 'IT', interest: "Kinh Tế"},
 ]);
   const [hasMore, setHasMore] = useState(true);
+
   const {data:listStudents, isLoading} = useSWR(urlcat(BASE_URL, GET_ALL_STUDENTS), fetcher);
 
+  const handleChangeTab = async() => {
+    const data = {
+      fieldsOfStudy: [{name: "Information Security", level: 3}]
+    }
+    const res = await axios.post(urlcat(BASE_URL, GET_SOCIALS_BY_FIELDS), data)
 
-  console.log('list students', listStudents);
+    setSocialData(res.data.metaData)
+  }
+
+  const handleBackToAll = () => {
+    setSocialData(null)
+  }
 
   const fetchMoreData = () => {
     if(data.length < 9){
@@ -68,6 +81,10 @@ const Social = () => {
       animate={{ x: 0, opacity: 1 }}
       transition={{ duration: 0.4 }}
     >
+      <div className="flex gap-3 items-center my-4 ml-16">
+        <button className="primary_bg_pink_color rounded-3xl px-9 py-2.5 font-bold" onClick={handleBackToAll}>Tất cả</button>
+        <button className="border border-black rounded-3xl px-9 py-2.5 font-bold" onClick={handleChangeTab}>Phù hợp với bạn</button>
+      </div>
    
         {/* <InfiniteScroll dataLength={data.length} next={fetchMoreData} hasMore={hasMore} loader={<p>Loading...</p>} style={{overflowX: 'hidden '}}> */}
             <List 
@@ -79,7 +96,7 @@ const Social = () => {
                 md: 2,
                 xs: 1
             }}
-            dataSource={listStudents?.metaData}
+            dataSource={socialData ? socialData : listStudents?.metaData}
             renderItem={(user,index) => (
                 <div key={user._id} onClick={()=> handleChatWithUser(user)} className="hover:cursor-pointer">
                 <UserCard key={user._id} data={user}/>
@@ -90,7 +107,6 @@ const Social = () => {
             </List>
         {/* </InfiniteScroll> */}
         
-
 
         {/* Images setup */}
     

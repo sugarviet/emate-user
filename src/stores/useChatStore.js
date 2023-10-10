@@ -4,6 +4,8 @@ import { create } from "zustand";
 import axios from "axios";
 import { persist, createJSONStorage } from "zustand/middleware";
 import { FAKE_TOKEN } from "@/constants/fakeToken";
+import urlcat from "urlcat";
+import { BASE_URL, GET_INITIAL_CHAT_LIST_USER } from "@/constants/url";
 
 export const useChatStore = create(
   persist(
@@ -21,13 +23,43 @@ export const useChatStore = create(
       currentUserInfo: {},
       currentMsg: [],
 
+      initializeDataListUser: () =>
+        set((state) => {
+          console.log('current user info', state.currentUserInfo);
+          axios
+                .post(
+                  urlcat(BASE_URL, GET_INITIAL_CHAT_LIST_USER),
+                  {
+                    accessToken: state.currentUserInfo.token,
+                    refreshToken: state.currentUserInfo.refreshToken
+                  },
+                  {
+                    headers: {
+                      Authorization: `Bearer ${FAKE_TOKEN}`,
+                      "x-client-id": state.currentUserInfo.id,
+                      "x-client-refreshtoken" : state.currentUserInfo.refreshToken,
+                      "x-client-accesstoken" : state.currentUserInfo.token,
+                    },
+                    
+                  },
+                  
+
+                )
+                .then(function (response) {
+                  console.log("Data:", response.data);
+                })
+                .catch(function (error) {
+                  console.error("Error:", error);
+                });
+          return { listUsers: state.listUsers }
+        }),
+
       addToContactList: (user) =>
         set((state) => {
           const exist = state.listUsers.some(
             (userInList) => userInList.id === user.id
           );
-          console.log("user", user);
-          console.log("existing user", exist);
+    
           if (!exist) {
             let newUserFromRecieve = null;
 
@@ -52,18 +84,16 @@ export const useChatStore = create(
                   if (!state.selectedUserId) {
                     selectedUserId = user.id;
                     selectedUser = user;
-                    console.log("Im here");
+                 
                   } else {
                     state.selectedUserId = user.id;
                     state.selectedUser = user;
-                    console.log("Im there");
+               
                   }
                 })
                 .catch(function (error) {
                   console.error("Error:", error);
                 });
-
-             
 
             }
 
@@ -113,8 +143,6 @@ export const useChatStore = create(
               state.selectedUser = user;
               console.log("Im there");
             }
-
-            console.log("return phase");
 
             return { listUsers: [user, ...state.listUsers] };
           } else {

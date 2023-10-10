@@ -1,7 +1,7 @@
 /* BASE URL */
 export const SERVER_BASE_URL_LOCAL_HOST = "http://localhost:8080/";
 export const BASE_URL_LOCAL_HOST = "http://localhost:8080/";
-export const BASE_URL_STAGING = "";
+export const BASE_URL_STAGING = "https://back-end-ematee.vercel.app/";
 
 export const BASE_URL = BASE_URL_LOCAL_HOST
 
@@ -11,6 +11,11 @@ export const REGISTER_URL = "auth/register";
 export const LOGIN_GG_URL = "auth/loginGG"
 export const POST_MSG_URL = "message";
 export const GET_ALL_STUDENTS = "student";
+export const GET_SOCIALS_BY_FIELDS = "field";
+export const GET_INITIAL_CHAT_LIST_USER = "message/initialList";
+export const GET_DETAIL_USER = "getDetail";
+export const GET_1V1_MESSAGE = "message";
+export const GET_ALL_SUBJECT_SELECT = "subject";
 
 
 
