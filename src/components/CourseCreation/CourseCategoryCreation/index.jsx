@@ -28,7 +28,7 @@ function CourseCategoryCreation({ control }) {
         render={({ field }) => (
           <Select
             options={subjectsData.map((subject) => ({
-              value: subject.name,
+              value: subject._id,
               label: subject.name,
             }))}
             placeholder="e.g Game Developer"

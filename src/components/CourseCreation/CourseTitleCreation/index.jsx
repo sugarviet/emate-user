@@ -11,7 +11,7 @@ function CourseTitleCreation({ control }) {
         Bạn chưa nghĩ ra một cái tên hay ư? không sao bạn có thể thay đổi nó sau
       </span>
       <Controller
-        name="title"
+        name="name"
         control={control}
         render={({ field }) => (
           <Input

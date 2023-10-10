@@ -1,14 +1,18 @@
 "use client";
+import { IMG_BB_API_KEY } from "@/constants/apiKey";
 import {
   CloseCircleFilled,
   DeleteFilled,
   PlusCircleFilled,
+  UploadOutlined,
 } from "@ant-design/icons";
-import { Input, InputNumber } from "antd";
+import { Button, Input, InputNumber, Upload, message } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { Controller, useFieldArray } from "react-hook-form";
+import axios from "axios";
+import { CldUploadWidget } from "next-cloudinary";
 
 const INITIAL_WHAT_WILL_LEARN = [
   {
@@ -23,14 +27,6 @@ const INITIAL_WHAT_WILL_LEARN = [
   {
     value: "",
     placeholder: "Example: Identify and manage project risks",
-  },
-];
-
-const INITIAL_REQUIREMENTS = [
-  {
-    value: "",
-    placeholder:
-      "Example: No programming experience needed. You will learn everything you need to know",
   },
 ];
 
@@ -116,9 +112,22 @@ const SectionItem = ({ content, sectionIndex, onChange }) => {
                       className="flex-1"
                     />
                   </div>
-                  <button className="border border-black text-pink-300 p-2 font-bold">
-                    <PlusCircleFilled /> Video
-                  </button>
+                  <CldUploadWidget uploadPreset="<Upload Preset>">
+                    {({ open }) => {
+                      function handleOnClick(e) {
+                        e.preventDefault();
+                        open();
+                      }
+                      return (
+                        <button
+                          onClick={handleOnClick}
+                          className="border border-black text-pink-300 p-2 font-bold"
+                        >
+                          <PlusCircleFilled /> Video
+                        </button>
+                      );
+                    }}
+                  </CldUploadWidget>
                 </div>
                 <div className="flex-1">
                   <TextArea
@@ -164,23 +173,13 @@ function CourseDetailCreation({ control }) {
   });
 
   const {
-    fields: requirements,
-    append: appendRequirements,
-    remove: removeRequirements,
-    insert: insertRequirements,
-  } = useFieldArray({
-    control,
-    name: "requirements",
-  });
-
-  const {
-    fields: contents,
+    fields: content,
     append: appendContents,
     remove: removeContents,
     insert: insertContents,
   } = useFieldArray({
     control,
-    name: "contents",
+    name: "content",
   });
 
   useEffect(() => {
@@ -191,14 +190,7 @@ function CourseDetailCreation({ control }) {
   }, []);
 
   useEffect(() => {
-    if (requirements.length > 0) return;
-    INITIAL_REQUIREMENTS.forEach((value, index) => {
-      insertRequirements(index, value);
-    });
-  }, []);
-
-  useEffect(() => {
-    if (contents.length > 0) return;
+    if (content.length > 0) return;
     INITIAL_CONTENT.forEach((item, index) => {
       insertContents(index, { value: item });
     });
@@ -212,15 +204,46 @@ function CourseDetailCreation({ control }) {
     appendWhatWillLearn(newOption);
   };
 
-  const handleAddMoreRequirementOption = () => {
-    const newOption = INITIAL_REQUIREMENTS[0];
-    appendRequirements(newOption);
-  };
-
   const handleAddNewSection = () => {
     const newContent = INITIAL_CONTENT[0];
 
     appendContents({ value: newContent });
+  };
+
+  const customRequestForUploadImage = async (
+    { file, onSuccess, onError },
+    onChange
+  ) => {
+    const formData = new FormData();
+    formData.set("key", IMG_BB_API_KEY);
+    formData.append("image", file);
+
+    try {
+      const response = await axios.post(
+        "https://api.imgbb.com/1/upload",
+        formData
+      );
+
+      if (response.status === 200 && response.data && response.data.data) {
+        // Successful upload
+        const imageUrl = response.data.data.url;
+
+        onChange(imageUrl);
+
+        onSuccess();
+        message.success(
+          `${file.name} uploaded successfully. Image URL: ${imageUrl}`
+        );
+      } else {
+        // Handle upload failure
+        message.error(`Failed to upload ${file.name}`);
+      }
+    } catch (error) {
+      // Handle network or other errors
+      console.error("Error uploading image:", error);
+      onError(error);
+      message.error(`Failed to upload ${file.name}`);
+    }
   };
 
   return (
@@ -263,34 +286,22 @@ function CourseDetailCreation({ control }) {
           <span className="font-bold">
             Các yêu cầu và điều kiện tiên quyết để tham gia khóa học của bạn?
           </span>
-          {requirements.map((item, index) => (
-            <div className="flex items-center" key={item.id}>
-              <Controller
-                name={`requirements[${index}].value`}
-                control={control}
-                render={({ field }) => (
-                  <Input
-                    className="my-2"
-                    size="large"
-                    placeholder={item.placeholder}
-                    {...field}
-                  />
-                )}
-              />
-              <button
-                onClick={() => removeRequirements(index)}
-                className="text-pink-300 font-semibold ml-2"
-              >
-                <DeleteFilled />
-              </button>
-            </div>
-          ))}
-          <button
-            onClick={handleAddMoreRequirementOption}
-            className="text-pink-300 font-semibold"
-          >
-            <PlusCircleFilled /> Thêm
-          </button>
+          <div className="flex items-center">
+            <Controller
+              name={`requirement`}
+              control={control}
+              render={({ field }) => (
+                <Input
+                  className="my-2"
+                  size="large"
+                  placeholder={
+                    "Example: No programming experience needed. You will learn everything you need to know"
+                  }
+                  {...field}
+                />
+              )}
+            />
+          </div>
         </div>
         <div className="my-2">
           <span className="font-bold">Khóa học của bạn dành cho những ai?</span>
@@ -309,10 +320,10 @@ function CourseDetailCreation({ control }) {
         </div>
       </div>
       <div className="col-span-1">
-        {contents.map((item, index) => (
+        {content.map((item, index) => (
           <div className="flex items-center relative" key={item.id}>
             <Controller
-              name={`contents[${index}].value`}
+              name={`content[${index}].value`}
               control={control}
               render={({ field: { value, onChange } }) => {
                 return (
@@ -339,6 +350,21 @@ function CourseDetailCreation({ control }) {
           <PlusCircleFilled />
           <span>Thêm</span>
         </button>
+        <div>
+          <Controller
+            name="image"
+            control={control}
+            render={({ field: { onChange } }) => (
+              <Upload
+                customRequest={(props) =>
+                  customRequestForUploadImage({ ...props }, onChange)
+                }
+              >
+                <Button icon={<UploadOutlined />}>Click to Upload</Button>
+              </Upload>
+            )}
+          />
+        </div>
         <div className="my-4 flex">
           <div className="border border-black flex items-center justify-center">
             <Image

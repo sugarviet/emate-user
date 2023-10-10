@@ -44,7 +44,6 @@ function CourseCreation() {
   const { control, handleSubmit } = useForm();
 
   const handleContinue = (data) => {
-    console.log(data);
     setCurrentStepIndex(currentStepIndex + 1);
   };
 
@@ -53,7 +52,14 @@ function CourseCreation() {
   };
 
   const handleCreateCourse = (data) => {
-    console.log(data);
+    const newCourse = {
+      ...data,
+      owner: "651e2891262f21a98b85eb9e",
+      whatWillLearn: data.whatWillLearn.map((item) => item.value),
+      content: data.content.map((item) => item.value),
+    };
+
+    console.log(newCourse);
   };
 
   const Form = steps[currentStepIndex].component;
