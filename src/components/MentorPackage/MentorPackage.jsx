@@ -22,8 +22,9 @@ const MentorPackage = () => {
             vực ngành nghề, trở thành gia sư trực tuyến mọi lúc, mọi nơi.
           </p>
         </div>
+        {/* flex gap-2 items-center justify-center my-20 flex-wrap md:flex-nowrap */}
 
-        <div className="flex gap-2 items-center justify-center my-20 flex-wrap md:flex-nowrap">
+        <div className="w-full flex my-11 items-center justify-around flex-wrap">
           <div className={styles.card_wrapper_1}>
             <div className={styles.card}></div>
             <div className={styles.card_1}>

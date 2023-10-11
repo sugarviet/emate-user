@@ -1,10 +1,8 @@
 "use client";
 
-import { useState } from "react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-
 import { useSession } from "next-auth/react";
 import { signOut } from "next-auth/react";
 
@@ -23,6 +21,7 @@ import {
   ReadOutlined,
   UserOutlined,
   MailOutlined,
+  WalletOutlined,
 } from "@ant-design/icons";
 
 import {
@@ -33,10 +32,12 @@ import {
   LOGIN_PAGE_URL,
   MENTOR_PAGE_URL,
   MY_COURSES_PAGE_URL,
+  MY_PROFILE_PAGE_URL,
   SIGN_UP_PAGE_URL,
   SOCIAL_PAGE_URL,
   TEACH_WITH_EMATE_PAGE_URL,
 } from "@/constants/url";
+import Wallet from "../Wallet";
 
 const NAVBAR_LINKS_WITH_LOG_IN = [
   {
@@ -65,7 +66,7 @@ const items = [
     icon: <ContactsOutlined />,
   },
   {
-    label: <Link href="#">Chỉnh sửa hồ sơ</Link>,
+    label: <Link href={MY_PROFILE_PAGE_URL}>Chỉnh sửa hồ sơ</Link>,
     key: "2",
     icon: <UserOutlined />,
   },
@@ -80,6 +81,11 @@ const items = [
     icon: <MailOutlined />,
   },
   {
+    label: <Wallet />,
+    key: "5",
+    icon: <WalletOutlined />,
+  },
+  {
     type: "divider",
   },
   {
@@ -88,7 +94,7 @@ const items = [
         Đăng xuất
       </p>
     ),
-    key: "5",
+    key: "6",
     icon: <LogoutOutlined />,
   },
 ];
@@ -135,25 +141,22 @@ const Navbar = () => {
           <></>
         )}
 
-    {
-          NAVBAR_LINKS_WITH_LOG_IN.map((nav) => (
-            <motion.div
-              key={nav.text}
-              className="cursor_pointer hide_on_mobile"
-              whileHover={{ scale: 1.2 }}
+        {NAVBAR_LINKS_WITH_LOG_IN.map((nav) => (
+          <motion.div
+            key={nav.text}
+            className="cursor_pointer hide_on_mobile"
+            whileHover={{ scale: 1.2 }}
+          >
+            <Link
+              href={nav.href}
+              className={`${
+                nav.href === pathname ? "text-purple-400" : "text-black"
+              }`}
             >
-              <Link
-                href={nav.href}
-                className={`${
-                  nav.href === pathname ? "text-purple-400" : "text-black"
-                }`}
-              >
-                <p className="lg:text-xl text-base">{nav.text}</p>
-              </Link>
-            </motion.div>
-          ))
-        }
-        
+              <p className="lg:text-xl text-base">{nav.text}</p>
+            </Link>
+          </motion.div>
+        ))}
 
         {/* NOT LOGGED IN */}
         {isUserLogin ? null : (
@@ -181,6 +184,12 @@ const Navbar = () => {
         {/* LOG IN */}
         {isUserLogin ? (
           <div className="hidden lg:flex sm:gap-12 items-center">
+            <div className="flex items-center">
+              <p className="flex items-center">
+                <Wallet />
+              </p>
+            </div>
+
             <Link href="/">
               <Badge count={2}>
                 <motion.span className="text-2xl" whileHover={{ scale: 1.1 }}>

@@ -6,11 +6,11 @@
   }
   
   .card_wrapper_1 {
-    @apply w-full h-full relative md:left-80 flex-wrap block left-24;
+    @apply relative;
   }
   
   .card_wrapper_2 {
-    @apply w-full h-full relative md:left-32 flex-wrap block left-24 md:mt-0 mt-28;
+    @apply relative;
   }
   
   .card {
@@ -26,16 +26,22 @@
       #dd8ff5 100%
     );
     border-radius: 34.09px;
+
+    margin-left: auto;
+    margin-right: auto;
   }
   .card_1 {
     width: 280px;
     height: 408.42px;
-    left: 40.39px;
+    left: 15%;
     top: -7%;
     position: absolute;
     background: rgba(255, 255, 255, 0.5);
     border-radius: 34.09px;
     backdrop-filter: blur(35.88px);
+
+    margin-left: auto;
+    margin-right: auto;
   
     @apply flex flex-col items-center p-7 gap-16;
   }
