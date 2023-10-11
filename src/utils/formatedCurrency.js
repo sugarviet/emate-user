@@ -13,5 +13,5 @@ export const formattedCoin = (value) => {
         currency: 'VND',
     }).format(value).replace("₫", "");
 
-    return <span className="flex items-center">{newValue} <Image width={32} height={32} src={'/emate-coin.svg'} /></span>
+    return <span className="flex items-center">{newValue} <Image alt="emate-coin-image" width={32} height={32} src={'/emate-coin.svg'} /></span>
 }
