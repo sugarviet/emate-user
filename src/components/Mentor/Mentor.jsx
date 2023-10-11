@@ -199,17 +199,6 @@ const Mentor = () => {
     error: mentorsSubjectError,
   } = useSWR(
     "https://back-end-ematee.vercel.app/mentorSubject?page=1&limit=12",
-    // async (url) =>
-    //   await axios
-    //     .post(url, {
-    //       fieldsOfStudy: [
-    //         {
-    //           name: "BackEnd Developer",
-    //         },
-    //       ],
-    //     })
-    //     .then((response) => response.data)
-    //     .then((response) => response.metaData)
     (url) =>
       post_fetcher(url, {
         fieldsOfStudy: [
