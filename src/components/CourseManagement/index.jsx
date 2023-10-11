@@ -19,6 +19,7 @@ function CourseManagement() {
           <div className="grid grid-cols-5">
             <div className="col-span-2 flex items-center justify-center">
               <Image
+                alt="engaging-course-image"
                 width={124}
                 height={124}
                 src={"/images/engaging-course-2x.jpg"}
@@ -41,6 +42,7 @@ function CourseManagement() {
           <div className="grid grid-cols-5">
             <div className="col-span-2 flex items-center justify-center">
               <Image
+                alt="video-creation-image"
                 width={124}
                 height={124}
                 src={"/images/video-creation-2x.jpg"}
@@ -60,6 +62,7 @@ function CourseManagement() {
           <div className="grid grid-cols-5">
             <div className="col-span-2 flex items-center justify-center">
               <Image
+                alt="build-audience-image"
                 width={124}
                 height={124}
                 src={"/images/build-audience-2x.jpg"}
@@ -80,6 +83,7 @@ function CourseManagement() {
           <div className="grid grid-cols-5">
             <div className="col-span-2 flex items-center justify-center">
               <Image
+                alt="newcomer-challenge-image"
                 width={124}
                 height={124}
                 src={"/images/newcomer-challenge-2x.jpg"}

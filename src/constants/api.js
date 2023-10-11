@@ -1,4 +1,5 @@
 const BASE_API = "https://back-end-ematee.vercel.app"
+const TEST_API = "http://localhost:8080"
 const COURSE_API = `${BASE_API}/course`
 const REVIEW_API = `${BASE_API}/review`
 const RATING_API = `${REVIEW_API}/rating`
@@ -9,4 +10,4 @@ const course_rating_api = (id) => `${RATING_API}/${id}`
 const course_all_reviews_api = (id) => `${REVIEW_API}/${id}`
 const subject_api = () => `${SUBJECT_API}`
 
-export { course_item_api, course_rating_api, course_all_reviews_api, subject_api }
+export { course_item_api, course_rating_api, course_all_reviews_api, subject_api, COURSE_API }

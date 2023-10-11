@@ -1,5 +1,5 @@
 "use client";
-import { Steps } from "antd";
+import { Steps, message } from "antd";
 
 import styles from "./CourseCreation.module.css";
 import { useState } from "react";
@@ -7,6 +7,9 @@ import CourseTitleCreation from "./CourseTitleCreation";
 import CourseCategoryCreation from "./CourseCategoryCreation";
 import CourseDetailCreation from "./CourseDetailCreation";
 import { useForm } from "react-hook-form";
+import { post_fetcher } from "@/utils/fetcher";
+import { COURSE_API } from "@/constants/api";
+import { useRouter } from "next/navigation";
 
 const DEFAULT_STATE = {
   title: "Course Title",
@@ -43,7 +46,9 @@ function CourseCreation() {
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const { control, handleSubmit } = useForm();
 
-  const handleContinue = (data) => {
+  const router = useRouter();
+
+  const handleContinue = () => {
     setCurrentStepIndex(currentStepIndex + 1);
   };
 
@@ -51,7 +56,7 @@ function CourseCreation() {
     setCurrentStepIndex(currentStepIndex - 1);
   };
 
-  const handleCreateCourse = (data) => {
+  const handleCreateCourse = async (data) => {
     const newCourse = {
       ...data,
       owner: "651e2891262f21a98b85eb9e",
@@ -59,7 +64,17 @@ function CourseCreation() {
       content: data.content.map((item) => item.value),
     };
 
-    console.log(newCourse);
+    await post_fetcher(
+      COURSE_API,
+      newCourse,
+      () => {
+        message.success("Bạn đã thêm khóa học thành công");
+        router.push("/instructor/courses");
+      },
+      (err) => {
+        message.error("Bạn đã thêm khóa học thất bại");
+      }
+    );
   };
 
   const Form = steps[currentStepIndex].component;
@@ -83,8 +98,7 @@ function CourseCreation() {
         )}
         {steps[currentStepIndex].isContinue ? (
           <button
-            // onClick={handleContinue}
-            onClick={handleSubmit(handleContinue)}
+            onClick={handleContinue}
             className="bg-pink-300 w-40 h-16 text-white font-bold text-xl"
           >
             Bước tiếp

@@ -82,7 +82,7 @@ const SectionItem = ({ content, sectionIndex, onChange }) => {
 
   useEffect(() => {
     handleUpdateContent({ sections: lessons });
-  }, [lessons]);
+  }, [lessons, handleUpdateContent]);
 
   return (
     <div className="w-full border border-black bg-gray-50 p-4 my-2">
@@ -112,19 +112,37 @@ const SectionItem = ({ content, sectionIndex, onChange }) => {
                       className="flex-1"
                     />
                   </div>
-                  <CldUploadWidget uploadPreset="<Upload Preset>">
+                  <CldUploadWidget
+                    options={{
+                      publicId: `${content.name}-${sectionIndex}-${index}`,
+                    }}
+                    onUpload={(result) => {
+                      handleUpdateLesson(
+                        {
+                          video: result.info.public_id,
+                        },
+                        index
+                      );
+                    }}
+                    uploadPreset="emate_course_videos"
+                  >
                     {({ open }) => {
                       function handleOnClick(e) {
                         e.preventDefault();
                         open();
                       }
                       return (
-                        <button
-                          onClick={handleOnClick}
-                          className="border border-black text-pink-300 p-2 font-bold"
-                        >
-                          <PlusCircleFilled /> Video
-                        </button>
+                        <div className="flex flex-col w-24">
+                          <button
+                            onClick={handleOnClick}
+                            className="border border-black text-pink-300 p-2 font-bold"
+                          >
+                            <PlusCircleFilled /> Video
+                          </button>
+                          <div className="text-sm w-full truncate_2_lines">
+                            <span>{lesson.video}</span>
+                          </div>
+                        </div>
                       );
                     }}
                   </CldUploadWidget>
@@ -187,14 +205,14 @@ function CourseDetailCreation({ control }) {
     INITIAL_WHAT_WILL_LEARN.forEach((value, index) => {
       insertWhatWillLearn(index, value);
     });
-  }, []);
+  }, [whatWillLearn.length, insertWhatWillLearn]);
 
   useEffect(() => {
     if (content.length > 0) return;
     INITIAL_CONTENT.forEach((item, index) => {
       insertContents(index, { value: item });
     });
-  }, []);
+  }, [content.length, insertContents]);
 
   const handleAddMoreWhatWillLearnOption = () => {
     const newOption =
@@ -350,7 +368,10 @@ function CourseDetailCreation({ control }) {
           <PlusCircleFilled />
           <span>Thêm</span>
         </button>
-        <div>
+        <div className="my-4">
+          <span className="font-semibold mr-4 text-lg">
+            Hình ảnh về khóa học:{" "}
+          </span>
           <Controller
             name="image"
             control={control}
