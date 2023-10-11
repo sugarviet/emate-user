@@ -1,6 +1,6 @@
 import Image from "next/image";
 import styles from "./CoursePreview.module.css";
-import { formattedCurrency } from "@/utils/formatedCurrency";
+import { formattedCoin } from "@/utils/formatedCurrency";
 import {
   DesktopOutlined,
   FileTextOutlined,
@@ -13,32 +13,32 @@ import {
 const about_course = [
   {
     icon: <DesktopOutlined />,
-    content: "42.5 hours on-demand video",
+    content: "42.5 giờ học trên video",
   },
   {
     icon: <BookOutlined />,
-    content: "5 coding exercise",
+    content: "5 bài tập",
   },
   {
     icon: <FileTextOutlined />,
-    content: "39 articles",
+    content: "39 tài liệu",
   },
   {
     icon: <DownloadOutlined />,
-    content: "9 downloadable resources",
+    content: "9 nguồn tư liệu để tải xuống",
   },
   {
     icon: <FieldTimeOutlined />,
-    content: "Full lifetime access",
+    content: "Khóa học trọn đời",
   },
   {
     icon: <CrownOutlined />,
-    content: "Certificate of completion",
+    content: "Chứng chỉ hoàn thành khóa học",
   },
 ];
 
 function CoursePreview({ course }) {
-  const price = formattedCurrency(course.price);
+  const price = formattedCoin(course.price, 100);
 
   return (
     <div
@@ -57,7 +57,7 @@ function CoursePreview({ course }) {
           <button className={styles.secondary_btn}>Thêm vào giỏ hàng</button>
         </div>
         <div className="mt-4">
-          <span className="font-bold text-xl">This course includes: </span>
+          <span className="font-bold text-xl">Khóa học bao gồm: </span>
           <ul className="my-2">
             {about_course.map((item, index) => (
               <li key={index}>
