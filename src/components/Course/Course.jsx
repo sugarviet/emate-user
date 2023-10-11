@@ -4,6 +4,9 @@ import { Suspense } from "react";
 import Image from "next/image";
 import styles from "./Course.module.css";
 import CarouselCustom from "../public/CarouselCustom/CarouselCustom";
+import useSWR from "swr";
+import { get_fetcher } from "@/utils/fetcher";
+import { courses_by_subject_api } from "@/constants/api";
 
 const it_data_courses = {
   title: "IT và phần mềm",
@@ -162,6 +165,21 @@ const economy_data_courses = {
 };
 
 const Course = () => {
+  const {
+    data: courses,
+    isLoading: coursesLoading,
+    error: courseError,
+  } = useSWR(
+    courses_by_subject_api("650ff722b36ad198e85ab814?page=1&limit=12"),
+    get_fetcher
+  );
+
+  if (coursesLoading || courseError) return null;
+
+  it_data_courses.arrayData = courses;
+  soft_skills_data_courses.arrayData = courses;
+  economy_data_courses.arrayData = courses;
+
   return (
     <main className="blur_custom">
       <div className={styles.container}>
