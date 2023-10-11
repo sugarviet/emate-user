@@ -16,6 +16,8 @@ export const GET_INITIAL_CHAT_LIST_USER = "message/initialList";
 export const GET_DETAIL_USER = "getDetail";
 export const GET_1V1_MESSAGE = "message";
 export const GET_ALL_SUBJECT_SELECT = "subject";
+export const REQUEST_UPDATE_WALLET = "requestCoin";
+
 
 
 

@@ -1,14 +1,18 @@
 "use client";
 
+import axios from "axios";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { signOut } from "next-auth/react";
 
+import { useEffect } from "react";
 import { motion } from "framer-motion";
 import MobileNavbar from "@/components/Navbar/MobileNavbar";
 import SearchBar from "@/components/SearchBar/SearchBar";
+import { useStoreCurrentUserDetail } from "@/stores/useStoreCurrentUserDetail";
+import { useChatStore } from "@/stores/useChatStore";
 
 import { Avatar, Dropdown, Badge } from "antd";
 import {
@@ -103,7 +107,35 @@ const items = [
 const Navbar = () => {
   const { data: isUserLogin } = useSession();
   const pathname = usePathname();
+  const userDetail = useStoreCurrentUserDetail((state) => state.userDetail);
+  const currentUserInfo = useChatStore((state) => state.currentUserInfo);
+  const storeUserDetail = useStoreCurrentUserDetail((state) => state.storeUserDetail);
+  const updateWallet = useStoreCurrentUserDetail((state) => state.updateWallet);
 
+  const getUserDetail = async() => {
+    const {data: {metaData}} = await axios.get("http://localhost:8080/getDetail/651a6949baf2f58aa1cb63a8")
+    console.log('res', metaData);
+    console.log('user Detail', userDetail);
+  
+      storeUserDetail(metaData)
+    
+  }
+
+  const handleUpdateWallet = () => {
+    updateWallet(500 ,'deposit')
+  }
+
+  useEffect(() => {
+    console.log("currentUserInfo", currentUserInfo);
+    if(currentUserInfo?.id){
+      console.log('im here');
+      getUserDetail()
+    }else{
+      console.log('im there');
+    }
+  
+  }, [currentUserInfo?.id])
+  
   return (
     <motion.div
       initial={{ y: -100 }}
@@ -122,7 +154,6 @@ const Navbar = () => {
             />
           </Link>
         </motion.div>
-
         {/* Show if the screen is on desktop */}
         {isUserLogin ? (
           <motion.div

@@ -20,7 +20,7 @@ export const useChatStore = create(
       ],
       selectedUserId: null,
       firstSelected: false,
-      currentUserInfo: {},
+      currentUserInfo: null,
       currentMsg: [],
 
       initializeDataListUser: () =>

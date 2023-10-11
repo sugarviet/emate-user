@@ -9,10 +9,13 @@ import { Line } from "@ant-design/plots";
 import { CHART_DATA } from '@/data/mentorChartData';
 import { WalletOutlined } from '@ant-design/icons';
 import Image from 'next/image';
+import { useStoreCurrentUserDetail } from "@/stores/useStoreCurrentUserDetail";
+import axios from 'axios';
 
 const formatter = (value) => <CountUp end={value} separator="," className='text-3xl'/>;
 
 const MentorRevenue = () => {
+  const userDetail = useStoreCurrentUserDetail((state) => state.userDetail);
   const [data] = useState(CHART_DATA);
   const [openModal, setOpenModal] = useState(false)
 
@@ -65,7 +68,7 @@ const MentorRevenue = () => {
                 
 
                   <div className='h-28 flex justify-center items-center'>
-                  <Statistic value={200} formatter={formatter}/>
+                  <Statistic value={userDetail.wallet} formatter={formatter}/>
                   <Image src={"/emate-coin.svg"} alt='coin' width={50} height={50}/>
                   </div>
 
@@ -84,6 +87,9 @@ const MentorRevenue = () => {
 }
 
 const WithdrawModal = ({isModalOpen, setOpenModal}) => {
+  const handleWithDraw = async() => {
+    const res = await axios.post('', {})
+  }
   const showModal = () => {
     setOpenModal(true);
   };

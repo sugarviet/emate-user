@@ -6,6 +6,11 @@ import { QRCode, Table } from "antd";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import axios from "axios";
+import urlcat from "urlcat";
+import { BASE_URL, REQUEST_UPDATE_WALLET } from "@/constants/url";
+import { useStoreCurrentUserDetail } from "@/stores/useStoreCurrentUserDetail";
+import { useChatStore } from "@/stores/useChatStore";
 
 const columns = [
     {
@@ -24,58 +29,85 @@ const data = [
     {
         key: '1',
         price: formattedCurrency(10000),
-        coin: formattedCoin(10)
+        coin: formattedCoin(10),
+        value: 10
     },
     {
         key: '2',
         price: formattedCurrency(20000),
-        coin: formattedCoin(20)
+        coin: formattedCoin(20),
+        value: 20
+
     },
     {
         key: '3',
         price: formattedCurrency(50000),
-        coin: formattedCoin(50)
+        coin: formattedCoin(50),
+        value: 50
+
     },
     {
         key: '4',
         price: formattedCurrency(100000),
-        coin: formattedCoin(100)
+        coin: formattedCoin(100),
+        value: 100
     },
     {
         key: '5',
         price: formattedCurrency(200000),
-        coin: formattedCoin(200)
+        coin: formattedCoin(200),
+        value: 200
+        
     },
     {
         key: '6',
         price: formattedCurrency(500000),
-        coin: formattedCoin(500)
+        coin: formattedCoin(500),
+        value: 500
+
     },
     {
         key: '7',
         price: formattedCurrency(1000000),
-        coin: formattedCoin(1000)
+        coin: formattedCoin(1000),
+        value: 1000
+        
     },
     {
         key: '8',
         price: formattedCurrency(2000000),
-        coin: formattedCoin(2000)
+        coin: formattedCoin(2000),
+        value: 2000
+
     }
 ]
 
 export default function DepositModal() {
+    const userDetail = useStoreCurrentUserDetail((state) => state.userDetail);
     const isDepositModalOpened = useModalStore((state) => state.isDepositModalOpened)
     const switchDepositModalState = useModalStore(state => state.switchDepositModalState)
+    const currentUserInfo = useChatStore(state => state.currentUserInfo)
+
+
+    console.log('currentUserInfo', currentUserInfo);
 
     const [selectedDepositOption, setSelectedDepositOption] = useState(undefined)
     const [paymentCode, setPaymentCode] = useState(undefined)
+    const [moneyWantToSend, setMoneyWantToSend] = useState(0)
 
     const handleSelectDeposit = (record) => {
         setSelectedDepositOption(record)
+        console.log('recording', record.value);
+        setMoneyWantToSend(record.value)
     }
 
     const handleConfirmPayment = () => {
-        setPaymentCode("NOAN_CUTEDANGIUXINHDEP")
+        // setPaymentCode("NOAN_CUTEDANGIUXINHDEP")
+        setPaymentCode(`${userDetail.email}_${moneyWantToSend}`)
+    }
+
+    const handleConfirmPaymentFinal = () => {
+        updateWallet()
     }
 
     const handleCloseModal = () => {
@@ -85,6 +117,33 @@ export default function DepositModal() {
     useEffect(() => {
         setPaymentCode(undefined)
     }, [selectedDepositOption])
+
+    useEffect(() => {
+
+        return (() => {
+            setSelectedDepositOption(undefined)
+            setPaymentCode(undefined)
+
+        })
+    }, [])
+
+
+    const updateWallet = async() => {
+        const res = await axios.post(urlcat(BASE_URL, REQUEST_UPDATE_WALLET), {
+            code: paymentCode,
+            price: moneyWantToSend,
+            type: "Recharge"
+        },{
+            headers: {
+              "x-client-id": currentUserInfo.id,
+              "x-client-refreshtoken" : currentUserInfo.refreshToken,
+              "x-client-accesstoken" : currentUserInfo.token,
+            },
+            
+          },)
+
+        console.log('res', res);
+    }
 
     if(!isDepositModalOpened) return null
 
@@ -103,7 +162,7 @@ export default function DepositModal() {
                             <span className="text-lg text-center">Quét mã QR bằng ví MOMO và nhập mã thanh toán vào nội dung tin nhắn</span>
                             <QRCode className="my-4 flex-1" size={200} value="https://ant.design/"/>
                             <span className="text-lg">Mã thanh toán: <span className="font-bold">{paymentCode}</span></span>
-                            <button onClick={handleConfirmPayment} className="w-full bg-pink-400 h-12 font-bold rounded-md text-xl text-white mt-8">Hoàn tất thanh toán</button>
+                            <button onClick={handleConfirmPaymentFinal} className="w-full bg-pink-400 h-12 font-bold rounded-md text-xl text-white mt-8">Hoàn tất thanh toán</button>
                         </div> 
                         :
                         <div className="p-4">
