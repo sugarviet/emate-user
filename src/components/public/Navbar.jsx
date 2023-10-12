@@ -44,6 +44,7 @@ import {
 import { DEFAULT } from "@/constants/defaultElement";
 import Wallet from "../Wallet";
 import { useCartStore } from "@/stores/useCartStore";
+import { user_api } from "@/constants/api";
 
 const NAVBAR_LINKS_WITH_LOG_IN = [
   {
@@ -119,9 +120,7 @@ const Navbar = () => {
   const getUserDetail = async () => {
     const {
       data: { metaData },
-    } = await axios.get(
-      `http://localhost:8080/getDetail/${currentUserInfo._id}`
-    );
+    } = await axios.get(user_api(currentUserInfo._id));
     console.log("res", metaData);
     console.log("user Detail", userDetail);
 

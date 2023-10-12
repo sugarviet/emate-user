@@ -74,7 +74,7 @@ const CourseList = () => {
   } = useSWR(PURCHASED_COURSE_API, (url) =>
     get_with_header_fetcher(
       url,
-      currentUserInfo.id,
+      currentUserInfo._id,
       currentUserInfo.refreshToken,
       currentUserInfo.token
     )

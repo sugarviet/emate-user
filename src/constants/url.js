@@ -4,7 +4,7 @@ export const HEROKU_SERVER = "https://emate-af7e6f8fb027.herokuapp.com/"
 export const BASE_URL_LOCAL_HOST = "http://localhost:8080/";
 export const BASE_URL_STAGING = "https://back-end-ematee.vercel.app/";
 
-export const BASE_URL = BASE_URL_LOCAL_HOST
+export const BASE_URL = HEROKU_SERVER
 
 /* API END POINT */
 export const LOGIN_URL = "auth/login";
