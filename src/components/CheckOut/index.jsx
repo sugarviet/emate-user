@@ -14,7 +14,7 @@ import { MY_COURSES_PAGE_URL } from "@/constants/url";
 
 function CheckOut() {
   const { purchasingCourses, total } = useCartStore();
-  const { balance } = useWallet();
+  const { balance, widthRaw } = useWallet();
   const { switchDepositModalState } = useModalStore();
 
   const router = useRouter();
@@ -24,6 +24,9 @@ function CheckOut() {
       switchDepositModalState(true);
       return;
     }
+
+    widthRaw(total);
+
     post_fetcher(
       ORDER_COURSE_API,
       {
