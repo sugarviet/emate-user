@@ -63,11 +63,14 @@ const Social = () => {
 
   const handleChatWithUser = (user) => {
     console.log(user);
-    setSelectedUserId(user._id)
-    storeSelectedUser({
-      id: user._id,
-      name: "Toan",
-    })
+    setSelectedUserId(user)
+    // storeSelectedUser({
+    //   _id: user._id,
+    //   name: user.name,
+    //   avatar: user.avatar,
+    // })
+
+    // storeSelectedUser(newUser)
     router.push(CHAT_PAGE_URL)
   }
 

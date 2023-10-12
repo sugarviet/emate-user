@@ -16,7 +16,7 @@ export const useChatStore = create(
       selectedUser: null,
       messages: [],
       listUsers: [
-        { id: "123", name: "Mike", image: "", email: "viet123@gmail.com" },
+        
       ],
       selectedUserId: null,
       firstSelected: false,
@@ -24,6 +24,7 @@ export const useChatStore = create(
       currentMsg: [],
       initializeDataListUser: async() => {
         const state = get();
+        console.log('state.c', state.currentUserInfo._id);
 
         console.log('refresh',state.currentUserInfo?.refreshToken);
         console.log('access', state.currentUserInfo?.token);
@@ -33,7 +34,7 @@ export const useChatStore = create(
           urlcat(BASE_URL, GET_INITIAL_CHAT_LIST_USER),
           {
             headers: {
-              "x-client-id": state.currentUserInfo?.id,
+              "x-client-id": state.currentUserInfo?._id,
               "x-client-refreshtoken" : state.currentUserInfo?.refreshToken,
               "x-client-accesstoken" : state.currentUserInfo?.token,
             },
@@ -144,13 +145,13 @@ export const useChatStore = create(
       //   }),
         addToContactList: async(user) => {
           const state = get();
-          const api = `${BASE_URL}${GET_DETAIL_USER}/${user.id}`
+          const api = `${BASE_URL}${GET_DETAIL_USER}/${user._id}`
 
           // const {data: {metaData}} = await axios.get(api);
           let newUserFromRecieve = null;
 
           const exist = state.listUsers.some(
-            (userInList) => userInList.id === user.id
+            (userInList) => userInList._id === user._id
           );  
           if (!exist) {
             if (user.from) {
@@ -158,7 +159,7 @@ export const useChatStore = create(
 
                 console.log('res', metaData);
                 newUserFromRecieve = {
-                  id: metaData._id,
+                  _id: metaData._id,
                   name: metaData.name,
                   avatar: metaData.avatar
                 }
@@ -169,7 +170,7 @@ export const useChatStore = create(
             console.log("finalUser", finalUser);
 
             if(!state.selectedUserId){
-              set(() => ({ listUsers: [finalUser, ...state.listUsers], selectedUserId: newUserFromRecieve.id, selectedUser: {...newUserFromRecieve} }));
+              set(() => ({ listUsers: [finalUser, ...state.listUsers], selectedUserId: newUserFromRecieve._id, selectedUser: {...newUserFromRecieve} }));
             }else {
               
                 set(() => ({ listUsers: [finalUser, ...state.listUsers] }));
@@ -180,50 +181,7 @@ export const useChatStore = create(
             set(() => ({ ...state }));
           }
         },
-      addToContactListByReceive: (id) =>
-        set(async (state) => {
-          const exist = state.listUsers.some(
-            (userInList) => userInList.id == id
-          );
-          console.log("exists", exist);
-
-          if (!exist) {
-            const {
-              data: { metaData },
-            } = await axios.get(
-              "http://localhost:8080/getDetail/651a6949baf2f58aa1cb63a8",
-              {
-                headers: {
-                  Authorization: `Bearer ${state.currentUserInfo.token}`,
-                },
-              }
-            );
-
-            console.log("metaData", metaData);
-
-            const user = {
-              id: metaData._id,
-              name: metaData.name,
-              image: "",
-            };
-            console.log("state.selectedId", state.selectedUserId);
-
-            if (!state.selectedUserId) {
-              selectedUserId = user.id;
-              selectedUser = user;
-              console.log("Im here");
-            } else {
-              state.selectedUserId = user.id;
-              state.selectedUser = user;
-              console.log("Im there");
-            }
-
-            return { listUsers: [user, ...state.listUsers] };
-          } else {
-            return { ...state };
-          }
-        }),
-
+      
       increaseCount: () =>
         set((state) => ({
           count: state.count + 1,
@@ -236,15 +194,20 @@ export const useChatStore = create(
         set((state) => ({
           selectedUser: selectedUser,
         })),
-      setSelectedUserId: (userId) =>
+      setSelectedUserId: (user) =>
         set((state) => ({
-          selectedUserId: userId,
+          selectedUserId: user._id,
           firstSelected: true,
+          selectedUser: user
         })),
       storeCurrentUser: (currentUser) =>
         set((state) => ({
           currentUserInfo: currentUser,
         })),
+
+      setStoreWhenRecieveMsg: (newMsg) => set((state) => ({
+          currentMsg: newMsg === undefined ? [] : newMsg
+      })),
       setStoreMessage: (newMessage) =>
         set((state) => ({
           currentMsg: [...state.currentMsg, newMessage],
