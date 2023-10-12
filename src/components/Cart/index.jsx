@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import { formattedCoin } from "@/utils/formatedCurrency";
 import { useCartStore } from "@/stores/useCartStore";
 import { useRouter } from "next/navigation";
+import { CHECKOUT_PAGE_URL } from "@/constants/url";
 
 const Cart = () => {
   const {
@@ -49,7 +50,7 @@ const Cart = () => {
   }, [purchasingCourses, setTotal]);
 
   const handleGoToCheckout = () => {
-    router.push("/cart/checkout");
+    router.push(CHECKOUT_PAGE_URL);
   };
 
   return (

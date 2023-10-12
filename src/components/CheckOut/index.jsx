@@ -5,9 +5,44 @@ import { formattedCoin } from "@/utils/formatedCurrency";
 import Image from "next/image";
 
 import styles from "./CheckOut.module.css";
+import { useWallet } from "@/stores/useWallet";
+import { useModalStore } from "@/stores/useModalStore";
+import { post_fetcher } from "@/utils/fetcher";
+import { message } from "antd";
+import { useRouter } from "next/navigation";
+import { MY_COURSES_PAGE_URL } from "@/constants/url";
 
 function CheckOut() {
   const { purchasingCourses, total } = useCartStore();
+  const { balance } = useWallet();
+  const { switchDepositModalState } = useModalStore();
+
+  const router = useRouter();
+
+  const handlePayment = () => {
+    if (balance < total) {
+      switchDepositModalState(true);
+      return;
+    }
+    post_fetcher(
+      ORDER_COURSE_API,
+      {
+        totalPrice: total,
+        orderCheckout: purchasingCourses.map((order) => ({
+          course: order._id,
+          mentor: order.owner._id,
+          price: order.price,
+        })),
+      },
+      () => {
+        message.success("Bạn đã thanh toán thành công");
+        router.push(MY_COURSES_PAGE_URL);
+      },
+      () => {
+        message.success("Bạn thanh toán thất bại");
+      }
+    );
+  };
 
   return (
     <div className={styles.blur_bg}>
@@ -20,7 +55,7 @@ function CheckOut() {
               key={`${course} + ${index}`}
               className="flex items-center justify-between my-2"
             >
-              <Image width={120} height={120} src={course.thumnail} />
+              <Image width={120} height={120} src={course.image} />
               <span className="flex-1 font-semibold text-xl mx-4 line-clamp-2">
                 {course.name}
               </span>
@@ -41,7 +76,10 @@ function CheckOut() {
               <span>{formattedCoin(total)}</span>
             </div>
           </div>
-          <button className="w-full h-16 bg-pink-300 text-white font-bold text-xl">
+          <button
+            onClick={handlePayment}
+            className="w-full h-16 bg-pink-300 text-white font-bold text-xl"
+          >
             Thanh toán
           </button>
         </div>
