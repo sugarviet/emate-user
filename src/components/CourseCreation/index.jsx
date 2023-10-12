@@ -1,6 +1,7 @@
 "use client";
 import { Steps, message } from "antd";
 
+import { motion as m } from "framer-motion";
 import styles from "./CourseCreation.module.css";
 import { useState } from "react";
 import CourseTitleCreation from "./CourseTitleCreation";
@@ -80,7 +81,7 @@ function CourseCreation() {
   const Form = steps[currentStepIndex].component;
 
   return (
-    <div className={styles.blur_bg}>
+    <m.div className={styles.blur_bg} initial={{opacity: 0, x: -100}} animate={{x: 1, opacity: 1}} transition={{duration: 0.4}}>
       <Steps progressDot current={currentStepIndex} items={steps} />
       <div className="my-12 flex-1">
         <Form control={control} />
@@ -112,7 +113,7 @@ function CourseCreation() {
           </button>
         )}
       </div>
-    </div>
+    </m.div>
   );
 }
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { Image as AntdImg } from "antd";
+import { Image as AntdImg, message } from "antd";
 import axios from "axios";
 import { useState } from "react";
 import Link from "next/link";
@@ -15,7 +15,6 @@ import {
   Button,
   Select,
   Upload,
-  message,
 } from "antd";
 import {
   ArrowLeftOutlined,
@@ -29,9 +28,10 @@ import { motion as m } from "framer-motion";
 
 import styles from "./RegisterMentorPackage.module.css";
 import useSWR from "swr";
-import { BASE_URL, GET_ALL_SUBJECT_SELECT } from "@/constants/url";
+import { APPROVE_TO_BE_MENTOR, BASE_URL, CREATE_COURSE_PAGE_URL, GET_ALL_SUBJECT_SELECT } from "@/constants/url";
 import urlcat from "urlcat";
 import fetcher from "@/utils/fetcher";
+import { useRouter } from "next/navigation";
 
 const PACKAGE = {
   yearly: {
@@ -49,6 +49,7 @@ const PACKAGE = {
 };
 
 const RegisterMentorPackage = () => {
+  const router = useRouter();
   const API_KEY = "373bc9b180e920e9c2ebceaa3b341eed";
   const UPLOAD_IMG_URL = "https://api.imgbb.com/1/upload";
   const currentUserInfo = useChatStore((state) => state.currentUserInfo);
@@ -63,11 +64,47 @@ const RegisterMentorPackage = () => {
   console.log("currentUserInfo", currentUserInfo);
 
   const [degreeImgUrl, setDegreeImgUrl] = useState("");
-  const onFinish = (values) => {
-    console.log("Success:", {
-      ...values,
-      price: +values.price
-    });
+
+  const onFinish = async(values) => {
+    const data  = {
+
+      // ...values,
+      // majorSubject: [{name: values.majorSubject}],
+      // price: +values.price,
+      // degreeImage: [{image: degreeImgUrl}]
+      totalPrice: +values.price,
+      orderCheckout: [
+        {
+          email: values.email,
+          majorSubject: [{name: values.majorSubject}],
+          education: values.education,
+          degree: values.degree,
+          price: +values.price,
+          degreeImage: [{image: degreeImgUrl}]
+        }
+      ]
+    }
+
+    console.log("Success:", data);
+
+
+    const res = await axios.post(urlcat(BASE_URL, APPROVE_TO_BE_MENTOR), data, {
+      headers: {
+        "x-client-id": currentUserInfo?._id,
+              "x-client-refreshtoken" : currentUserInfo?.refreshToken,
+              "x-client-accesstoken" : currentUserInfo?.token,
+      }
+    })
+
+    if(res.status === 200){
+      message.success({
+        message: "Bạn đã đăng ký thành công trở thành mentor của Emate"
+      })
+
+      router.push(CREATE_COURSE_PAGE_URL)
+
+
+    }
   };
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
@@ -198,7 +235,7 @@ const RegisterMentorPackage = () => {
                   >
                     <Select placeholder="Chuyên ngành">
                       {data.metaData.map((item) => (
-                        <Select.Option key={item._id} value={item._id}>
+                        <Select.Option key={item._id} value={item.name}>
                           {item.name}
                         </Select.Option>
                       ))}
@@ -230,7 +267,20 @@ const RegisterMentorPackage = () => {
                   </Form.Item>
 
                   <Form.Item
-                    name="degreeImg"
+                    name="degree"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Vui lòng nhập thông tin bằng cấp của bạn!",
+                      },
+                    ]}
+                  >
+                    <Input placeholder="Thông tin bằng cấp của bạn" />
+                  </Form.Item>
+                  
+
+                  <Form.Item
+                    name="degreeImage"
                     valuePropName="fileList"
                     getValueFromEvent={(e) => {
                       if (Array.isArray(e)) {

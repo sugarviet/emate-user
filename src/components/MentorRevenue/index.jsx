@@ -5,7 +5,6 @@ import { useState } from 'react';
 import { Statistic, Row, Col, Modal, Form, Input } from 'antd';
 import styles from './MentorRevenue.module.css';
 import CountUp from 'react-countup';
-// import { Line } from "@ant-design/plots";
 import { CHART_DATA } from '@/data/mentorChartData';
 import { WalletOutlined } from '@ant-design/icons';
 import Image from 'next/image';
@@ -13,6 +12,9 @@ import { useStoreCurrentUserDetail } from "@/stores/useStoreCurrentUserDetail";
 import axios from 'axios';
 import urlcat from 'urlcat';
 import { BASE_URL, REQUEST_UPDATE_WALLET } from '@/constants/url';
+
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+
 
 const formatter = (value) => <CountUp end={value} separator="," className='text-3xl'/>;
 
@@ -31,17 +33,6 @@ const MentorRevenue = () => {
     setOpenModal(false);
   };
 
-  const config = {
-    data,
-    padding: "auto",
-    xField: "Date",
-    yField: "scales",
-    xAxis: {
-      // type: 'timeCat',
-      tickCount: 5,
-    },
-  };
-
   return (
     <m.main className="blur_custom" initial={{x: -100, opacity: 0}} animate={{x:0, opacity: 1}} transition={{duration: 0.4}}>
       <div className={styles.container}>
@@ -51,7 +42,7 @@ const MentorRevenue = () => {
               <Col span={12}>
                 <div>
                   <h2 className='font-medium text-xl'>Xin Chào,</h2>
-                  <h1 className='font-bold text-3xl'>Quỳnh Nguyễn</h1>
+                  <h1 className='font-bold text-3xl'>{userDetail.name}</h1>
                 </div>
               </Col>
               <Col span={12} className='flex justify-end'>
@@ -82,6 +73,16 @@ const MentorRevenue = () => {
 
         <div className='mt-5'>
           {/* <Line {...config} /> */}
+          <ResponsiveContainer width="100%" height={400}>
+            <LineChart data={data}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="Date" />
+              <YAxis />
+              <Tooltip />
+              <Legend />
+              <Line type="monotone" dataKey="scales" name="Revenue" stroke="#8884d8" activeDot={{ r: 8 }} />
+            </LineChart>
+          </ResponsiveContainer>
         </div>
       </div>
     </m.main>
@@ -92,15 +93,18 @@ const WithdrawModal = ({isModalOpen, setOpenModal}) => {
   const userDetail = useStoreCurrentUserDetail((state) => state.userDetail);
   const handleWithDraw = async(data) => {
     const code = `${userDetail.email}_${userDetail.phone}_${data.money}`
-    const res = await axios.post(urlcat(BASE_URL, REQUEST_UPDATE_WALLET), {
-      code: code,
+
+    console.log({code: code,
       type : "Withdraw",
-      money: data.money
-    })
+      money: data.money});
+
+    // const res = await axios.post(urlcat(BASE_URL, REQUEST_UPDATE_WALLET), {
+    //   code: code,
+    //   type : "Withdraw",
+    //   money: data.money
+    // })
   }
-  const showModal = () => {
-    setOpenModal(true);
-  };
+
   const handleOk = () => {
     setOpenModal(false);
   };
@@ -109,6 +113,7 @@ const WithdrawModal = ({isModalOpen, setOpenModal}) => {
   };
   const onFinish = (values) => {
     console.log('Success:', values);
+    handleWithDraw(values)
   };
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
@@ -142,7 +147,7 @@ const WithdrawModal = ({isModalOpen, setOpenModal}) => {
       <Input placeholder='Số tài khoản MoMo của bạn' className='py-2 w-full' style={{width: '100%'}}/>
     </Form.Item>
     <Form.Item
-      name="price"
+      name="money"
       rules={[
         {
           required: true,
