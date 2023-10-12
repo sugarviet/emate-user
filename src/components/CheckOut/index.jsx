@@ -7,16 +7,17 @@ import Image from "next/image";
 import styles from "./CheckOut.module.css";
 import { useWallet } from "@/stores/useWallet";
 import { useModalStore } from "@/stores/useModalStore";
-import { post_with_header_fetcher } from "@/utils/fetcher";
 import { message } from "antd";
 import { useRouter } from "next/navigation";
 import { MY_COURSES_PAGE_URL } from "@/constants/url";
 import { ORDER_COURSE_API } from "@/constants/api";
+import useFetcher from "@/hooks/global/useFetcher";
 
 function CheckOut() {
-  const { purchasingCourses, cleanUpPurchasingCourses, total } = useCartStore();
+  const { purchasingCourses, cleanUpPurchasingCourses, cleanUpSelectedCourse, total } = useCartStore();
   const { balance, widthRaw } = useWallet();
   const { switchDepositModalState } = useModalStore();
+  const { post_with_header_fetcher } = useFetcher();
 
   const router = useRouter();
 
@@ -25,9 +26,6 @@ function CheckOut() {
       switchDepositModalState(true);
       return;
     }
-
-    widthRaw(total);
-    cleanUpPurchasingCourses();
 
     post_with_header_fetcher(
       ORDER_COURSE_API,
@@ -39,11 +37,11 @@ function CheckOut() {
           price: order.price,
         })),
       },
-      "65277154f68a06061773afca",
-      "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRvYW5naWFiYW8yNzZAZ21haWwuY29tIiwiX2lkIjoiNjUyNzcxNTRmNjhhMDYwNjE3NzNhZmNhIiwiaWF0IjoxNjk3MTA0MDQ0LCJleHAiOjE3MDIyODgwNDR9.qJk1R6M7y-HyxMuWYViAgxdg0IOILII9Wc2uEHO0JwXCvSYw2xn6GFFrZdrwmRYcYcyvnWl-QrD7YC8aYbDpsWN0P273yST_EywsfRu-HqrmkqqZkxVaSK7GHQ1luttXu--9drEvPBz25mujZRHqAtwQk0mMPoXYrFGkzGuY1ZiYKt_s13irF1UXN-ov90CrKYA6S1CFn3Kuoccb7KQXHwJNUMD_iMwjFHN168aOtDv3uJ3akri_UquNlKgdhq0jBnGMH8RO7aCKSDJNIt5eGgIys4sdB52FgKMU_wb5F03QZYaTgVYxaMPhICDn2hlYZrSuqKM3xOR-p3NXPdWwsg",
-      "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRvYW5naWFiYW8yNzZAZ21haWwuY29tIiwiX2lkIjoiNjUyNzcxNTRmNjhhMDYwNjE3NzNhZmNhIiwiaWF0IjoxNjk3MTA0MDQ0LCJleHAiOjE3MDc0NzIwNDR9.BC8r8sr8UZYUvW6qoSCseE5wB2tInyT2XLNrYyRwJ5_snluMc58KSg-2_c7TnAx0wzFY2qndueQnOtzh-SXE-dseoG0xtMwvUJO_t_yze9vDby5bxncQzP6Hhmg7NPyWkQ-3b1ly0a_cqtvQhPxbEY23i9rAOZipXZCukvBNF57ObDnvf__pHsoqp6HCLcoElG9yHXm9R28_hPZwMOQOjS7tkybvuRbhrkoCZPcoCXzq5i7BEIx_Qjggt5dgA8zeEvIhMVPiRZR0FolYz_oYa28_QfwF6OadNxJ6RVDFLuLpLR-se-yh89kqCncPPAVyHahBNID65EZfJDNivgG20g",
       () => {
         message.success("Bạn đã thanh toán thành công");
+        widthRaw(total);
+        cleanUpPurchasingCourses();
+        cleanUpSelectedCourse();
         router.push(MY_COURSES_PAGE_URL);
       },
       () => {
