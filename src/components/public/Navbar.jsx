@@ -13,7 +13,6 @@ import MobileNavbar from "@/components/Navbar/MobileNavbar";
 import SearchBar from "@/components/SearchBar/SearchBar";
 import { useStoreCurrentUserDetail } from "@/stores/useStoreCurrentUserDetail";
 import { useChatStore } from "@/stores/useChatStore";
-
 import { Avatar, Dropdown, Badge } from "antd";
 import {
   BellOutlined,
@@ -44,6 +43,7 @@ import {
 } from "@/constants/url";
 import { DEFAULT } from "@/constants/defaultElement";
 import Wallet from "../Wallet";
+import { useCartStore } from "@/stores/useCartStore";
 
 const NAVBAR_LINKS_WITH_LOG_IN = [
   {
@@ -96,9 +96,7 @@ const items = [
   },
   {
     label: (
-      <p onClick={() => signOut({ callbackUrl: HOME_PAGE_URL })}>
-        Đăng xuất
-      </p>
+      <p onClick={() => signOut({ callbackUrl: HOME_PAGE_URL })}>Đăng xuất</p>
     ),
     key: "6",
     icon: <LogoutOutlined />,
@@ -110,33 +108,40 @@ const Navbar = () => {
   const pathname = usePathname();
   const userDetail = useStoreCurrentUserDetail((state) => state.userDetail);
   const currentUserInfo = useChatStore((state) => state.currentUserInfo);
-  const storeUserDetail = useStoreCurrentUserDetail((state) => state.storeUserDetail);
+  const storeUserDetail = useStoreCurrentUserDetail(
+    (state) => state.storeUserDetail
+  );
   const updateWallet = useStoreCurrentUserDetail((state) => state.updateWallet);
 
-  const getUserDetail = async() => {
-    const {data: {metaData}} = await axios.get(`http://localhost:8080/getDetail/${currentUserInfo.id}`)
-    console.log('res', metaData);
-    console.log('user Detail', userDetail);
-  
-      storeUserDetail(metaData)
-    
-  }
+  const { selectedCourses } = useCartStore();
+  const cart_items_length = selectedCourses.length;
+
+  const getUserDetail = async () => {
+    const {
+      data: { metaData },
+    } = await axios.get(
+      `http://localhost:8080/getDetail/${currentUserInfo.id}`
+    );
+    console.log("res", metaData);
+    console.log("user Detail", userDetail);
+
+    storeUserDetail(metaData);
+  };
 
   const handleUpdateWallet = () => {
-    updateWallet(500 ,'deposit')
-  }
+    updateWallet(500, "deposit");
+  };
 
   useEffect(() => {
     console.log("currentUserInfo", currentUserInfo);
-    if(currentUserInfo?.id){
-      console.log('im here');
-      getUserDetail()
-    }else{
-      console.log('im there');
+    if (currentUserInfo?.id) {
+      console.log("im here");
+      getUserDetail();
+    } else {
+      console.log("im there");
     }
-  
-  }, [currentUserInfo?.id])
-  
+  }, [currentUserInfo?.id]);
+
   return (
     <motion.div
       initial={{ y: -100 }}
@@ -240,7 +245,7 @@ const Navbar = () => {
             </Link>
 
             <Link href={CART_PAGE_URL}>
-              <Badge count={6}>
+              <Badge count={cart_items_length}>
                 <motion.span className="text-2xl" whileHover={{ scale: 1.1 }}>
                   <ShoppingCartOutlined />
                 </motion.span>
