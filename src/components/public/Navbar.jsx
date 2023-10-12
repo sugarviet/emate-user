@@ -121,9 +121,6 @@ const Navbar = () => {
     const {
       data: { metaData },
     } = await axios.get(user_api(currentUserInfo._id));
-    console.log("res", metaData);
-    console.log("user Detail", userDetail);
-
     storeUserDetail(metaData);
   };
 

@@ -11,9 +11,8 @@ import styles from "./MyCourses.module.css";
 import SuggestCourse from "../public/SuggestCourse";
 
 import useSWR from "swr";
-import { get_with_header_fetcher } from "@/utils/fetcher";
-import { useChatStore } from "@/stores/useChatStore";
 import { PURCHASED_COURSE_API } from "@/constants/api";
+import useFetcher from "@/hooks/global/useFetcher";
 
 const MyCourse = () => {
   return (
@@ -65,20 +64,13 @@ const MyCourse = () => {
 };
 
 const CourseList = () => {
-  const { currentUserInfo } = useChatStore();
+  const { get_with_header_fetcher } = useFetcher();
 
   const {
     data: courses,
     isLoading: coursesLoading,
     error: coursesError,
-  } = useSWR(PURCHASED_COURSE_API, (url) =>
-    get_with_header_fetcher(
-      url,
-      currentUserInfo._id,
-      currentUserInfo.refreshToken,
-      currentUserInfo.token
-    )
-  );
+  } = useSWR(PURCHASED_COURSE_API, (url) => get_with_header_fetcher(url));
 
   if (coursesLoading || coursesError) return null;
 

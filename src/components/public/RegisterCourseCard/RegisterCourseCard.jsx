@@ -31,11 +31,11 @@ const RegisterCourseCard = ({ cardData }) => {
       {/* lg:w-80 md:w-80 xl:w-80 flex flex-col items-center py-3 w-64 */}
       <div onClick={handleGoToDetail}>
         <Image
-          className="rounded-xl"
+          className="rounded-xl max-h-32"
           src={image}
           alt="img"
-          height={250}
-          width={250}
+          height={40}
+          width={240}
         />
       </div>
       <div className="px-2 md:px-0 w-64">
