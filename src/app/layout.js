@@ -7,7 +7,6 @@ import DepositModal from "@/components/DepositModal";
 
 import { ConfigProvider } from "antd";
 import Providers from "@/utils/Providers";
-import { useModalStore } from "@/stores/useModalStore";
 import CompletingInfoNotification from "@/components/CompletingInfoNotificationModal";
 
 const Footer = dynamic(() => import("@/components/public/Footer"));
@@ -15,8 +14,6 @@ const Footer = dynamic(() => import("@/components/public/Footer"));
 const pinkColor = '#E087FC'
 
 export default function RootLayout({ children }) {
-  // const isDepositModalOpened = useModalStore((state) => state.isDepositModalOpened)
-
   return (
     <html lang="en">
       <link rel="icon" href="/emate.svg" />
