@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { Statistic, Row, Col, Modal, Form, Input } from 'antd';
 import styles from './MentorRevenue.module.css';
 import CountUp from 'react-countup';
-import { Line } from "@ant-design/plots";
+// import { Line } from "@ant-design/plots";
 import { CHART_DATA } from '@/data/mentorChartData';
 import { WalletOutlined } from '@ant-design/icons';
 import Image from 'next/image';
@@ -81,7 +81,7 @@ const MentorRevenue = () => {
 
 
         <div className='mt-5'>
-          <Line {...config} />
+          {/* <Line {...config} /> */}
         </div>
       </div>
     </m.main>
