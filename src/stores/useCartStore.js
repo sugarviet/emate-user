@@ -19,6 +19,7 @@ export const useCartStore = create(
             removeFromSelectedCourses: (course) => set(state => ({ selectedCourses: state.selectedCourses.filter(c => c._id !== course._id) })),
             setSelectedCourses: (courses) => set({ selectedCourses: courses }),
             setPurchasingCourses: (courses) => set({ purchasingCourses: courses }),
+            cleanUpPurchasingCourses: () => set({ purchasingCourses: [] }),
             setTotal: (value) => set({ total: value }),
         }),
         {

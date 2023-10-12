@@ -2,8 +2,8 @@ import { create } from 'zustand'
 
 
 export const useWallet = create((set) => ({
-    balance: 0,
+    balance: 700000,
 
     setBalance: (balance) => set({ balance: balance }),
-    widthRaw: (value) => set({ balance: balance - value })
+    widthRaw: (value) => set(state => ({ balance: state.balance - value }))
 }))
