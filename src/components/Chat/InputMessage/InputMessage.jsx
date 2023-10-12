@@ -1,21 +1,75 @@
 "use client";
 
+import axios from "axios";
 import { useState } from "react";
 import { Upload } from "antd";
 import Image from "next/image";
+import { useChatStore } from "@/stores/useChatStore";
+import io  from "socket.io-client";
+import { BASE_URL, POST_MSG_URL } from "@/constants/url";
+import urlcat from "urlcat";
+import { formatCurrentTime } from "@/utils/formatCurrentTime";
 
+const socket = io.connect(BASE_URL)
 const InputMessage = () => {
-  const [fileList, setFileList] = useState([]);
+  const [textChatContent, setTextChatContent] = useState("");
+  const selectedUser = useChatStore(state => state.selectedUser)
+  const addToContactList = useChatStore(state => state.addToContactList)
+  const currentUserInfo = useChatStore((state) => state.currentUserInfo);
+  const setStoreMessage = useChatStore(state => state.setStoreMessage)
+
+  const handleSetText = (e) => {
+    setTextChatContent(e.target.value);
+  }
+
+  const handleSubmitSendTextMessage = async(e) => {
+    e.preventDefault();
+
+    if(!textChatContent) return;
+
+
+    console.log('selectedUser', selectedUser);
+
+    socket.emit("send-msg", {
+      from: currentUserInfo.id,
+      message: textChatContent,
+      to: selectedUser.id
+  })
+  // Toan: 651a6949baf2f58aa1cb63a8
+  // 651e3228f541cff397ab7590
+
+  setTextChatContent("")
+
+  
+    const res = await axios.post(urlcat(BASE_URL, POST_MSG_URL), data)
+
+
+      const newUser = {
+        id: selectedUser?.id,
+        name: selectedUser?.name,
+        avatar: selectedUser?.avatar,
+      }
+
+      console.log('newUser', newUser);
+
+      // addToContactList(newUser);
+      addToContactList(newUser);
+
+      setStoreMessage({message: textChatContent, to: selectedUser.id ,time: formatCurrentTime()})
+
+    
+  }
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleSubmitSendTextMessage(e);
+    }
+  }
 
   const handleSendMessage = (e) => {
     e.preventDefault();
   };
 
-  const onChange = (newFileList) => {
-    setFileList(newFileList);
-  };
-
-  const customRequest = ({ file, onSuccess }) => {};
 
   return (
     <div className="px-2 h-full border-r-2 bg-white">
@@ -28,9 +82,9 @@ const InputMessage = () => {
             type="text"
             className="w-full text-lg py-3 px-3 focus:border-none focus:outline-none"
             placeholder="Nhập gì đó ...."
+            onChange={handleSetText}
+            value={textChatContent}
           />
-
-          {/* <Image src="/icons/gallery.png" alt='uploadImg' height={30} width={30}/> */}
 
           <Upload
           className="translate-y-1"
@@ -44,7 +98,7 @@ const InputMessage = () => {
             />
           </Upload>
 
-          <button className="primary_bg_pink_color px-7 py-2 text-white rounded-xl float-right">
+          <button className="primary_bg_pink_color px-7 py-2 text-white rounded-xl float-right" onKeyPress={handleKeyPress} onClick={handleSubmitSendTextMessage}>
             Gửi
           </button>
         </form>

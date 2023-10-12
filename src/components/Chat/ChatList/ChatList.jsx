@@ -1,25 +1,17 @@
 import React from 'react'
 import Message from '../Message/Message'
-
+import { useChatStore } from '@/stores/useChatStore';
 import styles from './ChatList.module.css';
 
 const ChatList = () => {
+  const currentMsg = useChatStore(state => state.currentMsg)
+
+  console.log('current msg', currentMsg);
   return (
     <div className={styles.container}>
-      <Message me={false}/>
-      <Message me={true}/>
-      <Message me={true}/>
-      <Message me={false}/>
-      <Message me={false}/>
-      <Message me={true}/>
-      <Message me={true}/>
-      <Message me={false}/>
-      <Message me={true}/>
-      <Message me={true}/>
-      <Message me={false}/>
-      <Message me={true}/>
-      <Message me={true}/>
-      
+      {currentMsg.map((msg, index) => (
+        <Message key={index} msg={msg}/>
+      ))}  
     </div>
   )
 }
