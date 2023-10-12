@@ -39,7 +39,7 @@ const ChatWrapper = () => {
     socket.on("msg-recieve", (data) => {
       console.log(data);
       const newUser = {
-        id: data.from,
+        _id: data.from,
         from: data.from,
       }
       
@@ -52,7 +52,7 @@ const ChatWrapper = () => {
   },[socket, addToContactList, setStoreMessage])
   
   useEffect(() => {
-    socket.emit("add-user", currentUserInfo?.id)
+    socket.emit("add-user", currentUserInfo?._id)
 
   }, [currentUserInfo])
   

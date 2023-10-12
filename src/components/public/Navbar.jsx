@@ -120,7 +120,7 @@ const Navbar = () => {
     const {
       data: { metaData },
     } = await axios.get(
-      `http://localhost:8080/getDetail/${currentUserInfo.id}`
+      `http://localhost:8080/getDetail/${currentUserInfo._id}`
     );
     console.log("res", metaData);
     console.log("user Detail", userDetail);
@@ -128,19 +128,15 @@ const Navbar = () => {
     storeUserDetail(metaData);
   };
 
-  const handleUpdateWallet = () => {
-    updateWallet(500, "deposit");
-  };
-
   useEffect(() => {
     console.log("currentUserInfo", currentUserInfo);
-    if (currentUserInfo?.id) {
+    if (currentUserInfo?._id) {
       console.log("im here");
       getUserDetail();
     } else {
       console.log("im there");
     }
-  }, [currentUserInfo?.id]);
+  }, [currentUserInfo?._id]);
 
   return (
     <motion.div

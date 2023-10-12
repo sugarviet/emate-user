@@ -4,6 +4,9 @@ import Image from "next/image";
 import { useChatStore } from "@/stores/useChatStore";
 
 const Message = ({msg}) => {
+
+  console.log('msg', msg);
+
   const currentUserInfo = useChatStore(state => state.currentUserInfo)
   const selectedUser = useChatStore(state => state.selectedUser)
 
@@ -15,7 +18,7 @@ const Message = ({msg}) => {
     //   return <GuestMessage msg={msg}/>;
     // }
 
-    if (msg?.senderId == selectedUser.id) {
+    if (msg?.senderId == selectedUser?._id) {
       return <GuestMessage msg={msg}/>;
     } else {
       return <MyMessage msg={msg}/>;
