@@ -1,13 +1,35 @@
+'use client'
+
 import Image from "next/image"
 import { Row, Col } from "antd"
+import useSWR from "swr";
+import { useState, useEffect } from "react";
+import fetcher from "@/utils/fetcher";
+import { useChatStore } from "@/stores/useChatStore";
 
 const UserContact = ({message}) => {
-    const {name, img, time, messageTo, number} = message;
+    const {name, img='/character/chauAnhTu.png', time, username:messageTo, id:number} = message;
+
+    const storeSelectedUserId = useChatStore((state) => state.selectedUserId);
+    const setSelectedUserId = useChatStore((state) => state.setSelectedUserId);
+    const storeSelectedUser = useChatStore(state => state.storeSelectedUser)
+    
+    const {data} = useSWR(storeSelectedUserId ? `https://jsonplaceholder.typicode.com/users/${storeSelectedUserId}` : null, fetcher)
+    
+    useEffect(() => {
+        storeSelectedUser(data)
+        
+    }, [data, storeSelectedUser])
+
+    const handleFetchChooseUser = (userId) => {
+        setSelectedUserId(userId);
+    }
+
   return (
-    <div className="pink_border_color w-full h-24 relative my-2 rounded-xl hover:cursor-pointer p-2 z-30 overflow-hidden bg-white">
+    <div className="pink_border_color w-full h-24 relative my-2 rounded-xl hover:cursor-pointer p-2 z-30 overflow-hidden bg-white" onClick={() => handleFetchChooseUser(number)}>
         <Row className="translate-y-3" align="middle" justify="center" >
             <Col span={4}>
-            <div className="flex items-center rounded-full relative h-fit w-fit bg-red-700">
+            <div className="flex items-center rounded-full relative h-fit w-fit bg-purple-300">
             <Image src={img} height={45} width={45} alt="avt" className="rounded-full"/>
             <div className="w-4 h-4 bg-green-600 rounded-full absolute bottom-0 right-0"></div>
         </div>

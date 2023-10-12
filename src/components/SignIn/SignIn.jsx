@@ -20,16 +20,20 @@ const SignIn = () => {
       redirect: false,
     })
       .then(async (res) => {
-        const { error, status } = JSON.parse(res.error);
+        console.log('res ne', res);
+        // const { error, status } = JSON.parse(res.error);
 
-        if (status !== STATUS_CODE.OK) {
-          notification.error({
-            message: error,
-          });
-        }
+        // if (status !== STATUS_CODE.OK) {
+        //   notification.error({
+        //     message: error,
+        //   });
+        // }
+        return router.push("/");
       })
       .catch((e) => {
-        router.push("/");
+        notification.error({
+          message: "Mật khẩu hoặc tài khoản không đúng !",
+        });
       });
   };
 
