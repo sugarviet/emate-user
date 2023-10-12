@@ -10,8 +10,8 @@ import { DEFAULT } from "@/constants/defaultElement";
 
 const UserContact = ({message}) => {
     
-    const {name="Emate", img=DEFAULT.AVATAR_IMAGE_PATH, time, username:messageTo, id:number} = message;
-    const storeSelectedUserId = useChatStore((state) => state.selectedUserId);
+    const {name, img=DEFAULT.AVATAR_IMAGE_PATH, time, username:messageTo, id:number} = message;
+    const selectedUserId = useChatStore((state) => state.selectedUserId);
     const setSelectedUserId = useChatStore((state) => state.setSelectedUserId);
     const storeSelectedUser = useChatStore(state => state.storeSelectedUser)
     const currentMsg = useChatStore(state => state.currentMsg)
@@ -21,23 +21,26 @@ const UserContact = ({message}) => {
     
     // const {data} = useSWR(storeSelectedUserId ? `https://jsonplaceholder.typicode.com/users/${storeSelectedUserId}` : null, fetcher)
 
-    const {data} = useSWR(storeSelectedUserId ? `https://jsonplaceholder.typicode.com/users/1` : null, fetcher)
+    const {data, isLoading} = useSWR(selectedUserId ? `http://localhost:8080/getDetail/${selectedUserId}` : null, fetcher)
     
     useEffect(() => {
-        // storeSelectedUser(data)
-
-        storeSelectedUser({
-            id: '651a6949baf2f58aa1cb63a8',
-            name: "Toan"
-        })
-
-        
+        console.log(data);
+        if(data){
+            storeSelectedUser({
+                id: data?.metaData._id,
+                name: data?.metaData.name,
+                avatar: data?.metaData.avatar
+            })
+        }
     }, [data, storeSelectedUser])
 
     const handleFetchChooseUser = (userId) => {
         setSelectedUserId(userId);
     }
 
+    if(isLoading){
+        return <>Loading...</>
+    }
   return (
     <div className="pink_border_color w-full h-24 relative my-2 rounded-xl hover:cursor-pointer p-2 z-30 overflow-hidden bg-white" onClick={() => handleFetchChooseUser(number)}>
         <Row className="translate-y-3" align="middle" justify="center" gutter={[2]}>
@@ -61,9 +64,9 @@ const UserContact = ({message}) => {
                 <div>
                     <p className="text-sm">{time}</p>
                 </div>
-                <div className="w-5 h-5 lg:w-6 lg:h-6 primary_bg_pink_color text-white rounded-full absolute bottom-0 right-4 text-center flex items-center justify-center">
+                {/* <div className="w-5 h-5 lg:w-6 lg:h-6 primary_bg_pink_color text-white rounded-full absolute bottom-0 right-4 text-center flex items-center justify-center">
                     <p className="text-center lg:font-bold font-semibold ">{number}</p>
-                </div>
+                </div> */}
             </div>
             </Col>
         </Row>

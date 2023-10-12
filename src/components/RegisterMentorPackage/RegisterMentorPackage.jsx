@@ -64,7 +64,10 @@ const RegisterMentorPackage = () => {
 
   const [degreeImgUrl, setDegreeImgUrl] = useState("");
   const onFinish = (values) => {
-    console.log("Success:", values);
+    console.log("Success:", {
+      ...values,
+      price: +values.price
+    });
   };
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
@@ -90,12 +93,10 @@ const RegisterMentorPackage = () => {
         onSuccess();
         message.success(`${file.name} uploaded successfully`);
       } else {
-        // Handle upload failure
         onError();
         message.error(`Failed to upload ${file.name}`);
       }
     } catch (error) {
-      // Handle network or other errors
       console.error("Error uploading image:", error);
       onError(error);
       message.error(`Failed to upload ${file.name}`);
@@ -179,7 +180,7 @@ const RegisterMentorPackage = () => {
                     rules={[
                       {
                         required: true,
-                        message: "Please input your email!",
+                        message: "Vui lòng nhập email!",
                       },
                     ]}
                   >
@@ -190,8 +191,8 @@ const RegisterMentorPackage = () => {
                     initialValue={data.metaData}
                     rules={[
                       {
-                        required: false,
-                        message: "Please input your email!",
+                        required: true,
+                        message: "Vui lòng chọn chuyên ngành của bạn!",
                       },
                     ]}
                   >
@@ -209,7 +210,7 @@ const RegisterMentorPackage = () => {
                     rules={[
                       {
                         required: true,
-                        message: "Please input your email!",
+                        message: "Vui lòng nhập trường bạn (đã) đang theo học",
                       },
                     ]}
                   >
@@ -221,7 +222,7 @@ const RegisterMentorPackage = () => {
                     rules={[
                       {
                         required: true,
-                        message: "Please input your email!",
+                        message: "Vui lòng nhập giá tiền thuê 1h của bạn!",
                       },
                     ]}
                   >

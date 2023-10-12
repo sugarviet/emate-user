@@ -15,7 +15,7 @@ const InputMessage = () => {
   const [textChatContent, setTextChatContent] = useState("");
   const selectedUser = useChatStore(state => state.selectedUser)
   const addToContactList = useChatStore(state => state.addToContactList)
-
+  const currentUserInfo = useChatStore((state) => state.currentUserInfo);
   const setStoreMessage = useChatStore(state => state.setStoreMessage)
 
   const handleSetText = (e) => {
@@ -27,9 +27,13 @@ const InputMessage = () => {
 
     if(!textChatContent) return;
 
+
+    console.log('selectedUser', selectedUser);
+
     socket.emit("send-msg", {
+      from: currentUserInfo.id,
       message: textChatContent,
-      to: "651a6949baf2f58aa1cb63a8"
+      to: selectedUser.id
   })
   // Toan: 651a6949baf2f58aa1cb63a8
   // 651e3228f541cff397ab7590
@@ -42,18 +46,16 @@ const InputMessage = () => {
     // return res;
 
       const newUser = {
-        id: selectedUser.id,
-        name: selectedUser.name,
-        email:"toan123@gmail.com",
-        image: ''
+        id: selectedUser?.id,
+        name: selectedUser?.name,
+        avatar: selectedUser?.avatar,
       }
 
       console.log('newUser', newUser);
 
-      // if(handleCheckIfUserInContactAlreadyExists(newUser.id)) return;
-
+      // addToContactList(newUser);
       addToContactList(newUser);
-      // setStoreMessage({message: textChatContent, to: "651a6949baf2f58aa1cb63a8" ,time: formatCurrentTime()})
+
       setStoreMessage({message: textChatContent, to: selectedUser.id ,time: formatCurrentTime()})
 
     

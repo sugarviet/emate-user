@@ -37,6 +37,7 @@ import {
   LOGIN_PAGE_URL,
   MENTOR_PAGE_URL,
   MY_COURSES_PAGE_URL,
+  MY_PROFILE_PAGE_URL,
   SIGN_UP_PAGE_URL,
   SOCIAL_PAGE_URL,
   TEACH_WITH_EMATE_PAGE_URL,
@@ -71,7 +72,7 @@ const items = [
     icon: <ContactsOutlined />,
   },
   {
-    label: <Link href="#">Chỉnh sửa hồ sơ</Link>,
+    label: <Link href={MY_PROFILE_PAGE_URL}>Chỉnh sửa hồ sơ</Link>,
     key: "2",
     icon: <UserOutlined />,
   },
@@ -113,7 +114,7 @@ const Navbar = () => {
   const updateWallet = useStoreCurrentUserDetail((state) => state.updateWallet);
 
   const getUserDetail = async() => {
-    const {data: {metaData}} = await axios.get("http://localhost:8080/getDetail/651a6949baf2f58aa1cb63a8")
+    const {data: {metaData}} = await axios.get(`http://localhost:8080/getDetail/${currentUserInfo.id}`)
     console.log('res', metaData);
     console.log('user Detail', userDetail);
   

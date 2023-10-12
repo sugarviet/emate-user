@@ -11,6 +11,8 @@ import { WalletOutlined } from '@ant-design/icons';
 import Image from 'next/image';
 import { useStoreCurrentUserDetail } from "@/stores/useStoreCurrentUserDetail";
 import axios from 'axios';
+import urlcat from 'urlcat';
+import { BASE_URL, REQUEST_UPDATE_WALLET } from '@/constants/url';
 
 const formatter = (value) => <CountUp end={value} separator="," className='text-3xl'/>;
 
@@ -60,7 +62,7 @@ const MentorRevenue = () => {
                       <WalletOutlined className='text-2xl'/>
                     </div>
                     <div>
-                      <button className='bg-pink-400 rounded-xl px-3 py-2 text-white' onClick={showModal}>Rút tiền</button>
+                      <button className='primary_bg_pink_color rounded-xl px-3 py-2 text-white' onClick={showModal}>Rút tiền</button>
 
                       <WithdrawModal isModalOpen={openModal} onOk={handleOk} onCancel={handleCancel} setOpenModal={setOpenModal}/>
                     </div>
@@ -87,8 +89,14 @@ const MentorRevenue = () => {
 }
 
 const WithdrawModal = ({isModalOpen, setOpenModal}) => {
-  const handleWithDraw = async() => {
-    const res = await axios.post('', {})
+  const userDetail = useStoreCurrentUserDetail((state) => state.userDetail);
+  const handleWithDraw = async(data) => {
+    const code = `${userDetail.email}_${userDetail.phone}_${data.money}`
+    const res = await axios.post(urlcat(BASE_URL, REQUEST_UPDATE_WALLET), {
+      code: code,
+      type : "Withdraw",
+      money: data.money
+    })
   }
   const showModal = () => {
     setOpenModal(true);
@@ -107,16 +115,9 @@ const WithdrawModal = ({isModalOpen, setOpenModal}) => {
   };
   
   return (
-    <Modal title="Vui lòng nhập thông tin của bạn" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+    <Modal title="Vui lòng nhập thông tin của bạn" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} footer={null}>
         <Form
     name="basic"
-    labelCol={{
-      span: 8,
-    }}
-    wrapperCol={{
-      span: 16,
-    }}
-   
     initialValues={{
       remember: true,
     }}
@@ -125,12 +126,12 @@ const WithdrawModal = ({isModalOpen, setOpenModal}) => {
     autoComplete="off"
   >
     <Form.Item
-    className='w-full bg-red-200'
+    className='w-full bg'
       name="phone"
       rules={[
         {
           required: true,
-          message: 'Vui lòng nhập số tài khoản của bạn!',
+          message: 'Vui lòng nhập số tài khoản MoMo của bạn!',
         },
         {
           pattern: /^[0-9]{10}$/, 
@@ -141,7 +142,7 @@ const WithdrawModal = ({isModalOpen, setOpenModal}) => {
       <Input placeholder='Số tài khoản MoMo của bạn' className='py-2 w-full' style={{width: '100%'}}/>
     </Form.Item>
     <Form.Item
-      name="money"
+      name="price"
       rules={[
         {
           required: true,
@@ -152,7 +153,7 @@ const WithdrawModal = ({isModalOpen, setOpenModal}) => {
       <Input placeholder='Số tiền bạn muốn rút' className='py-2'/>
     </Form.Item>
     <div>
-    <button className='py-2 px-5 bg-red-300 rounded-xl mx-auto flex justify-center'>submit</button>
+    <button className='py-2 px-5 primary_bg_pink_color rounded-xl mx-auto flex justify-center text-white font-bold'>submit</button>
 
     </div>
   </Form>

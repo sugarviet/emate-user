@@ -18,7 +18,6 @@ import { FAKE_TOKEN } from "@/constants/fakeToken";
 
 const socket = io.connect(BASE_URL,{
   "transports": ['websocket', 'polling'],
-  addTrailingSlash: false
 });
 
 const ChatWrapper = () => {
@@ -28,34 +27,32 @@ const ChatWrapper = () => {
 
   const addToContactList = useChatStore(state => state.addToContactList)
   const setStoreMessage = useChatStore(state => state.setStoreMessage)
+
   const initializeDataListUser = useChatStore(state => state.initializeDataListUser)
 
   useEffect(() => {
     initializeDataListUser();
-  }, [initializeDataListUser])
+  }, [])
 
   
   useEffect(() => {
     socket.on("msg-recieve", (data) => {
       console.log(data);
       const newUser = {
-        id: 13,
-        from: data.recieve,
-        name: "Viet",
-        email:"viet123@gmail.com",
-        image: ''
+        id: data.from,
+        from: data.from,
       }
-
-      addToContactList(newUser)
-
-
-      setStoreMessage({...data, time: formatCurrentTime()})
+      
+      if(data){
+        addToContactList(newUser)
+        setStoreMessage({...data, time: formatCurrentTime()})
+      }
   
     })
   },[socket, addToContactList, setStoreMessage])
   
   useEffect(() => {
-    socket.emit("add-user", currentUserInfo.id)
+    socket.emit("add-user", currentUserInfo?.id)
 
   }, [currentUserInfo])
   

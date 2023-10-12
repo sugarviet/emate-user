@@ -1,9 +1,10 @@
 /* BASE URL */
 export const SERVER_BASE_URL_LOCAL_HOST = "http://localhost:8080/";
+export const HEROKU_SERVER = "https://emate-af7e6f8fb027.herokuapp.com/"
 export const BASE_URL_LOCAL_HOST = "http://localhost:8080/";
 export const BASE_URL_STAGING = "https://back-end-ematee.vercel.app/";
 
-export const BASE_URL = BASE_URL_LOCAL_HOST
+export const BASE_URL = HEROKU_SERVER
 
 /* API END POINT */
 export const LOGIN_URL = "auth/login";
@@ -29,7 +30,7 @@ export const CHAT_PAGE_URL = "/chat";
 export const MENTOR_PAGE_URL = "/mentor";
 export const CART_PAGE_URL = "/cart";
 export const COURSES_PAGE_URL = "/courses";
-export const MY_PROFILE_PAGE_URL = "/my-profile";
+export const MY_PROFILE_PAGE_URL = "/profile";
 export const REGISTER_MENTOR_PACKAGE_PAGE_URL = "/register-mentor-package";
 export const MENTOR_PACKAGE_PAGE_URL = "/mentor-package";
 export const TEACH_WITH_EMATE_PAGE_URL = "/teach-with-emate";

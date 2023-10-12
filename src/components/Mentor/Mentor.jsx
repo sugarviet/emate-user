@@ -5,6 +5,11 @@ import Image from "next/image";
 
 import styles from "./Mentor.module.css";
 import CarouselCustom from "../public/CarouselCustom/CarouselCustom";
+import useSWR from "swr";
+import { get_fetcher, post_fetcher } from "@/utils/fetcher";
+import { mentor_api } from "@/constants/api";
+import axios from "axios";
+import { metadata } from "@/app/not-found";
 
 const top_mentor_data = {
   title: "Những gia sư hàng đầu",
@@ -182,6 +187,46 @@ const marketing_mentor_data = {
 };
 
 const Mentor = () => {
+  const {
+    data: mentors,
+    isLoading: mentorsLoading,
+    error: mentorsError,
+  } = useSWR(mentor_api(), get_fetcher);
+
+  const {
+    data: mentorsSubject,
+    isLoading: mentorsSubjectLoading,
+    error: mentorsSubjectError,
+  } = useSWR(
+    "https://back-end-ematee.vercel.app/mentorSubject?page=1&limit=12",
+    // async (url) =>
+    //   await axios
+    //     .post(url, {
+    //       fieldsOfStudy: [
+    //         {
+    //           name: "BackEnd Developer",
+    //         },
+    //       ],
+    //     })
+    //     .then((response) => response.data)
+    //     .then((response) => response.metaData)
+    (url) =>
+      post_fetcher(url, {
+        fieldsOfStudy: [
+          {
+            name: "BackEnd Developer",
+          },
+        ],
+      })
+  );
+
+  if (mentorsLoading || mentorsError) return null;
+  if (mentorsSubjectLoading || mentorsSubjectError) return null;
+
+  top_mentor_data.arrayData = mentors;
+  it_mentor_data.arrayData = mentorsSubject;
+  marketing_mentor_data.arrayData = mentors;
+
   return (
     <main className="blur_custom">
       <div className={styles.container}>
@@ -209,7 +254,7 @@ const Mentor = () => {
           height={120}
           className={styles.pink_dot_first}
         />
-  
+
         <Image
           src="/images/pinkDot4.png"
           alt="img"

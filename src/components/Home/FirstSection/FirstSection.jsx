@@ -30,23 +30,23 @@ const FirstSection = () => {
     visible: { opacity: 1 },
   };
 
-  // const getUserDetail = async() => {
-  //   const {data: {metaData}} = await axios.get("http://localhost:8080/getDetail/651a6949baf2f58aa1cb63a8")
-  //   console.log('res', metaData);
-  //   console.log('user Detail', userDetail);
-  //   if(userDetail){
-  //     console.log('already logged in');
-  //     return;
-  //   }else{
-  //     storeUserDetail(metaData)
-  //   }
-  // }
+  const getUserDetail = async() => {
+    const {data: {metaData}} = await axios.get("http://localhost:8080/getDetail/651a6949baf2f58aa1cb63a8")
+    console.log('res', metaData);
+    console.log('user Detail', userDetail);
+    if(userDetail){
+      console.log('already logged in');
+      return;
+    }else{
+      storeUserDetail(metaData)
+    }
+  }
 
-  // useEffect(() => {
-  //   if(session?.accessToken._id){
-  //     getUserDetail()
-  //   }
-  // }, [session])
+  useEffect(() => {
+    if(session?.accessToken._id){
+      getUserDetail()
+    }
+  }, [session])
 
   useEffect(() => {
     if(session?.accessToken == ''){

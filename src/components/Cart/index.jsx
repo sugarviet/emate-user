@@ -55,11 +55,11 @@ const Cart = () => {
     );
 
     setTotal(result);
-  }, [purchasingCourses]);
+  }, [purchasingCourses, setTotal]);
 
   useEffect(() => {
     setSelectedCourses(course_data);
-  }, []);
+  }, [setSelectedCourses]);
 
   return (
     <m.main

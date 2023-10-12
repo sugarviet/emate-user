@@ -1,0 +1,8 @@
+.blur_bg {
+    background-color: rgba(251, 246, 246, 0.9);
+    border: 1px solid white;
+    border-radius: 67px;
+    backdrop-filter: blur(4px);
+
+    @apply mt-6 md:px-28 py-8 relative px-4 lg:py-8;
+  }

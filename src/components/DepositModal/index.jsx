@@ -177,7 +177,7 @@ export default function DepositModal() {
                             </div>
                             <div className="flex items-center justify-between text-lg py-2">
                                 <span className="font-medium">Phương thức thanh toán:</span> 
-                                <span className="flex">Ví <Image className="ml-4" width={32} height={32} src={'/images/MoMo_Logo.png'}/></span>
+                                <span className="flex">Ví <Image alt="momo-logo" className="ml-4" width={32} height={32} src={'/images/MoMo_Logo.png'}/></span>
                             </div>
                             <div className="flex items-center justify-between text-lg py-2">
                                 <span className="font-medium">Tên tài khoản:</span> 

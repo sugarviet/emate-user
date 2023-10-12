@@ -1,6 +1,7 @@
+import { message } from "antd";
 import axios from "axios";
 
-const fetcher = async(url) => {
+const fetcher = async (url) => {
     const res = await axios.get(url);
 
     return res.data;
@@ -8,5 +9,6 @@ const fetcher = async(url) => {
 
 export default fetcher;
 const get_fetcher = (url) => axios.get(url).then(res => res.data).then(res => res.metaData)
+const post_fetcher = async (url, body, successCallback, errorCallback) => await axios.post(url, body).then(res => res.data).then(res => res.metaData).then(successCallback).catch(errorCallback)
 
-export { get_fetcher };
+export { get_fetcher, post_fetcher };

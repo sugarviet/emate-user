@@ -5,7 +5,7 @@ import axios from "axios";
 import { persist, createJSONStorage } from "zustand/middleware";
 import { FAKE_TOKEN } from "@/constants/fakeToken";
 import urlcat from "urlcat";
-import { BASE_URL, GET_INITIAL_CHAT_LIST_USER } from "@/constants/url";
+import { BASE_URL, GET_DETAIL_USER, GET_INITIAL_CHAT_LIST_USER } from "@/constants/url";
 
 export const useChatStore = create(
   persist(
@@ -16,96 +16,168 @@ export const useChatStore = create(
       selectedUser: null,
       messages: [],
       listUsers: [
-        { id: 1, name: "Mike", image: "", email: "viet123@gmail.com" },
+        { id: "123", name: "Mike", image: "", email: "viet123@gmail.com" },
       ],
       selectedUserId: null,
       firstSelected: false,
       currentUserInfo: null,
       currentMsg: [],
+      initializeDataListUser: async() => {
+        const state = get();
 
-      initializeDataListUser: () =>
-        set((state) => {
-          console.log('current user info', state.currentUserInfo);
-          axios
-                .post(
-                  urlcat(BASE_URL, GET_INITIAL_CHAT_LIST_USER),
-                  {
-                    accessToken: state.currentUserInfo.token,
-                    refreshToken: state.currentUserInfo.refreshToken
-                  },
-                  {
-                    headers: {
-                      Authorization: `Bearer ${FAKE_TOKEN}`,
-                      "x-client-id": state.currentUserInfo.id,
-                      "x-client-refreshtoken" : state.currentUserInfo.refreshToken,
-                      "x-client-accesstoken" : state.currentUserInfo.token,
-                    },
+        console.log(state.currentUserInfo?.refreshToken);
+        const {data: metaData} = await axios
+        .get(
+          urlcat(BASE_URL, GET_INITIAL_CHAT_LIST_USER),
+          {
+            headers: {
+              "x-client-id": state.currentUserInfo?.id,
+              "x-client-refreshtoken" : state.currentUserInfo?.refreshToken,
+              "x-client-accesstoken" : state.currentUserInfo?.token,
+            },
+          },
+        )
+          console.log('res', metaData.metaData);
+
+          set(() => ({ listUsers: metaData.metaData }));
+
+      },
+      // initializeDataListUser: () =>
+      //   set((state) => {
+      //     console.log('current user info', state.currentUserInfo);
+      //     axios
+      //           .get(
+      //             urlcat(BASE_URL, GET_INITIAL_CHAT_LIST_USER),
+      //             {
+      //               accessToken: state.currentUserInfo?.token,
+      //               refreshToken: state.currentUserInfo?.refreshToken
+      //             },
+      //             {
+      //               headers: {
+      //                 Authorization: `Bearer ${FAKE_TOKEN}`,
+      //                 "x-client-id": state.currentUserInfo?.id,
+      //                 "x-client-refreshtoken" : state.currentUserInfo?.refreshToken,
+      //                 "x-client-accesstoken" : state.currentUserInfo?.token,
+      //               },
                     
-                  },
+      //             },
                   
 
-                )
-                .then(function (response) {
-                  console.log("Data:", response.data);
-                })
-                .catch(function (error) {
-                  console.error("Error:", error);
-                });
-          return { listUsers: state.listUsers }
-        }),
+      //           )
+      //           .then(function (response) {
+      //             console.log("Data:", response.data);
+      //           })
+      //           .catch(function (error) {
+      //             console.error("Error:", error);
+      //           });
+      //     return { listUsers: state.listUsers }
+      //   }),
 
-      addToContactList: (user) =>
-        set((state) => {
+      // addToContactList: (user) =>
+      //   set((state) => {
+      //     const exist = state.listUsers.some(
+      //       (userInList) => userInList.id === user.id
+      //     );
+    
+      //     const api = `${BASE_URL}${GET_DETAIL_USER}/${state.currentUserInfo.id}`
+      //     if (!exist) {
+      //       let newUserFromRecieve = null;
+
+      //       if (user.from) {
+      //         axios
+      //           .get(
+      //             api,
+      //             {
+      //               headers: {
+      //                 Authorization: `Bearer ${FAKE_TOKEN}`,
+      //               },
+      //             }
+      //           )
+      //           .then(function (response) {
+      //             console.log("Data:", response.data);
+      //             newUserFromRecieve = {
+      //               id: response.data.metaData._id,
+      //               name: response.data.metaData.name,
+      //               avatar: "",
+      //             };
+
+      //             // if (!state.selectedUserId) {
+      //             //   console.log('im here');
+      //             //   state.selectedUserId = newUserFromRecieve.id;
+      //             //   state.selectedUser = {...newUserFromRecieve};
+      //             // }
+      //           })
+      //           .catch(function (error) {
+      //             console.error("Error:", error);
+      //           });
+      //       }
+
+      //       console.log('newUserFromRecieve', newUserFromRecieve);
+      //       console.log('user', user);
+      //       console.log('state.selectedUserId', state.selectedUserId);
+      //       console.log('newUserFromRecieve', newUserFromRecieve);
+      //       const finalUser = newUserFromRecieve ? newUserFromRecieve : user;
+
+      //       console.log("finalUser", finalUser);
+
+      //       if(!state.selectedUserId){
+      //         return {
+      //           listUsers: [finalUser, ...state.listUsers],
+      //           selectedUserId: newUserFromRecieve.id,
+      //           selectedUser: {...newUserFromRecieve},
+      //         }
+      //       }else {
+      //         return { 
+      //           listUsers: [finalUser, ...state.listUsers],
+      //          };
+      //       };
+
+      //       // return { 
+      //       //   // listUsers: [finalUser, ...state.listUsers],
+      //       //   listUsers: [finalUser, ...state.listUsers],
+      //       //  };
+      //     } else {
+      //       return { ...state };
+      //     }
+      //   }),
+        addToContactList: async(user) => {
+          const state = get();
+          const api = `${BASE_URL}${GET_DETAIL_USER}/${user.id}`
+
+          // const {data: {metaData}} = await axios.get(api);
+          let newUserFromRecieve = null;
+
           const exist = state.listUsers.some(
             (userInList) => userInList.id === user.id
-          );
-    
+          );  
           if (!exist) {
-            let newUserFromRecieve = null;
-
             if (user.from) {
-              axios
-                .get(
-                  "http://localhost:8080/getDetail/651a6949baf2f58aa1cb63a8",
-                  {
-                    headers: {
-                      Authorization: `Bearer ${FAKE_TOKEN}`,
-                    },
-                  }
-                )
-                .then(function (response) {
-                  console.log("Data:", response.data);
-                  newUserFromRecieve = {
-                    id: response.data.metaData._id,
-                    name: response.data.metaData.name,
-                    image: "",
-                  };
+              const {data: {metaData}} = await axios.get(api);
 
-                  if (!state.selectedUserId) {
-                    selectedUserId = user.id;
-                    selectedUser = user;
-                 
-                  } else {
-                    state.selectedUserId = user.id;
-                    state.selectedUser = user;
-               
-                  }
-                })
-                .catch(function (error) {
-                  console.error("Error:", error);
-                });
-
+                console.log('res', metaData);
+                newUserFromRecieve = {
+                  id: metaData._id,
+                  name: metaData.name,
+                  avatar: metaData.avatar
+                }
             }
 
             const finalUser = newUserFromRecieve ? newUserFromRecieve : user;
 
             console.log("finalUser", finalUser);
 
-            return { listUsers: [finalUser, ...state.listUsers] };
+            if(!state.selectedUserId){
+              set(() => ({ listUsers: [finalUser, ...state.listUsers], selectedUserId: newUserFromRecieve.id, selectedUser: {...newUserFromRecieve} }));
+            }else {
+              
+                set(() => ({ listUsers: [finalUser, ...state.listUsers] }));
+          
+            };
           } else {
-            return { ...state };
+            // return { ...state };
+            set(() => ({ ...state }));
           }
-        }),
+        },
       addToContactListByReceive: (id) =>
         set(async (state) => {
           const exist = state.listUsers.some(

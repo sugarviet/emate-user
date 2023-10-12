@@ -30,7 +30,7 @@ function CourseBanner({ course }) {
       <span className="text-sm my-1">
         Created by:{" "}
         <Link href={"/"}>
-          <span className="underline text-purple-400">{course.owner}</span>
+          <span className="underline text-purple-400">{course.owner.name}</span>
         </Link>
       </span>
     </div>
