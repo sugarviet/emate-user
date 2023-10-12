@@ -31,32 +31,44 @@ const InputMessage = () => {
     console.log('selectedUser', selectedUser);
 
     socket.emit("send-msg", {
-      from: currentUserInfo.id,
+      from: currentUserInfo._id,
       message: textChatContent,
-      to: selectedUser.id
+      to: selectedUser?._id
   })
   // Toan: 651a6949baf2f58aa1cb63a8
   // 651e3228f541cff397ab7590
 
   setTextChatContent("")
 
-  
-    const res = await axios.post(urlcat(BASE_URL, POST_MSG_URL), data)
 
 
       const newUser = {
-        id: selectedUser?.id,
+        _id: selectedUser?._id,
         name: selectedUser?.name,
         avatar: selectedUser?.avatar,
       }
 
       console.log('newUser', newUser);
 
+       const res = await axios.post(urlcat(BASE_URL, POST_MSG_URL), {
+        message: textChatContent,
+        to: selectedUser?._id
+      }, {
+        headers: {
+                "x-client-id": currentUserInfo?._id,
+                "x-client-accesstoken" : currentUserInfo?.token,
+                "x-client-refreshtoken" : currentUserInfo?.refreshToken,
+        }
+      })
       // addToContactList(newUser);
       addToContactList(newUser);
+      // console.log({message: textChatContent, to: selectedUser?._id ,time: formatCurrentTime()});
 
-      setStoreMessage({message: textChatContent, to: selectedUser.id ,time: formatCurrentTime()})
+      // setStoreMessage({message: textChatContent, to: selectedUser?._id ,time: formatCurrentTime()})
 
+      console.log('res after send msg', res);
+
+      setStoreMessage(res.data.metaData)
     
   }
 

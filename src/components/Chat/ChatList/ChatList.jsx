@@ -9,7 +9,7 @@ const ChatList = () => {
   console.log('current msg', currentMsg);
   return (
     <div className={styles.container}>
-      {currentMsg.map((msg, index) => (
+      {currentMsg?.map((msg, index) => (
         <Message key={index} msg={msg}/>
       ))}  
     </div>
