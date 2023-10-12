@@ -32,11 +32,11 @@ const INITIAL_WHAT_WILL_LEARN = [
 
 const INITIAL_CONTENT = [
   {
-    name: "Viết phần giới thiệu ở đây...",
+    name: "",
     sections: [
       {
-        name: "Viết nội dung của bạn ở đây...",
-        description: "Viết mô tả của bạn ở đây...",
+        name: "",
+        description: "",
         video: "",
       },
     ],
@@ -90,6 +90,7 @@ const SectionItem = ({ content, sectionIndex, onChange }) => {
         <span className="font-bold">Nội dung {sectionIndex}:</span>
         <Input
           value={content.name}
+          placeholder="Viết phần giới thiệu ở đây..."
           onChange={(e) => handleUpdateContent({ name: e.target.value })}
           bordered={false}
           className="w-fit"
@@ -110,6 +111,7 @@ const SectionItem = ({ content, sectionIndex, onChange }) => {
                       value={lesson.name}
                       bordered={false}
                       className="flex-1"
+                      placeholder="Viết nội dung của bạn ở đây..."
                     />
                   </div>
                   <CldUploadWidget
@@ -119,7 +121,8 @@ const SectionItem = ({ content, sectionIndex, onChange }) => {
                     onUpload={(result) => {
                       handleUpdateLesson(
                         {
-                          video: result.info.public_id,
+                          video: result.info.url,
+                          videoPublicId: result.info.public_id,
                         },
                         index
                       );
@@ -140,7 +143,7 @@ const SectionItem = ({ content, sectionIndex, onChange }) => {
                             <PlusCircleFilled /> Video
                           </button>
                           <div className="text-sm w-full truncate_2_lines">
-                            <span>{lesson.video}</span>
+                            <span>{lesson.videoPublicId}</span>
                           </div>
                         </div>
                       );
@@ -154,6 +157,7 @@ const SectionItem = ({ content, sectionIndex, onChange }) => {
                     }
                     value={lesson.description}
                     bordered={false}
+                    placeholder="Viết mô tả của bạn ở đây..."
                     className="w-full"
                   />
                 </div>
