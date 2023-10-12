@@ -5,23 +5,40 @@ import { Row, Col } from "antd"
 import useSWR from "swr";
 import { useState, useEffect } from "react";
 import fetcher from "@/utils/fetcher";
+import axios from "axios";
 import { useChatStore } from "@/stores/useChatStore";
 import { DEFAULT } from "@/constants/defaultElement";
 
 const UserContact = ({message}) => {
+
+    const fetcherWithHeader = async (url,currentId ,accessToken, refreshToken) => {
+    
+        const res = await axios.get(url, {
+            headers: {
+              "x-client-id": currentId,
+              "x-client-refreshtoken" : refreshToken,
+              "x-client-accesstoken" : accessToken,
+            },
+          },).then(response => response.data);
+    
+        return res.metaData;
+    }
     
     const {name, img=DEFAULT.AVATAR_IMAGE_PATH, time, username:messageTo, id:number} = message;
     const selectedUserId = useChatStore((state) => state.selectedUserId);
     const setSelectedUserId = useChatStore((state) => state.setSelectedUserId);
     const storeSelectedUser = useChatStore(state => state.storeSelectedUser)
     const currentMsg = useChatStore(state => state.currentMsg)
-
-
+    const setStoreMessage = useChatStore(state => state.setStoreMessage)
+    const currentUserInfo = useChatStore(state => state.currentUserInfo);
     const lastetMsg = currentMsg[currentMsg.length -1]
     
     // const {data} = useSWR(storeSelectedUserId ? `https://jsonplaceholder.typicode.com/users/${storeSelectedUserId}` : null, fetcher)
 
+    const api = `http://localhost:8080/message/${selectedUserId}`;
+
     const {data, isLoading} = useSWR(selectedUserId ? `http://localhost:8080/getDetail/${selectedUserId}` : null, fetcher)
+    const {data: listMessages} = useSWR(selectedUserId ? `http://localhost:8080/message/${selectedUserId}` : null, (url) => fetcherWithHeader(url, currentUserInfo.id, currentUserInfo.token, currentUserInfo.refreshToken))
     
     useEffect(() => {
         console.log(data);
@@ -31,6 +48,8 @@ const UserContact = ({message}) => {
                 name: data?.metaData.name,
                 avatar: data?.metaData.avatar
             })
+            console.log(listMessages);
+            setStoreMessage(listMessages)
         }
     }, [data, storeSelectedUser])
 

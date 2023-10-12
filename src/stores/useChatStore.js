@@ -25,7 +25,9 @@ export const useChatStore = create(
       initializeDataListUser: async() => {
         const state = get();
 
-        console.log(state.currentUserInfo?.refreshToken);
+        console.log('refresh',state.currentUserInfo?.refreshToken);
+        console.log('access', state.currentUserInfo?.token);
+
         const {data: metaData} = await axios
         .get(
           urlcat(BASE_URL, GET_INITIAL_CHAT_LIST_USER),

@@ -41,9 +41,8 @@ const InputMessage = () => {
   setTextChatContent("")
 
   
-    // const res = await axios.post(urlcat(BASE_URL, POST_MSG_URL), data)
+    const res = await axios.post(urlcat(BASE_URL, POST_MSG_URL), data)
 
-    // return res;
 
       const newUser = {
         id: selectedUser?.id,
