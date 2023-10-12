@@ -31,5 +31,12 @@ const post_with_header_fetcher = async (url, body, currentId, accessToken, refre
   },
 }).then(res => res.data).then(res => res.metaData).then(successCallback).catch(errorCallback)
 
+const get_with_header_fetcher = async (url, currentId, accessToken, refreshToken) => await axios.get(url, {
+  headers: {
+    "x-client-id": currentId,
+    "x-client-refreshtoken": refreshToken,
+    "x-client-accesstoken": accessToken,
+  }
+}).then(response => response.data).then(response => response.metaData)
 
-export { get_fetcher, post_fetcher, post_with_header_fetcher };
+export { get_fetcher, post_fetcher, post_with_header_fetcher, get_with_header_fetcher };
