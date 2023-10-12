@@ -7,14 +7,14 @@ import { Rate, Row, Col } from "antd";
 import Image from "next/image";
 import Link from "next/link";
 import { formattedCoin } from "@/utils/formatedCurrency";
+import { useRouter } from "next/navigation";
 
 const BEFORE_4_SLIDES_PRIORITY = 4;
 
 const HireMentorCard = ({ cardData }) => {
   const {
-    id,
+    _id: id,
     avatar,
-    age,
     name,
     education,
     degree: level,
@@ -23,9 +23,16 @@ const HireMentorCard = ({ cardData }) => {
     index,
   } = cardData;
 
+  const router = useRouter();
+
+  const handleGoToDetail = () => {
+    router.push(`user/${id}?role=mentor`);
+  };
+
   return (
     <div
-      className="lg:w-80 md:w-80 xl:w-80 flex flex-col items-center py-3 w-64"
+      onClick={handleGoToDetail}
+      className="lg:w-80 md:w-80 xl:w-80 flex flex-col items-center py-3 w-64 hover:cursor-pointer"
       key={id}
     >
       <div>

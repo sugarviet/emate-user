@@ -6,14 +6,33 @@ import Image from "next/image";
 
 import { Rate } from "antd";
 import { formattedCoin } from "@/utils/formatedCurrency";
+import { useRouter } from "next/navigation";
+import { COURSES_PAGE_URL } from "@/constants/url";
 
 const RegisterCourseCard = ({ cardData }) => {
-  const { id, index, image, name, rating, purchasers, owner, price } = cardData;
+  const { _id, index, image, name, rating, purchasers, owner, price } =
+    cardData;
+
+  const router = useRouter();
+
+  const handleGoToDetail = () => {
+    router.push(`${COURSES_PAGE_URL}/${_id}`);
+  };
+
   return (
-    <div className="flex flex-col items-center py-3 w-80">
+    <div
+      onClick={handleGoToDetail}
+      className="flex flex-col items-center py-3 w-80 hover:cursor-pointer"
+    >
       {/* lg:w-80 md:w-80 xl:w-80 flex flex-col items-center py-3 w-64 */}
       <div>
-        <Image src={image} alt="img" height={250} width={250} />
+        <Image
+          className="rounded-xl"
+          src={image}
+          alt="img"
+          height={250}
+          width={250}
+        />
       </div>
       <div className="px-2 md:px-0 w-64">
         <div className="h-14 w-full truncate_2_lines mt-2">

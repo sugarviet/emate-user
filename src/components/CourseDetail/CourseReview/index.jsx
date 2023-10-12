@@ -29,8 +29,8 @@ function CourseReview({ id, average_rating, top_reviews }) {
   return (
     <div>
       <span className="text-xl font-bold">
-        <StarFilled style={{ color: "#fadb14" }} /> {average_rating} course
-        rating
+        <StarFilled style={{ color: "#fadb14" }} /> {average_rating} đánh giá
+        khóa học
       </span>
       <div className="grid grid-rows-1 md:grid-rows-none grid-flow-col md:grid-flow-row overflow-scroll md:overflow-hidden md:grid-cols-2 gap-2 md:gap-4 mt-4">
         {reviews.map((review, index) => {
