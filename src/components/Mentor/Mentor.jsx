@@ -13,6 +13,7 @@ import { metadata } from "@/app/not-found";
 
 const top_mentor_data = {
   title: "Những gia sư hàng đầu",
+  type: "mentor",
   arrayData: [
     {
       id: 1,
@@ -66,7 +67,6 @@ const top_mentor_data = {
       pricePerHour: "120.000",
     },
   ],
-  type: "mentor",
 };
 
 const it_mentor_data = {
