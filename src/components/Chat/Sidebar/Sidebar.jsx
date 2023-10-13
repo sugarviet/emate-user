@@ -19,13 +19,13 @@ const DesktopSidebar = () => {
   const listUsers = useChatStore((state) => state.listUsers);
   return (
     <div className={styles.container}>
-      <ul>
+      <div>
         {listUsers?.map((message, index) => (
-          <li key={index}>
+          <div key={index}>
             <UserContact message={message} />
-          </li>
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
 };

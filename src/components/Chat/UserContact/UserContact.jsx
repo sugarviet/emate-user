@@ -19,8 +19,9 @@ const UserContact = ({ message }) => {
   const selectedUserId = useChatStore((state) => state.selectedUserId);
   const setSelectedUserId = useChatStore((state) => state.setSelectedUserId);
   const storeSelectedUser = useChatStore((state) => state.storeSelectedUser);
+  const setUserChatting = useChatStore((state) => state.setUserChatting);
   const { data, isLoading } = useSWR(
-    selectedUserId ? `${BASE_URL}getDetail/${selectedUserId}` : null,
+    number ? `${BASE_URL}getDetail/${number}` : null,
     fetcher
   );
   useEffect(() => {
@@ -34,10 +35,11 @@ const UserContact = ({ message }) => {
   }, [storeSelectedUser]);
   const handleFetchChooseUser = (userId) => {
     setSelectedUserId(userId);
+    setUserChatting(data?.metaData.name);
   };
 
   if (isLoading) {
-    return <>Loading...</>;
+    return null;
   }
   return (
     <div

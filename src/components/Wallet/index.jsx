@@ -12,7 +12,7 @@ function Wallet() {
 
   useEffect(() => {
     setBalance(userDetail.wallet);
-  }, []);
+  }, [userDetail]);
 
   return (
     <button

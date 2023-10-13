@@ -22,6 +22,7 @@ export const useChatStore = create(
       firstSelected: false,
       currentUserInfo: {},
       currentMsg: [],
+      userChatting: null,
       initializeDataListUser: async () => {
         const state = get();
         const { data: metaData } = await axios.get(
@@ -100,6 +101,10 @@ export const useChatStore = create(
           selectedUser: user,
         }));
       },
+      setUserChatting: (name) =>
+        set((state) => ({
+          userChatting: name,
+        })),
       storeCurrentUser: (currentUser) =>
         set((state) => ({
           currentUserInfo: currentUser,
