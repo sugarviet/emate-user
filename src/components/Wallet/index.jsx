@@ -6,12 +6,12 @@ import { useStoreCurrentUserDetail } from "@/stores/useStoreCurrentUserDetail";
 
 function Wallet() {
   const { switchDepositModalState } = useModalStore();
-  const { balance } = useWallet();
+  const { balance, setBalance } = useWallet();
 
   const userDetail = useStoreCurrentUserDetail((state) => state.userDetail);
 
   useEffect(() => {
-    //TODO: call API TO set balance.
+    setBalance(userDetail.wallet);
   }, []);
 
   return (
@@ -22,8 +22,7 @@ function Wallet() {
       className="flex items-center"
     >
       {/* <p>{formattedCoin(balance)}</p> */}
-      <p>{formattedCoin(userDetail.wallet)}</p>
-
+      <p>{formattedCoin(balance)}</p>
     </button>
   );
 }

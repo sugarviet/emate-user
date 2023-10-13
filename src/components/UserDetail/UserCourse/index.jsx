@@ -85,7 +85,7 @@ const UserCourse = ({ courses }) => {
   return (
     <div className="md:translate-x-0">
       <h1 className="font-bold text-xl my-2">
-        Mentor Course ({it_data_courses.arrayData.length - 1})
+        Mentor Course ({it_data_courses.arrayData.length})
       </h1>
       <div className="">
         <Row gutter={[66, 16]}>

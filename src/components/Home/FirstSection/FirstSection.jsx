@@ -16,14 +16,20 @@ import axios from "axios";
 const FirstSection = () => {
   const { data: session } = useSession();
   const storeCurrentUser = useChatStore((state) => state.storeCurrentUser);
-  
-  const storeUserDetail = useStoreCurrentUserDetail((state) => state.useStoreCurrentUserDetail);
+
+  const storeUserDetail = useStoreCurrentUserDetail(
+    (state) => state.useStoreCurrentUserDetail
+  );
   const userDetail = useStoreCurrentUserDetail((state) => state.userDetail);
 
-  console.log('session', session);
+  console.log("session", session);
 
-  storeCurrentUser({_id: session?.accessToken._id, token: session?.accessToken.token,refreshToken: session?.accessToken.refreshToken, ...session?.user})
-
+  storeCurrentUser({
+    _id: session?.accessToken._id,
+    token: session?.accessToken.token,
+    refreshToken: session?.accessToken.refreshToken,
+    ...session?.user,
+  });
 
   const dotAnimationVariants = {
     hidden: { opacity: 0 },
@@ -49,10 +55,10 @@ const FirstSection = () => {
   // }, [session])
 
   useEffect(() => {
-    if(session?.accessToken == ''){
-      signOut({callbackUrl: HOME_PAGE_URL})
+    if (session?.accessToken == "") {
+      signOut({ callbackUrl: HOME_PAGE_URL });
     }
-  }, [session])
+  }, [session]);
 
   return (
     <motion.div
