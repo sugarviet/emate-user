@@ -16,33 +16,33 @@ export const useChatStore = create(
       selectedUser: null,
       messages: [],
       listUsers: [
-        
+
       ],
       selectedUserId: null,
       firstSelected: false,
-      currentUserInfo: null,
+      currentUserInfo: {},
       currentMsg: [],
-      initializeDataListUser: async() => {
+      initializeDataListUser: async () => {
         const state = get();
         console.log('state.c', state.currentUserInfo._id);
 
-        console.log('refresh',state.currentUserInfo?.refreshToken);
+        console.log('refresh', state.currentUserInfo?.refreshToken);
         console.log('access', state.currentUserInfo?.token);
 
-        const {data: metaData} = await axios
-        .get(
-          urlcat(BASE_URL, GET_INITIAL_CHAT_LIST_USER),
-          {
-            headers: {
-              "x-client-id": state.currentUserInfo?._id,
-              "x-client-refreshtoken" : state.currentUserInfo?.refreshToken,
-              "x-client-accesstoken" : state.currentUserInfo?.token,
+        const { data: metaData } = await axios
+          .get(
+            urlcat(BASE_URL, GET_INITIAL_CHAT_LIST_USER),
+            {
+              headers: {
+                "x-client-id": state.currentUserInfo?._id,
+                "x-client-refreshtoken": state.currentUserInfo?.refreshToken,
+                "x-client-accesstoken": state.currentUserInfo?.token,
+              },
             },
-          },
-        )
-          console.log('res', metaData.metaData);
+          )
+        console.log('res', metaData.metaData);
 
-          set(() => ({ listUsers: metaData.metaData }));
+        set(() => ({ listUsers: metaData.metaData }));
 
       },
       // initializeDataListUser: () =>
@@ -62,9 +62,9 @@ export const useChatStore = create(
       //                 "x-client-refreshtoken" : state.currentUserInfo?.refreshToken,
       //                 "x-client-accesstoken" : state.currentUserInfo?.token,
       //               },
-                    
+
       //             },
-                  
+
 
       //           )
       //           .then(function (response) {
@@ -81,7 +81,7 @@ export const useChatStore = create(
       //     const exist = state.listUsers.some(
       //       (userInList) => userInList.id === user.id
       //     );
-    
+
       //     const api = `${BASE_URL}${GET_DETAIL_USER}/${state.currentUserInfo.id}`
       //     if (!exist) {
       //       let newUserFromRecieve = null;
@@ -143,45 +143,45 @@ export const useChatStore = create(
       //       return { ...state };
       //     }
       //   }),
-        addToContactList: async(user) => {
-          const state = get();
-          const api = `${BASE_URL}${GET_DETAIL_USER}/${user._id}`
+      addToContactList: async (user) => {
+        const state = get();
+        const api = `${BASE_URL}${GET_DETAIL_USER}/${user._id}`
 
-          // const {data: {metaData}} = await axios.get(api);
-          let newUserFromRecieve = null;
+        // const {data: {metaData}} = await axios.get(api);
+        let newUserFromRecieve = null;
 
-          const exist = state.listUsers.some(
-            (userInList) => userInList._id === user._id
-          );  
-          if (!exist) {
-            if (user.from) {
-              const {data: {metaData}} = await axios.get(api);
+        const exist = state.listUsers.some(
+          (userInList) => userInList._id === user._id
+        );
+        if (!exist) {
+          if (user.from) {
+            const { data: { metaData } } = await axios.get(api);
 
-                console.log('res', metaData);
-                newUserFromRecieve = {
-                  _id: metaData._id,
-                  name: metaData.name,
-                  avatar: metaData.avatar
-                }
+            console.log('res', metaData);
+            newUserFromRecieve = {
+              _id: metaData._id,
+              name: metaData.name,
+              avatar: metaData.avatar
             }
-
-            const finalUser = newUserFromRecieve ? newUserFromRecieve : user;
-
-            console.log("finalUser", finalUser);
-
-            if(!state.selectedUserId){
-              set(() => ({ listUsers: [finalUser, ...state.listUsers], selectedUserId: newUserFromRecieve._id, selectedUser: {...newUserFromRecieve} }));
-            }else {
-              
-                set(() => ({ listUsers: [finalUser, ...state.listUsers] }));
-          
-            };
-          } else {
-            // return { ...state };
-            set(() => ({ ...state }));
           }
-        },
-      
+
+          const finalUser = newUserFromRecieve ? newUserFromRecieve : user;
+
+          console.log("finalUser", finalUser);
+
+          if (!state.selectedUserId) {
+            set(() => ({ listUsers: [finalUser, ...state.listUsers], selectedUserId: newUserFromRecieve._id, selectedUser: { ...newUserFromRecieve } }));
+          } else {
+
+            set(() => ({ listUsers: [finalUser, ...state.listUsers] }));
+
+          };
+        } else {
+          // return { ...state };
+          set(() => ({ ...state }));
+        }
+      },
+
       increaseCount: () =>
         set((state) => ({
           count: state.count + 1,
@@ -206,7 +206,7 @@ export const useChatStore = create(
         })),
 
       setStoreWhenRecieveMsg: (newMsg) => set((state) => ({
-          currentMsg: newMsg === undefined ? [] : newMsg
+        currentMsg: newMsg === undefined ? [] : newMsg
       })),
       setStoreMessage: (newMessage) =>
         set((state) => ({
