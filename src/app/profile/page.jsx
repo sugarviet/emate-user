@@ -158,6 +158,9 @@ const ProfilePage = () => {
             </button>
           </Upload>
           <span>Chọn ảnh đại diện</span>
+          <button className="bg-pink-300 text-white p-4 my-4 font-bold rounded-xl">
+            Xem lịch giảng dạy
+          </button>
         </div>
 
         <div className={`col-span-3`}>
