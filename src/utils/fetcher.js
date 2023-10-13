@@ -8,8 +8,8 @@ const fetcher = async (url) => {
 };
 
 export default fetcher;
-const get_fetcher = (url) =>
-  axios
+const get_fetcher = async (url) =>
+  await axios
     .get(url)
     .then((res) => res.data)
     .then((res) => res.metaData);
@@ -59,9 +59,25 @@ const get_with_header_fetcher = async (
     .then((response) => response.data)
     .then((response) => response.metaData);
 
+const put_fetcher = async (url, body, successCallback, errorCallback) =>
+  await axios
+    .put(url, body)
+    .then((res) => res.data)
+    .then((res) => res.metaData)
+    .then(successCallback)
+    .catch(errorCallback);
+const delete_fetcher = async (url, successCallback, errorCallback) =>
+  await axios
+    .delete(url)
+    .then((res) => res.data)
+    .then((res) => res.metaData)
+    .then(successCallback)
+    .catch(errorCallback);
 export {
   get_fetcher,
   post_fetcher,
   post_with_header_fetcher,
   get_with_header_fetcher,
+  put_fetcher,
+  delete_fetcher,
 };
