@@ -1,7 +1,7 @@
 import { Input } from "antd";
 import { Controller } from "react-hook-form";
 
-function CourseTitleCreation({ control }) {
+function CourseTitleCreation({ control, course }) {
   return (
     <div className="flex flex-col items-center">
       <span className="font-bold text-3xl mb-4">
@@ -13,6 +13,7 @@ function CourseTitleCreation({ control }) {
       <Controller
         name="name"
         control={control}
+        defaultValue={course.name}
         render={({ field }) => (
           <Input
             className="my-4 w-3/5 text-lg h-16"
