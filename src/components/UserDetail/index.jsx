@@ -40,8 +40,6 @@ const MentorDetail = ({ id }) => {
   if (userLoading || userError) return null;
   if (coursesLoading || coursesError) return null;
 
-  console.log(user);
-
   return (
     <m.main
       className={styles.blur_bg}
