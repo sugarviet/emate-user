@@ -15,6 +15,7 @@ import {
   Button,
   Select,
   Upload,
+  message
 } from "antd";
 import {
   ArrowLeftOutlined,
@@ -97,7 +98,7 @@ const RegisterMentorPackage = () => {
 
     if(res.status === 200){
       notification.success({
-        message: "Yêu cầu rút tiền của bạn đã gặp vấn đề. Vui lòng thử lại",
+        message: "Bạn đã đăng ký trở thành mentor thành công",
       });
 
       router.push(CREATE_COURSE_PAGE_URL)

@@ -9,6 +9,7 @@ import {
   DownloadOutlined,
   FieldTimeOutlined,
 } from "@ant-design/icons";
+import { useCartStore } from "@/stores/useCartStore";
 
 const about_course = [
   {
@@ -40,6 +41,14 @@ const about_course = [
 function CoursePreview({ course }) {
   const price = formattedCoin(course.price, 100);
 
+  const addToSelectedCourses = useCartStore(
+    (state) => state.addToSelectedCourses
+  );
+
+  const handleAddToCart = () => {
+    addToSelectedCourses(course);
+  };
+
   return (
     <div
       className={`flex flex-col items-center shadow-xl w-96 ${styles.white_bg}`}
@@ -54,7 +63,9 @@ function CoursePreview({ course }) {
         <span className="font-bold text-5xl">{price}</span>
         <div className="flex flex-col mt-4">
           <button className={styles.primary_btn}>Mua ngay</button>
-          <button className={styles.secondary_btn}>Thêm vào giỏ hàng</button>
+          <button onClick={handleAddToCart} className={styles.secondary_btn}>
+            Thêm vào giỏ hàng
+          </button>
         </div>
         <div className="mt-4">
           <span className="font-bold text-xl">Khóa học bao gồm: </span>
