@@ -1,7 +1,7 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { Image as AntdImg, message } from "antd";
+import { Image as AntdImg, notification } from "antd";
 import axios from "axios";
 import { useState } from "react";
 import Link from "next/link";
@@ -15,6 +15,7 @@ import {
   Button,
   Select,
   Upload,
+  message
 } from "antd";
 import {
   ArrowLeftOutlined,
@@ -52,9 +53,12 @@ const RegisterMentorPackage = () => {
   const router = useRouter();
   const API_KEY = "373bc9b180e920e9c2ebceaa3b341eed";
   const UPLOAD_IMG_URL = "https://api.imgbb.com/1/upload";
+
   const currentUserInfo = useChatStore((state) => state.currentUserInfo);
   const searchParams = useSearchParams();
   const search = searchParams.get("package");
+
+  const [form] = Form.useForm();
 
   const { data, isLoading } = useSWR(
     urlcat(BASE_URL, GET_ALL_SUBJECT_SELECT),
@@ -66,12 +70,8 @@ const RegisterMentorPackage = () => {
   const [degreeImgUrl, setDegreeImgUrl] = useState("");
 
   const onFinish = async(values) => {
+    console.log("Hi")
     const data  = {
-
-      // ...values,
-      // majorSubject: [{name: values.majorSubject}],
-      // price: +values.price,
-      // degreeImage: [{image: degreeImgUrl}]
       totalPrice: +values.price,
       orderCheckout: [
         {
@@ -97,9 +97,9 @@ const RegisterMentorPackage = () => {
     })
 
     if(res.status === 200){
-      message.success({
-        message: "Bạn đã đăng ký thành công trở thành mentor của Emate"
-      })
+      notification.success({
+        message: "Bạn đã đăng ký trở thành mentor thành công",
+      });
 
       router.push(CREATE_COURSE_PAGE_URL)
 
@@ -202,6 +202,7 @@ const RegisterMentorPackage = () => {
                   Thông tin đăng ký
                 </h1>
                 <Form
+                  form={form}
                   className="px-20 mt-2"
                   name="basic"
                   initialValues={{
@@ -302,21 +303,15 @@ const RegisterMentorPackage = () => {
                       )}
                     </Upload>
                   </Form.Item>
-
-                  <Button
-                    type="primary"
-                    htmlType="submit"
-                    className="mx-auto flex justify-center px-5 py-5 items-center"
-                  >
-                    Submit
-                  </Button>
                 </Form>
               </m.div>
             </Col>
           </Row>
         </div>
 
-        <button className="border border-black px-36 py-3 flex justify-center items-center mx-auto my-20">
+        <button className="border border-black px-36 py-3 flex justify-center items-center mx-auto my-20" onClick={() => {
+          form.submit()
+        }}>
           Thanh toán
         </button>
 

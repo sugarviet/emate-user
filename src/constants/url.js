@@ -18,7 +18,10 @@ export const GET_DETAIL_USER = "getDetail";
 export const GET_1V1_MESSAGE = "message";
 export const GET_ALL_SUBJECT_SELECT = "subject";
 export const REQUEST_UPDATE_WALLET = "requestCoin";
-export const APPROVE_TO_BE_MENTOR = "order/toMentor";
+export const APPROVE_TO_BE_MENTOR = "order/toMentor"
+
+
+
 
 /* PAGE END POINT */
 export const HOME_PAGE_URL = "/";
@@ -37,3 +40,15 @@ export const SOCIAL_PAGE_URL = "/social";
 export const SEARCH_PAGE_URL = "/search";
 export const CHECKOUT_PAGE_URL = "/cart/checkout/";
 export const CREATE_COURSE_PAGE_URL = "/instructor/courses/create";
+
+
+
+
+
+
+
+
+
+
+
+
