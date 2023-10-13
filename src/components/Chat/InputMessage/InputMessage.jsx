@@ -1,87 +1,69 @@
 "use client";
-
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Upload } from "antd";
 import Image from "next/image";
 import { useChatStore } from "@/stores/useChatStore";
-import io  from "socket.io-client";
 import { BASE_URL, POST_MSG_URL } from "@/constants/url";
 import urlcat from "urlcat";
+import { io } from "socket.io-client";
 import { formatCurrentTime } from "@/utils/formatCurrentTime";
-
-const socket = io.connect(BASE_URL)
+const socket = io.connect(BASE_URL, {
+  transports: ["websocket", "polling"],
+});
 const InputMessage = () => {
   const [textChatContent, setTextChatContent] = useState("");
-  const selectedUser = useChatStore(state => state.selectedUser)
-  const addToContactList = useChatStore(state => state.addToContactList)
+  const selectedUser = useChatStore((state) => state.selectedUser);
+  const addToContactList = useChatStore((state) => state.addToContactList);
   const currentUserInfo = useChatStore((state) => state.currentUserInfo);
-  const setStoreMessage = useChatStore(state => state.setStoreMessage)
+  const setStoreMessage = useChatStore((state) => state.setStoreMessage);
 
   const handleSetText = (e) => {
     setTextChatContent(e.target.value);
-  }
-
-  const handleSubmitSendTextMessage = async(e) => {
+  };
+  useEffect(() => {
+    socket?.emit("add-user", currentUserInfo?._id);
+  }, [currentUserInfo]);
+  const handleSubmitSendTextMessage = async (e) => {
     e.preventDefault();
-
-    if(!textChatContent) return;
-
-
-    console.log('selectedUser', selectedUser);
-
-    socket.emit("send-msg", {
-      from: currentUserInfo._id,
-      message: textChatContent,
-      to: selectedUser?._id
-  })
-  // Toan: 651a6949baf2f58aa1cb63a8
-  // 651e3228f541cff397ab7590
-
-  setTextChatContent("")
-
-
-
-      const newUser = {
-        _id: selectedUser?._id,
-        name: selectedUser?.name,
-        avatar: selectedUser?.avatar,
-      }
-
-      console.log('newUser', newUser);
-
-       const res = await axios.post(urlcat(BASE_URL, POST_MSG_URL), {
+    if (!textChatContent) return;
+    const res = await axios.post(
+      urlcat(BASE_URL, POST_MSG_URL),
+      {
         message: textChatContent,
-        to: selectedUser?._id
-      }, {
+        to: selectedUser,
+      },
+      {
         headers: {
-                "x-client-id": currentUserInfo?._id,
-                "x-client-accesstoken" : currentUserInfo?.token,
-                "x-client-refreshtoken" : currentUserInfo?.refreshToken,
-        }
-      })
-      // addToContactList(newUser);
-      addToContactList(newUser);
-      // console.log({message: textChatContent, to: selectedUser?._id ,time: formatCurrentTime()});
-
-      // setStoreMessage({message: textChatContent, to: selectedUser?._id ,time: formatCurrentTime()})
-
-      console.log('res after send msg', res);
-
-      setStoreMessage(res.data.metaData)
-    
-  }
-
+          "x-client-id": currentUserInfo?._id,
+          "x-client-accesstoken": currentUserInfo?.token,
+          "x-client-refreshtoken": currentUserInfo?.refreshToken,
+        },
+      }
+    );
+    socket?.emit("send-msg", {
+      from: currentUserInfo._id,
+      message: res.data.metaData,
+      to: selectedUser,
+    });
+    const newUser = {
+      _id: selectedUser,
+      name: selectedUser?.name,
+      avatar: selectedUser?.avatar,
+    };
+    addToContactList(newUser);
+    setStoreMessage({ ...res.data.metaData, time: formatCurrentTime() });
+    setTextChatContent("");
+  };
   const handleKeyPress = (e) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       handleSubmitSendTextMessage(e);
     }
-  }
+  };
 
   const handleSendMessage = (e) => {
     e.preventDefault();
   };
-
 
   return (
     <div className="px-2 h-full border-r-2 bg-white">
@@ -98,10 +80,7 @@ const InputMessage = () => {
             value={textChatContent}
           />
 
-          <Upload
-          className="translate-y-1"
-          showUploadList={false}
-          >
+          <Upload className="translate-y-1" showUploadList={false}>
             <Image
               src="/icons/gallery.png"
               alt="uploadImg"
@@ -110,7 +89,11 @@ const InputMessage = () => {
             />
           </Upload>
 
-          <button className="primary_bg_pink_color px-7 py-2 text-white rounded-xl float-right" onKeyPress={handleKeyPress} onClick={handleSubmitSendTextMessage}>
+          <button
+            className="primary_bg_pink_color px-7 py-2 text-white rounded-xl float-right"
+            onKeyPress={handleKeyPress}
+            onClick={handleSubmitSendTextMessage}
+          >
             Gửi
           </button>
         </form>
