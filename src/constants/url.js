@@ -20,7 +20,9 @@ export const GET_ALL_SUBJECT_SELECT = "subject";
 export const REQUEST_UPDATE_WALLET = "requestCoin";
 export const APPROVE_TO_BE_MENTOR = "order/toMentor"
 export const SEARCH_COURSE_BY_NAME = "course/searchCouse/"
-export const GET_DATE_MENTOR_SCHEDULE = "schedule/getSchedule"
+export const GET_DATE_MENTOR_SCHEDULE = "schedule/specificDay"
+export const HIRE_MENTOR = "order/hireMentor"
+export const UPLOAD_SLOT_TEACHING = "schedule"
 
 
 

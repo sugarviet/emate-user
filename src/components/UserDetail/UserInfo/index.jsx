@@ -87,7 +87,7 @@ const UserBio = ({ avatar, user }) => {
           handleCancel={handleCancel}
           handleOk={handleOk}
         >
-          <BookingCalender />
+          <BookingCalender type="booking"/>
         </Modal>
       </div>
     </div>

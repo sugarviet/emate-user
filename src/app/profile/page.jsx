@@ -13,6 +13,9 @@ import {
   message,
 } from "antd";
 
+import Modal from "@/components/public/Modal";
+
+
 import { motion as m } from "framer-motion";
 
 import styles from "./profile.module.css";
@@ -24,10 +27,16 @@ import { subject_api, user_api, user_edit_profile_api } from "@/constants/api";
 import { IMG_BB_API_KEY } from "@/constants/apiKey";
 import axios from "axios";
 import { DEFAULT } from "@/constants/defaultElement";
+
+import { useStoreCurrentUserDetail } from "@/stores/useStoreCurrentUserDetail";
+import { useStoreMentorDetail } from "@/stores/useStoreMentorDetail";
+import BookingCalender from "@/components/public/BookingCalender";
+
 const { TextArea } = Input;
 
 const ProfilePage = () => {
   const [featuredImage, setFeatureImage] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [name, setName] = useState("");
   const [male, setMale] = useState(1);
@@ -37,8 +46,27 @@ const ProfilePage = () => {
   const [avatar, setAvatar] = useState(DEFAULT.AVATAR_IMAGE_PATH);
 
   const { currentUserInfo } = useChatStore();
+  const {userDetail} = useStoreCurrentUserDetail()
+  const {setStoreMentor} = useStoreMentorDetail()
 
   const { _id } = currentUserInfo;
+  const {role} = userDetail;
+
+
+  console.log('role', role);
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+
 
   const {
     data: user,
@@ -66,8 +94,15 @@ const ProfilePage = () => {
     setFeatureImage(featuredImage);
   }, [user]);
 
+  useEffect(() => {
+    if(user){
+      setStoreMentor(user)
+    }
+  }, [])
+
   if (userLoading || userError) return null;
-  if (subjectsLoading || subjectsError) return null;
+  if (subjectsLoading || subjectsError) return null
+
 
   console.log(user);
   console.log(subjects);
@@ -134,6 +169,7 @@ const ProfilePage = () => {
     }
   };
 
+  
   return (
     <m.main
       className={styles.blur_bg}
@@ -158,9 +194,19 @@ const ProfilePage = () => {
             </button>
           </Upload>
           <span>Chọn ảnh đại diện</span>
-          <button className="bg-pink-300 text-white p-4 my-4 font-bold rounded-xl">
+
+          {role.length == 2 ?  <button className="bg-pink-300 text-white p-4 my-4 font-bold rounded-xl" onClick={showModal}>
             Xem lịch giảng dạy
-          </button>
+          </button> : <></>}
+
+
+          <Modal
+          isModalOpen={isModalOpen}
+          handleCancel={handleCancel}
+          handleOk={handleOk}
+        >
+          <BookingCalender type="add"/>
+        </Modal>
         </div>
 
         <div className={`col-span-3`}>

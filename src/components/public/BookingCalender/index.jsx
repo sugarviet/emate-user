@@ -1,15 +1,19 @@
 "use client";
 
 import React, { useState } from "react";
-import { Calendar, Col, Radio, Row, Select, Typography, Table, Modal, Button, Checkbox } from "antd";
+import { Calendar, Col, Radio, Row, Select, Typography, Table, Modal, Button, Checkbox, notification, Input } from "antd";
 import { useStoreMentorDetail } from "@/stores/useStoreMentorDetail";
 import { useChatStore } from "@/stores/useChatStore";
 import axios from "axios";
 import urlcat from "urlcat";
-import { BASE_URL, GET_DATE_MENTOR_SCHEDULE } from "@/constants/url";
+import { BASE_URL, GET_DATE_MENTOR_SCHEDULE, HIRE_MENTOR, UPLOAD_SLOT_TEACHING } from "@/constants/url";
+import useFetcher from "@/hooks/global/useFetcher";
+
 
 const BookingCalender = ({type="add"}) => {
   const currentUserInfo = useChatStore((state) => state.currentUserInfo);
+  const [mentorInfo, setMentorInfo] = useState({});
+  const [linkURL, setLinkURL] = useState("")
   const [list, setList] = useState([
     0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1,
   ]);
@@ -41,23 +45,82 @@ const BookingCalender = ({type="add"}) => {
     "10:00 PM",
   ];
 
-  const handleBookClick = (record) => {
+  console.log('mentor slot', mentorSlot);
+
+  const handleSubmitRegister = async() => {
+    console.log({
+      slotStatus: registerList,
+      link: linkURL,
+      dateRegister: selectedDate
+    });
+    const {data} = await axios.post(urlcat(BASE_URL, UPLOAD_SLOT_TEACHING), {
+      slotStatus: registerList,
+      link: linkURL,
+      dateRegister: selectedDate
+    }, {
+      headers: {
+        "x-client-id": currentUserInfo?._id,
+        "x-client-refreshtoken" : currentUserInfo?.refreshToken,
+        "x-client-accesstoken" : currentUserInfo?.token,
+      },
+    })
+
+    console.log('res', data);
+    if(res.status === 200){
+      notification.success({
+        message: "Bạn đã đăng ký lịch thành công",
+      });
+    }
+  }
+
+  const handleBookClick = async(record) => {
     console.log(record);
-    if (list[record.index] === 1) {
+    if (mentorSlot[record.index] === 1) {
       // Update the array at position index to 2
-      const updatedList = [...list];
+      const updatedList = [...mentorSlot];
       updatedList[record.index] = 2;
       setList(updatedList);
+
+      const data = {
+        totalPrice: mentor?.price,
+        orderCheckout: [{
+          scheduleID: mentorInfo._id,
+          date: selectedDate,
+          scheduleSlot: updatedList,
+          mentor: mentor?._id,
+          price: mentor?.price
+        }]
+      }
+
+      const res = await axios.post(urlcat(BASE_URL, HIRE_MENTOR), data, {
+        headers: {
+          "x-client-id": currentUserInfo?._id,
+          "x-client-refreshtoken" : currentUserInfo?.refreshToken,
+          "x-client-accesstoken" : currentUserInfo?.token,
+        },
+      })
+
+      if(res.data.status === 200) {
+        notification.success({
+          message: "Bạn đã đặt lịch thành công, xin hãy đợi email từ Emate nhé <3",
+        });
+        setIsModalVisible(false)
+      }
+    
     }
 
     
   }
 
   const handleRegisterTeaching = (record) => {
-    const updatedList = [...list];
+    console.log(record);
+    const updatedList = [...registerList];
     updatedList[record.index] = updatedList[record.index] === 1 ? 0 : 1; // Toggle between 0 and 1
     setRegisterList(updatedList);
   };
+
+  console.log('RegisterList', registerList);
+
   const columns = [
     {
       title: 'Time Slot',
@@ -76,7 +139,7 @@ const BookingCalender = ({type="add"}) => {
             <Button
               onClick={() => handleBookClick(record)}
               className="float-right"
-              disabled={list[record.index] !== 1}
+              disabled={mentorSlot[record.index] !== 1}
             >
               Book
             </Button>
@@ -86,37 +149,40 @@ const BookingCalender = ({type="add"}) => {
       },
   ];
 
-  console.log('list', list);
-
   const onPanelChange = (value, mode) => {
     // console.log(value.format("YYYY-MM-DD"), mode);
   };
 
   const openTimeSlotsModal = async(e) => {
-    // console.log('data', e);
-    const dateString = e.format('YYYY-MM-DD');
-    console.log('dateString', dateString);
-    console.log('mentor', mentor);
-    const {data: {metaData}} = await axios.post(urlcat(BASE_URL, GET_DATE_MENTOR_SCHEDULE), {
-      mentor: mentor._id,
-      startDay: dateString,
-      endDay: dateString
-    }, {
-      headers: {
-        "x-client-id": currentUserInfo?._id,
-        "x-client-refreshtoken" : currentUserInfo?.refreshToken,
-        "x-client-accesstoken" : currentUserInfo?.token,
-      },
-    })
+    const dateString = e.format('DD-MM-YYYY');
+    setSelectedDate(dateString);
 
-    setMentorSlot(metaData)
+    if(type !== "add"){
+      const {data: {metaData}} = await axios.post(urlcat(BASE_URL, GET_DATE_MENTOR_SCHEDULE), {
+        mentor: mentor?._id,
+        day: dateString,
+      }, {
+        headers: {
+          "x-client-id": currentUserInfo?._id,
+          "x-client-refreshtoken" : currentUserInfo?.refreshToken,
+          "x-client-accesstoken" : currentUserInfo?.token,
+        },
+      })
+      setMentorSlot(metaData?.slotStatus)
+      setMentorInfo(metaData)
+        setIsModalVisible(true)
+    }else{
       setIsModalVisible(true)
+
+    }
   };
 
   return (
     <div>
       <h2 className='font-bold text-xl my-2'>Đặt lịch hẹn</h2>
       <div>
+        {type === 'add' ? <Input placeholder="Link meet" value={linkURL} onChange={(e) => setLinkURL(e.target.value)} className="my-3"/> : null}
+  
         <Calendar onPanelChange={onPanelChange}  onSelect={openTimeSlotsModal} headerRender={({ value, type, onChange, onTypeChange }) => {
           const start = 0;
           const end = 12;
@@ -196,7 +262,7 @@ const BookingCalender = ({type="add"}) => {
          
         </Modal>
       </div>
-      <Button className="px-5 py-2 justify-end">Submit</Button>
+      {type === 'add' ? <Button onClick={handleSubmitRegister}>Submit</Button> : null}
     </div>
   );
 };
