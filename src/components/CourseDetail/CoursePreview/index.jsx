@@ -1,6 +1,6 @@
 import Image from "next/image";
 import styles from "./CoursePreview.module.css";
-import { formattedCurrency } from "@/utils/formatedCurrency";
+import { formattedCoin } from "@/utils/formatedCurrency";
 import {
   DesktopOutlined,
   FileTextOutlined,
@@ -9,36 +9,45 @@ import {
   DownloadOutlined,
   FieldTimeOutlined,
 } from "@ant-design/icons";
+import { useCartStore } from "@/stores/useCartStore";
 
 const about_course = [
   {
     icon: <DesktopOutlined />,
-    content: "42.5 hours on-demand video",
+    content: "42.5 giờ học trên video",
   },
   {
     icon: <BookOutlined />,
-    content: "5 coding exercise",
+    content: "5 bài tập",
   },
   {
     icon: <FileTextOutlined />,
-    content: "39 articles",
+    content: "39 tài liệu",
   },
   {
     icon: <DownloadOutlined />,
-    content: "9 downloadable resources",
+    content: "9 nguồn tư liệu để tải xuống",
   },
   {
     icon: <FieldTimeOutlined />,
-    content: "Full lifetime access",
+    content: "Khóa học trọn đời",
   },
   {
     icon: <CrownOutlined />,
-    content: "Certificate of completion",
+    content: "Chứng chỉ hoàn thành khóa học",
   },
 ];
 
 function CoursePreview({ course }) {
-  const price = formattedCurrency(course.price);
+  const price = formattedCoin(course.price, 100);
+
+  const addToSelectedCourses = useCartStore(
+    (state) => state.addToSelectedCourses
+  );
+
+  const handleAddToCart = () => {
+    addToSelectedCourses(course);
+  };
 
   return (
     <div
@@ -54,10 +63,12 @@ function CoursePreview({ course }) {
         <span className="font-bold text-5xl">{price}</span>
         <div className="flex flex-col mt-4">
           <button className={styles.primary_btn}>Mua ngay</button>
-          <button className={styles.secondary_btn}>Thêm vào giỏ hàng</button>
+          <button onClick={handleAddToCart} className={styles.secondary_btn}>
+            Thêm vào giỏ hàng
+          </button>
         </div>
         <div className="mt-4">
-          <span className="font-bold text-xl">This course includes: </span>
+          <span className="font-bold text-xl">Khóa học bao gồm: </span>
           <ul className="my-2">
             {about_course.map((item, index) => (
               <li key={index}>

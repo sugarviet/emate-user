@@ -1,17 +1,18 @@
 "use client";
 
-import { useState } from "react";
+import axios from "axios";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-
 import { useSession } from "next-auth/react";
 import { signOut } from "next-auth/react";
 
+import { useEffect } from "react";
 import { motion } from "framer-motion";
 import MobileNavbar from "@/components/Navbar/MobileNavbar";
 import SearchBar from "@/components/SearchBar/SearchBar";
-
+import { useStoreCurrentUserDetail } from "@/stores/useStoreCurrentUserDetail";
+import { useChatStore } from "@/stores/useChatStore";
 import { Avatar, Dropdown, Badge } from "antd";
 import {
   BellOutlined,
@@ -23,20 +24,27 @@ import {
   ReadOutlined,
   UserOutlined,
   MailOutlined,
+  WalletOutlined,
 } from "@ant-design/icons";
 
 import {
-  BASE_URL_LOCAL_HOST,
+  BASE_URL,
   CART_PAGE_URL,
   CHAT_PAGE_URL,
   COURSES_PAGE_URL,
+  HOME_PAGE_URL,
   LOGIN_PAGE_URL,
   MENTOR_PAGE_URL,
   MY_COURSES_PAGE_URL,
+  MY_PROFILE_PAGE_URL,
   SIGN_UP_PAGE_URL,
   SOCIAL_PAGE_URL,
   TEACH_WITH_EMATE_PAGE_URL,
 } from "@/constants/url";
+import { DEFAULT } from "@/constants/defaultElement";
+import Wallet from "../Wallet";
+import { useCartStore } from "@/stores/useCartStore";
+import { user_api } from "@/constants/api";
 
 const NAVBAR_LINKS_WITH_LOG_IN = [
   {
@@ -65,7 +73,7 @@ const items = [
     icon: <ContactsOutlined />,
   },
   {
-    label: <Link href="#">Chỉnh sửa hồ sơ</Link>,
+    label: <Link href={MY_PROFILE_PAGE_URL}>Chỉnh sửa hồ sơ</Link>,
     key: "2",
     icon: <UserOutlined />,
   },
@@ -80,15 +88,18 @@ const items = [
     icon: <MailOutlined />,
   },
   {
+    label: <Wallet />,
+    key: "5",
+    icon: <WalletOutlined />,
+  },
+  {
     type: "divider",
   },
   {
     label: (
-      <p onClick={() => signOut({ callbackUrl: BASE_URL_LOCAL_HOST })}>
-        Đăng xuất
-      </p>
+      <p onClick={() => signOut({ callbackUrl: HOME_PAGE_URL })}>Đăng xuất</p>
     ),
-    key: "5",
+    key: "6",
     icon: <LogoutOutlined />,
   },
 ];
@@ -96,6 +107,32 @@ const items = [
 const Navbar = () => {
   const { data: isUserLogin } = useSession();
   const pathname = usePathname();
+  const userDetail = useStoreCurrentUserDetail((state) => state.userDetail);
+  const currentUserInfo = useChatStore((state) => state.currentUserInfo);
+  const storeUserDetail = useStoreCurrentUserDetail(
+    (state) => state.storeUserDetail
+  );
+  const updateWallet = useStoreCurrentUserDetail((state) => state.updateWallet);
+
+  const { selectedCourses } = useCartStore();
+  const cart_items_length = selectedCourses.length;
+
+  const getUserDetail = async () => {
+    const {
+      data: { metaData },
+    } = await axios.get(user_api(currentUserInfo._id));
+    storeUserDetail(metaData);
+  };
+
+  useEffect(() => {
+    console.log("currentUserInfo", currentUserInfo);
+    if (currentUserInfo?._id) {
+      console.log("im here");
+      getUserDetail();
+    } else {
+      console.log("im there");
+    }
+  }, [currentUserInfo?._id]);
 
   return (
     <motion.div
@@ -115,7 +152,6 @@ const Navbar = () => {
             />
           </Link>
         </motion.div>
-
         {/* Show if the screen is on desktop */}
         {isUserLogin ? (
           <motion.div
@@ -135,25 +171,22 @@ const Navbar = () => {
           <></>
         )}
 
-    {
-          NAVBAR_LINKS_WITH_LOG_IN.map((nav) => (
-            <motion.div
-              key={nav.text}
-              className="cursor_pointer hide_on_mobile"
-              whileHover={{ scale: 1.2 }}
+        {NAVBAR_LINKS_WITH_LOG_IN.map((nav) => (
+          <motion.div
+            key={nav.text}
+            className="cursor_pointer hide_on_mobile"
+            whileHover={{ scale: 1.2 }}
+          >
+            <Link
+              href={nav.href}
+              className={`${
+                nav.href === pathname ? "text-purple-400" : "text-black"
+              }`}
             >
-              <Link
-                href={nav.href}
-                className={`${
-                  nav.href === pathname ? "text-purple-400" : "text-black"
-                }`}
-              >
-                <p className="lg:text-xl text-base">{nav.text}</p>
-              </Link>
-            </motion.div>
-          ))
-        }
-        
+              <p className="lg:text-xl text-base">{nav.text}</p>
+            </Link>
+          </motion.div>
+        ))}
 
         {/* NOT LOGGED IN */}
         {isUserLogin ? null : (
@@ -181,6 +214,12 @@ const Navbar = () => {
         {/* LOG IN */}
         {isUserLogin ? (
           <div className="hidden lg:flex sm:gap-12 items-center">
+            <div className="flex items-center">
+              <p className="flex items-center">
+                <Wallet />
+              </p>
+            </div>
+
             <Link href="/">
               <Badge count={2}>
                 <motion.span className="text-2xl" whileHover={{ scale: 1.1 }}>
@@ -198,7 +237,7 @@ const Navbar = () => {
             </Link>
 
             <Link href={CART_PAGE_URL}>
-              <Badge count={6}>
+              <Badge count={cart_items_length}>
                 <motion.span className="text-2xl" whileHover={{ scale: 1.1 }}>
                   <ShoppingCartOutlined />
                 </motion.span>
@@ -214,7 +253,7 @@ const Navbar = () => {
                 align="middle"
               >
                 <Avatar
-                  src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=1"
+                  src={DEFAULT.AVATAR_IMAGE_PATH}
                   alt="User Image"
                   style={{ cursor: "pointer" }}
                   size="large"

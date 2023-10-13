@@ -1,18 +1,19 @@
-
+"use client"
 import dynamic from "next/dynamic";
 
 import Navbar from "@/components/public/Navbar";
 import "./globals.css";
-import { Inter } from "next/font/google";
+import DepositModal from "@/components/DepositModal";
 
 import { ConfigProvider } from "antd";
 import Providers from "@/utils/Providers";
+import CompletingInfoNotification from "@/components/CompletingInfoNotificationModal";
 
-// const inter = Inter({ subsets: ["latin"] });
 const Footer = dynamic(() => import("@/components/public/Footer"));
 
+const pinkColor = '#E087FC'
+
 export default function RootLayout({ children }) {
-  
   return (
     <html lang="en">
       <link rel="icon" href="/emate.svg" />
@@ -30,20 +31,37 @@ export default function RootLayout({ children }) {
               },
               Modal: {
                 algorithm: true,
-                colorBgContainer: "red",
               },
+              Radio: {
+                algorithm: true,
+                colorPrimary: pinkColor,
+                colorBorder: pinkColor,
+                colorPrimaryActive: pinkColor
+              },
+              Pagination: {
+                algorithm: true,
+                colorPrimaryBorder: pinkColor,
+                colorPrimary: pinkColor,
+              },
+              Collapse: {
+                colorBorder: 'black',
+              },
+              Checkbox: {
+                colorBorder: pinkColor,
+                colorPrimaryHover: pinkColor,
+                colorPrimaryBorder: pinkColor,
+                colorPrimary: pinkColor
+              }
             },
           }}
         >
-          
-            <Providers >
-              <Navbar />
-        
-                {children}
-         
-              <Footer />
-            </Providers>
-         
+          <Providers >
+            <Navbar />
+            {children}
+            <DepositModal />
+            <CompletingInfoNotification />
+            <Footer />
+          </Providers>
         </ConfigProvider>
       </body>
     </html>

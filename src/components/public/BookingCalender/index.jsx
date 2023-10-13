@@ -1,30 +1,33 @@
 "use client";
 
-// 
-
-import dayjs from 'dayjs';
-import 'dayjs/locale/zh-cn';
-import dayLocaleData from 'dayjs/plugin/localeData';
-
 import React, { useState } from "react";
-import { Calendar, Col, Radio, Row, Select, Typography } from "antd";
+import { Calendar, Col, Radio, Row, Select, Typography, Table, Modal, Button, Checkbox, notification, Input } from "antd";
+import { useStoreMentorDetail } from "@/stores/useStoreMentorDetail";
+import { useChatStore } from "@/stores/useChatStore";
+import axios from "axios";
+import urlcat from "urlcat";
+import { BASE_URL, GET_DATE_MENTOR_SCHEDULE, HIRE_MENTOR, UPLOAD_SLOT_TEACHING } from "@/constants/url";
+import useFetcher from "@/hooks/global/useFetcher";
 
-const { Option } = Select;
 
-const BookingCalender = () => {
+const BookingCalender = ({type="add"}) => {
+  const currentUserInfo = useChatStore((state) => state.currentUserInfo);
+  const [mentorInfo, setMentorInfo] = useState({});
+  const [linkURL, setLinkURL] = useState("")
+  const [list, setList] = useState([
+    0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1,
+  ]);
+
+  const [registerList, setRegisterList] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,])
+
+  const mentor = useStoreMentorDetail(state => state.mentor)
+  const [mentorSlot, setMentorSlot] = useState([]);
   const [selectedDate, setSelectedDate] = useState();
   const [selectedTime, setSelectedTime] = useState("");
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
-  const handleDateChange = (date) => {
-    setSelectedDate(date);
-  };
-
-  const handleTimeChange = (time) => {
-    setSelectedTime(time);
-  };
 
   const timeSlots = [
-    "7:00 AM",
     "8:00 AM",
     "9:00 AM",
     "10:00 AM",
@@ -39,31 +42,148 @@ const BookingCalender = () => {
     "7:00 PM",
     "8:00 PM",
     "9:00 PM",
+    "10:00 PM",
   ];
 
+  console.log('mentor slot', mentorSlot);
+
+  const handleSubmitRegister = async() => {
+    console.log({
+      slotStatus: registerList,
+      link: linkURL,
+      dateRegister: selectedDate
+    });
+    const {data} = await axios.post(urlcat(BASE_URL, UPLOAD_SLOT_TEACHING), {
+      slotStatus: registerList,
+      link: linkURL,
+      dateRegister: selectedDate
+    }, {
+      headers: {
+        "x-client-id": currentUserInfo?._id,
+        "x-client-refreshtoken" : currentUserInfo?.refreshToken,
+        "x-client-accesstoken" : currentUserInfo?.token,
+      },
+    })
+
+    console.log('res', data);
+    if(res.status === 200){
+      notification.success({
+        message: "Bạn đã đăng ký lịch thành công",
+      });
+    }
+  }
+
+  const handleBookClick = async(record) => {
+    console.log(record);
+    if (mentorSlot[record.index] === 1) {
+      // Update the array at position index to 2
+      const updatedList = [...mentorSlot];
+      updatedList[record.index] = 2;
+      setList(updatedList);
+
+      const data = {
+        totalPrice: mentor?.price,
+        orderCheckout: [{
+          scheduleID: mentorInfo._id,
+          date: selectedDate,
+          scheduleSlot: updatedList,
+          mentor: mentor?._id,
+          price: mentor?.price
+        }]
+      }
+
+      const res = await axios.post(urlcat(BASE_URL, HIRE_MENTOR), data, {
+        headers: {
+          "x-client-id": currentUserInfo?._id,
+          "x-client-refreshtoken" : currentUserInfo?.refreshToken,
+          "x-client-accesstoken" : currentUserInfo?.token,
+        },
+      })
+
+      if(res.data.status === 200) {
+        notification.success({
+          message: "Bạn đã đặt lịch thành công, xin hãy đợi email từ Emate nhé <3",
+        });
+        setIsModalVisible(false)
+      }
+    
+    }
+
+    
+  }
+
+  const handleRegisterTeaching = (record) => {
+    console.log(record);
+    const updatedList = [...registerList];
+    updatedList[record.index] = updatedList[record.index] === 1 ? 0 : 1; // Toggle between 0 and 1
+    setRegisterList(updatedList);
+  };
+
+  console.log('RegisterList', registerList);
+
+  const columns = [
+    {
+      title: 'Time Slot',
+      dataIndex: 'timeSlot',
+      key: 'timeSlot',
+      render: (text, record) => (
+        <div>
+          {text}
+          {/* <Button onClick={() => handleBookClick(record)} className="float-right" disabled={list[record.index] !== 1}>Book</Button> */}
+          {type === "add" ? (
+            <Checkbox
+              onChange={() => handleRegisterTeaching(record)}
+              className="float-right"
+            />
+          ) : (
+            <Button
+              onClick={() => handleBookClick(record)}
+              className="float-right"
+              disabled={mentorSlot[record.index] !== 1}
+            >
+              Book
+            </Button>
+          )}
+        </div>
+      ),
+      },
+  ];
 
   const onPanelChange = (value, mode) => {
     // console.log(value.format("YYYY-MM-DD"), mode);
+  };
+
+  const openTimeSlotsModal = async(e) => {
+    const dateString = e.format('DD-MM-YYYY');
+    setSelectedDate(dateString);
+
+    if(type !== "add"){
+      const {data: {metaData}} = await axios.post(urlcat(BASE_URL, GET_DATE_MENTOR_SCHEDULE), {
+        mentor: mentor?._id,
+        day: dateString,
+      }, {
+        headers: {
+          "x-client-id": currentUserInfo?._id,
+          "x-client-refreshtoken" : currentUserInfo?.refreshToken,
+          "x-client-accesstoken" : currentUserInfo?.token,
+        },
+      })
+      setMentorSlot(metaData?.slotStatus)
+      setMentorInfo(metaData)
+        setIsModalVisible(true)
+    }else{
+      setIsModalVisible(true)
+
+    }
   };
 
   return (
     <div>
       <h2 className='font-bold text-xl my-2'>Đặt lịch hẹn</h2>
       <div>
-        <Select
-          placeholder="Select a time slot"
-          style={{ width: 200, marginRight: 16 }}
-          onChange={handleTimeChange}
-          value={selectedTime}
-        >
-          {timeSlots.map((slot) => (
-            <Option key={slot} value={slot}>
-              {slot}
-            </Option>
-          ))}
-        </Select>
-
-        <Calendar onPanelChange={onPanelChange}  headerRender={({ value, type, onChange, onTypeChange }) => {
+        {type === 'add' ? <Input placeholder="Link meet" value={linkURL} onChange={(e) => setLinkURL(e.target.value)} className="my-3"/> : null}
+  
+        <Calendar onPanelChange={onPanelChange}  onSelect={openTimeSlotsModal} headerRender={({ value, type, onChange, onTypeChange }) => {
           const start = 0;
           const end = 12;
           const monthOptions = [];
@@ -122,7 +242,27 @@ const BookingCalender = () => {
             </div>
           );
         }}/>
+
+<Modal
+          title="Mentor Time Slots"
+          visible={isModalVisible}
+          onCancel={() => setIsModalVisible(false)}
+          footer={null}
+        >
+          <Table
+            columns={columns}
+            dataSource={timeSlots.map((slot, index) => ({
+              key: slot.id,
+              timeSlot: `${slot}`,
+              index
+              // Add other data if needed
+            }))}
+          />
+
+         
+        </Modal>
       </div>
+      {type === 'add' ? <Button onClick={handleSubmitRegister}>Submit</Button> : null}
     </div>
   );
 };

@@ -10,8 +10,6 @@
   }
   
   .title {
-    /* @apply md:text-3xl sm:text-2xl text-lg mb-16 text-center font-bold w-48 h-10 flex relative right-12 sm:static sm:-translate-x-1/2 lg:translate-x-0; */
-
     @apply md:text-3xl sm:text-2xl text-lg mb-16 text-center font-bold ;
   }
   

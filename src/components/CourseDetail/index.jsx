@@ -10,20 +10,18 @@ import useSWR from "swr";
 import { course_item_api } from "@/constants/api";
 import CourseReview from "./CourseReview";
 import { get_fetcher } from "@/utils/fetcher";
-import { formattedCurrency } from "@/utils/formatedCurrency";
+import { formattedCoin } from "@/utils/formatedCurrency";
 
 function CourseDetail({ id }) {
-  const { data, isLoading } = useSWR(course_item_api(id), get_fetcher);
+  const {
+    data: course,
+    isLoading,
+    error,
+  } = useSWR(course_item_api(id), get_fetcher);
 
-  if (isLoading) return null;
+  if (isLoading || error) return null;
 
-  const course = {
-    ...data,
-    image: "https://s.udemycdn.com/meta/default-meta-image-v2.png",
-    whatWillLearn: [data.whatWillLearn, "hehe"],
-  };
-
-  const price = formattedCurrency(course.price);
+  const price = formattedCoin(course.price);
 
   return (
     <>
@@ -44,10 +42,12 @@ function CourseDetail({ id }) {
           <CourseBanner course={course} />
           <div className="bottom-0 z-10 w-screen flex flex-col mb-4 md:hidden">
             <span className="font-bold text-3xl my-2 w-28">{price}</span>
-            <button className={styles.primary_btn}>Add To Cart</button>
+            <button className={styles.primary_btn}>Thêm vào giỏ hàng</button>
           </div>
           <div className={styles.learning_about}>
-            <span className="font-bold text-xl">What you will learn</span>
+            <span className="font-bold text-xl">
+              Những điều bạn sẽ học được
+            </span>
             <ul className={`${styles.list}`}>
               {course.whatWillLearn.map((item, index) => (
                 <li key={`${item} + ${index}`}>{item}</li>
@@ -55,7 +55,7 @@ function CourseDetail({ id }) {
             </ul>
           </div>
           <div className="my-4">
-            <span className="font-semibold text-3xl">Course content</span>
+            <span className="font-semibold text-3xl">Nội dung khóa học</span>
             <Collapse
               size="large"
               className="bg-pink-50 mt-8 rounded-none border-pink-300"
@@ -83,7 +83,11 @@ function CourseDetail({ id }) {
               }))}
             />
           </div>
-          <CourseReview id={course._id} />
+          <CourseReview
+            id={course._id}
+            average_rating={course.rating}
+            top_reviews={course.topReview}
+          />
         </div>
         {/* Images */}
         <Image
