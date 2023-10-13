@@ -4,7 +4,7 @@ import { Select } from "antd";
 import { Controller } from "react-hook-form";
 import useSWR from "swr";
 
-function CourseCategoryCreation({ control }) {
+function CourseCategoryCreation({ control, course }) {
   const {
     data: subjectsData,
     isLoading: subjectsDataLoading,
@@ -25,6 +25,7 @@ function CourseCategoryCreation({ control }) {
       <Controller
         name="subject"
         control={control}
+        defaultValue={course.subject}
         render={({ field }) => (
           <Select
             options={subjectsData.map((subject) => ({

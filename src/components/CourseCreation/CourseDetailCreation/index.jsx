@@ -183,7 +183,9 @@ const SectionItem = ({ content, sectionIndex, onChange }) => {
   );
 };
 
-function CourseDetailCreation({ control }) {
+function CourseDetailCreation({ control, course }) {
+  console.log(course);
+
   const {
     fields: whatWillLearn,
     append: appendWhatWillLearn,
@@ -206,6 +208,14 @@ function CourseDetailCreation({ control }) {
 
   useEffect(() => {
     if (whatWillLearn.length > 0) return;
+
+    if (course.whatWillLearn) {
+      course.whatWillLearn.forEach((value, index) => {
+        insertWhatWillLearn(index, value);
+      });
+      return;
+    }
+
     INITIAL_WHAT_WILL_LEARN.forEach((value, index) => {
       insertWhatWillLearn(index, value);
     });
@@ -213,6 +223,14 @@ function CourseDetailCreation({ control }) {
 
   useEffect(() => {
     if (content.length > 0) return;
+
+    if (course.content) {
+      course.content.forEach((item, index) => {
+        insertContents(index, { value: item });
+      });
+      return;
+    }
+
     INITIAL_CONTENT.forEach((item, index) => {
       insertContents(index, { value: item });
     });
@@ -275,28 +293,33 @@ function CourseDetailCreation({ control }) {
           <span className="font-bold">
             Học sinh sẽ học được những gì từ khóa học?
           </span>
-          {whatWillLearn.map((item, index) => (
-            <div className="flex items-center" key={item.id}>
-              <Controller
-                name={`whatWillLearn[${index}].value`}
-                control={control}
-                render={({ field }) => (
-                  <Input
-                    className="my-2"
-                    size="large"
-                    placeholder={item.placeholder}
-                    {...field}
-                  />
-                )}
-              />
-              <button
-                onClick={() => removeWhatWillLearn(index)}
-                className="text-pink-300 font-semibold ml-2"
-              >
-                <DeleteFilled />
-              </button>
-            </div>
-          ))}
+          {whatWillLearn.map((item, index) => {
+            const cloneItem = item;
+            cloneItem.id = "";
+            return (
+              <div className="flex items-center" key={item.id}>
+                <Controller
+                  name={`whatWillLearn[${index}].value`}
+                  control={control}
+                  defaultValue={Object.values(cloneItem).join("")}
+                  render={({ field }) => (
+                    <Input
+                      className="my-2"
+                      size="large"
+                      placeholder={item.placeholder}
+                      {...field}
+                    />
+                  )}
+                />
+                <button
+                  onClick={() => removeWhatWillLearn(index)}
+                  className="text-pink-300 font-semibold ml-2"
+                >
+                  <DeleteFilled />
+                </button>
+              </div>
+            );
+          })}
           <button
             onClick={handleAddMoreWhatWillLearnOption}
             className="text-pink-300 font-semibold"
@@ -312,6 +335,7 @@ function CourseDetailCreation({ control }) {
             <Controller
               name={`requirement`}
               control={control}
+              defaultValue={course.requirement}
               render={({ field }) => (
                 <Input
                   className="my-2"
@@ -330,6 +354,7 @@ function CourseDetailCreation({ control }) {
           <Controller
             name="level"
             control={control}
+            defaultValue={course.level}
             render={({ field }) => (
               <Input
                 className="my-2"
@@ -342,29 +367,32 @@ function CourseDetailCreation({ control }) {
         </div>
       </div>
       <div className="col-span-1">
-        {content.map((item, index) => (
-          <div className="flex items-center relative" key={item.id}>
-            <Controller
-              name={`content[${index}].value`}
-              control={control}
-              render={({ field: { value, onChange } }) => {
-                return (
-                  <SectionItem
-                    content={value}
-                    onChange={onChange}
-                    sectionIndex={index + 1}
-                  />
-                );
-              }}
-            />
-            <button
-              onClick={() => removeContents(index)}
-              className="text-pink-300 font-semibold ml-2 absolute top-3 right-2"
-            >
-              <CloseCircleFilled />
-            </button>
-          </div>
-        ))}
+        {content.map((item, index) => {
+          return (
+            <div className="flex items-center relative" key={item.id}>
+              <Controller
+                name={`content[${index}].value`}
+                control={control}
+                defaultValue={item}
+                render={({ field: { value, onChange } }) => {
+                  return (
+                    <SectionItem
+                      content={value}
+                      onChange={onChange}
+                      sectionIndex={index + 1}
+                    />
+                  );
+                }}
+              />
+              <button
+                onClick={() => removeContents(index)}
+                className="text-pink-300 font-semibold ml-2 absolute top-3 right-2"
+              >
+                <CloseCircleFilled />
+              </button>
+            </div>
+          );
+        })}
         <button
           onClick={handleAddNewSection}
           className="text-pink-300 font-semibold mt-4"
@@ -402,6 +430,7 @@ function CourseDetailCreation({ control }) {
           <Controller
             name="price"
             control={control}
+            defaultValue={course.price}
             render={({ field }) => (
               <InputNumber
                 placeholder="Giá khóa học"
