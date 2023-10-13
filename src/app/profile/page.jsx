@@ -1,35 +1,137 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import { Form, Input, Avatar, Image as Img, Radio, Select } from "antd";
+import {
+  Form,
+  Input,
+  Avatar,
+  Image as Img,
+  Radio,
+  Select,
+  Upload,
+  message,
+} from "antd";
 
 import { motion as m } from "framer-motion";
 
 import styles from "./profile.module.css";
 import Link from "next/link";
+import { useChatStore } from "@/stores/useChatStore";
+import useSWR from "swr";
+import { get_fetcher, post_fetcher, put_fetcher } from "@/utils/fetcher";
+import { subject_api, user_api, user_edit_profile_api } from "@/constants/api";
+import { IMG_BB_API_KEY } from "@/constants/apiKey";
+import axios from "axios";
+import { DEFAULT } from "@/constants/defaultElement";
 const { TextArea } = Input;
 
 const ProfilePage = () => {
-  const [aboutImages, setAboutImages] = useState([
-    "error",
-    "/character/nguyenNgoc.png",
-  ]);
+  const [featuredImage, setFeatureImage] = useState([]);
+
+  const [name, setName] = useState("");
+  const [male, setMale] = useState(1);
+  const [fieldsOfStudy, setFieldOfStudy] = useState("");
+  const [level, setLevel] = useState(1);
+  const [about, setAbout] = useState("");
+  const [avatar, setAvatar] = useState(DEFAULT.AVATAR_IMAGE_PATH);
+
+  const { currentUserInfo } = useChatStore();
+
+  const { _id } = currentUserInfo;
+
+  const {
+    data: user,
+    isLoading: userLoading,
+    error: userError,
+  } = useSWR(user_api(_id), get_fetcher);
+
+  const {
+    data: subjects,
+    isLoading: subjectsLoading,
+    error: subjectsError,
+  } = useSWR(subject_api(), get_fetcher);
+
+  useEffect(() => {
+    if (!user) return;
+
+    const { name, male, fieldsOfStudy, about, avatar, featuredImage } = user;
+
+    setName(name);
+    setMale(male);
+    setFieldOfStudy(fieldsOfStudy.length > 0 ? fieldsOfStudy[0].name : "");
+    setLevel(fieldsOfStudy.length > 0 ? fieldsOfStudy[0].level : 1);
+    setAbout(about);
+    setAvatar(avatar);
+    setFeatureImage(featuredImage);
+  }, [user]);
+
+  if (userLoading || userError) return null;
+  if (subjectsLoading || subjectsError) return null;
+
+  console.log(user);
+  console.log(subjects);
 
   const onFinish = (values) => {
     console.log("Success:", values);
+
+    put_fetcher(
+      user_edit_profile_api(_id),
+      {
+        name: name,
+        avatar: avatar,
+        male: male,
+        about: about,
+        featuredImage: featuredImage.map((item) => ({ image: item.image })),
+        fieldsOfStudy: [{ name: fieldsOfStudy, level: level }],
+      },
+      () => {
+        message.success("Cập nhật thông tin thành công");
+      },
+      () => {
+        message.error("Cập nhật thông tin thất bại");
+      }
+    );
   };
 
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
 
-  const handleAddAboutImage = () => {
-    console.log("On add about-image");
-  };
+  const customRequestForUploadImage = async (
+    { file, onSuccess, onError },
+    callback
+  ) => {
+    const formData = new FormData();
+    formData.set("key", IMG_BB_API_KEY);
+    formData.append("image", file);
 
-  const handleChangeAvatar = () => {
-    console.log("On change avatar");
+    try {
+      const response = await axios.post(
+        "https://api.imgbb.com/1/upload",
+        formData
+      );
+
+      if (response.status === 200 && response.data && response.data.data) {
+        // Successful upload
+        const imageUrl = response.data.data.url;
+
+        callback(imageUrl);
+
+        onSuccess();
+        message.success(
+          `${file.name} uploaded successfully. Image URL: ${imageUrl}`
+        );
+      } else {
+        // Handle upload failure
+        message.error(`Failed to upload ${file.name}`);
+      }
+    } catch (error) {
+      // Handle network or other errors
+      console.error("Error uploading image:", error);
+      onError(error);
+      message.error(`Failed to upload ${file.name}`);
+    }
   };
 
   return (
@@ -43,11 +145,22 @@ const ProfilePage = () => {
         className={`${styles.container} grid grid-cols-3 md:grid-cols-4 gap-10`}
       >
         <div className="display_center_vertical gap-2">
-          <Avatar size={160} src="/character/nguyenNgoc.png" />
-          <button onClick={handleChangeAvatar}>
-            <Image src="/icons/plus.png" alt="add" height={20} width={20} />
-          </button>
+          <Avatar size={160} src={avatar} />
+          <Upload
+            customRequest={(props) =>
+              customRequestForUploadImage({ ...props }, (imageUrl) =>
+                setAvatar(imageUrl)
+              )
+            }
+          >
+            <button className="flex items-center justify-center">
+              <Image src="/icons/plus.png" alt="add" height={20} width={20} />
+            </button>
+          </Upload>
           <span>Chọn ảnh đại diện</span>
+          <button className="bg-pink-300 text-white p-4 my-4 font-bold rounded-xl">
+            Xem lịch giảng dạy
+          </button>
         </div>
 
         <div className={`col-span-3`}>
@@ -57,6 +170,9 @@ const ProfilePage = () => {
             className="display_center_vertical"
             initialValues={{
               remember: true,
+              name: name,
+              male: male,
+              fieldsOfStudy: fieldsOfStudy,
             }}
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
@@ -73,12 +189,16 @@ const ProfilePage = () => {
             >
               <div>
                 <span>Tên của bạn</span>
-                <Input className={styles.custom_black_border_input} />
+                <Input
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className={styles.custom_black_border_input}
+                />
               </div>
             </Form.Item>
 
             <Form.Item
-              name="gender"
+              name="male"
               className={styles.input_block}
               rules={[
                 {
@@ -89,7 +209,11 @@ const ProfilePage = () => {
             >
               <div className="grid grid-cols-4">
                 <span>Giới tính</span>
-                <Radio.Group className="col-span-3 flex justify-evenly">
+                <Radio.Group
+                  value={male}
+                  onChange={(e) => setMale(e.target.value)}
+                  className="col-span-3 flex justify-evenly"
+                >
                   <Radio value={1}>Nam</Radio>
                   <Radio value={0}>Nữ </Radio>
                 </Radio.Group>
@@ -97,7 +221,7 @@ const ProfilePage = () => {
             </Form.Item>
 
             <Form.Item
-              name="follow_major"
+              name="fieldsOfStudy"
               className={styles.input_block}
               rules={[
                 {
@@ -113,32 +237,26 @@ const ProfilePage = () => {
                   showSearch
                   bordered={false}
                   optionFilterProp="children"
-                  // onChange={onChange}
-                  // onSearch={onSearch}
+                  onChange={(value) => setFieldOfStudy(value)}
+                  value={fieldsOfStudy}
                   filterOption={(input, option) =>
                     (option?.label ?? "")
                       .toLowerCase()
                       .includes(input.toLowerCase())
                   }
-                  options={[
-                    {
-                      value: "IT",
-                      label: "IT",
-                    },
-                    {
-                      value: "economy",
-                      label: "Kinh Tế",
-                    },
-                    {
-                      value: "design",
-                      label: "Thiết kế",
-                    },
-                  ]}
+                  options={subjects.map((subject) => ({
+                    value: subject.name,
+                    label: subject.name,
+                  }))}
                 />
 
                 <div className="grid grid-cols-4 mt-8">
                   <span>Trình độ</span>
-                  <Radio.Group className="col-span-3">
+                  <Radio.Group
+                    value={level}
+                    onChange={(e) => setLevel(e.target.value)}
+                    className="col-span-3"
+                  >
                     <Radio value={1}>Sơ cấp</Radio>
                     <Radio value={2}>Trung cấp</Radio>
                     <Radio value={3}>Nâng cao</Radio>
@@ -153,6 +271,8 @@ const ProfilePage = () => {
               </div>
               <TextArea
                 className="black_border_input"
+                onChange={(e) => setAbout(e.target.value)}
+                value={about}
                 autoSize={{
                   minRows: 3,
                   maxRows: 5,
@@ -160,25 +280,31 @@ const ProfilePage = () => {
               />
             </Form.Item>
 
-            <Form.Item>
+            <Form.Item name="featuredImage">
               <div className="grid grid-cols-2 md:grid-cols-3 gap-12 md:gap-4">
-                <button
-                  onClick={handleAddAboutImage}
-                  className={styles.add_image_button}
+                <Upload
+                  customRequest={(props) =>
+                    customRequestForUploadImage({ ...props }, (imageUrl) =>
+                      setFeatureImage([...featuredImage, imageUrl])
+                    )
+                  }
                 >
-                  <Image
-                    src="/icons/plus.png"
-                    alt="add"
-                    height={40}
-                    width={40}
-                  />
-                  <div className={styles.plus_button_blur_bg}></div>
-                </button>
-                {aboutImages.map((url, index) => (
+                  <button className={styles.add_image_button}>
+                    <Image
+                      src="/icons/plus.png"
+                      alt="add"
+                      height={40}
+                      width={40}
+                    />
+                    <div className={styles.plus_button_blur_bg}></div>
+                  </button>
+                </Upload>
+                {featuredImage.map((item, index) => (
                   <Img
                     key={index}
                     width={112}
-                    src={url}
+                    src={item.image}
+                    className="rounded-xl"
                     fallback="data:image/png;base64,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"
                   />
                 ))}

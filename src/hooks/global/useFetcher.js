@@ -6,8 +6,6 @@ function useFetcher() {
 
     const { _id, refreshToken, token } = currentUserInfo
 
-    console.log(_id, refreshToken, token)
-
     const get_with_header_fetcher = async (url) => await axios.get(url, {
         headers: {
             "x-client-id": _id,

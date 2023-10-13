@@ -26,4 +26,6 @@ const get_with_header_fetcher = async (url, currentId, accessToken, refreshToken
   }
 }).then(response => response.data).then(response => response.metaData)
 
-export { get_fetcher, post_fetcher, post_with_header_fetcher, get_with_header_fetcher };
+const put_fetcher = async (url, body, successCallback, errorCallback) => await axios.put(url, body).then(res => res.data).then(res => res.metaData).then(successCallback).catch(errorCallback)
+
+export { get_fetcher, post_fetcher, post_with_header_fetcher, get_with_header_fetcher, put_fetcher };
