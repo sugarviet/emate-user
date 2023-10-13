@@ -2,7 +2,7 @@
 
 import { motion as m } from 'framer-motion';
 import { useState } from 'react';
-import { Statistic, Row, Col, Modal, Form, Input } from 'antd';
+import { Statistic, Row, Col, Modal, Form, Input, message, notification } from 'antd';
 import styles from './MentorRevenue.module.css';
 import CountUp from 'react-countup';
 import { CHART_DATA } from '@/data/mentorChartData';
@@ -12,7 +12,7 @@ import { useStoreCurrentUserDetail } from "@/stores/useStoreCurrentUserDetail";
 import axios from 'axios';
 import urlcat from 'urlcat';
 import { BASE_URL, REQUEST_UPDATE_WALLET } from '@/constants/url';
-
+import { useChatStore } from '@/stores/useChatStore';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 
@@ -20,6 +20,7 @@ const formatter = (value) => <CountUp end={value} separator="," className='text-
 
 const MentorRevenue = () => {
   const userDetail = useStoreCurrentUserDetail((state) => state.userDetail);
+  
   const [data] = useState(CHART_DATA);
   const [openModal, setOpenModal] = useState(false)
 
@@ -91,18 +92,32 @@ const MentorRevenue = () => {
 
 const WithdrawModal = ({isModalOpen, setOpenModal}) => {
   const userDetail = useStoreCurrentUserDetail((state) => state.userDetail);
+  const currentUserInfo = useChatStore((state) => state.currentUserInfo);
   const handleWithDraw = async(data) => {
-    const code = `${userDetail.email}_${userDetail.phone}_${data.money}`
-
-    console.log({code: code,
-      type : "Withdraw",
-      money: data.money});
+    const code = `${userDetail.email}_${data.phone}_${data.price}`
 
     const res = await axios.post(urlcat(BASE_URL, REQUEST_UPDATE_WALLET), {
       code: code,
       type : "Withdraw",
-      money: data.money
+      price: data.price
+    }, {
+      headers: {
+        "x-client-id": currentUserInfo?._id,
+        "x-client-refreshtoken" : currentUserInfo?.refreshToken,
+        "x-client-accesstoken" : currentUserInfo?.token,
+      }
     })
+
+    if(res.data.status === 200){
+      notification.success({
+        message: "Yêu cầu rút tiền của bạn đã được chuyển đến Emate thành công",
+      });
+      handleCancel()
+    }else{
+      notification.success({
+        message: "Yêu cầu rút tiền của bạn đã gặp vấn đề. Vui lòng thử lại",
+      });
+    }
   }
 
   const handleOk = () => {
@@ -147,7 +162,7 @@ const WithdrawModal = ({isModalOpen, setOpenModal}) => {
       <Input placeholder='Số tài khoản MoMo của bạn' className='py-2 w-full' style={{width: '100%'}}/>
     </Form.Item>
     <Form.Item
-      name="money"
+      name="price"
       rules={[
         {
           required: true,

@@ -1,25 +1,29 @@
 "use client";
 
 import React, { useState } from "react";
-import { Calendar, Col, Radio, Row, Select, Typography, Table, Modal, Button } from "antd";
+import { Calendar, Col, Radio, Row, Select, Typography, Table, Modal, Button, Checkbox } from "antd";
+import { useStoreMentorDetail } from "@/stores/useStoreMentorDetail";
+import { useChatStore } from "@/stores/useChatStore";
+import axios from "axios";
+import urlcat from "urlcat";
+import { BASE_URL, GET_DATE_MENTOR_SCHEDULE } from "@/constants/url";
 
-const { Option } = Select;
+const BookingCalender = ({type="add"}) => {
+  const currentUserInfo = useChatStore((state) => state.currentUserInfo);
+  const [list, setList] = useState([
+    0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1,
+  ]);
 
-const BookingCalender = () => {
+  const [registerList, setRegisterList] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,])
+
+  const mentor = useStoreMentorDetail(state => state.mentor)
+  const [mentorSlot, setMentorSlot] = useState([]);
   const [selectedDate, setSelectedDate] = useState();
   const [selectedTime, setSelectedTime] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-  const handleDateChange = (date) => {
-    setSelectedDate(date);
-  };
-
-  const handleTimeChange = (time) => {
-    setSelectedTime(time);
-  };
 
   const timeSlots = [
-    "7:00 AM",
     "8:00 AM",
     "9:00 AM",
     "10:00 AM",
@@ -34,26 +38,26 @@ const BookingCalender = () => {
     "7:00 PM",
     "8:00 PM",
     "9:00 PM",
+    "10:00 PM",
   ];
 
-  const list = [
-    0,
-    1,
-    0,
-    1,
-    1,
-    0,
-    1,
-    1,
-    1,
-    0,
-    1,
-    0,
-    1,
-    1,
-    1,
-  ];
+  const handleBookClick = (record) => {
+    console.log(record);
+    if (list[record.index] === 1) {
+      // Update the array at position index to 2
+      const updatedList = [...list];
+      updatedList[record.index] = 2;
+      setList(updatedList);
+    }
 
+    
+  }
+
+  const handleRegisterTeaching = (record) => {
+    const updatedList = [...list];
+    updatedList[record.index] = updatedList[record.index] === 1 ? 0 : 1; // Toggle between 0 and 1
+    setRegisterList(updatedList);
+  };
   const columns = [
     {
       title: 'Time Slot',
@@ -62,25 +66,51 @@ const BookingCalender = () => {
       render: (text, record) => (
         <div>
           {text}
-          <Button onClick={() => handleBookClick(record)} className="float-right" disabled={list[record.index] === 0}>Book</Button>
+          {/* <Button onClick={() => handleBookClick(record)} className="float-right" disabled={list[record.index] !== 1}>Book</Button> */}
+          {type === "add" ? (
+            <Checkbox
+              onChange={() => handleRegisterTeaching(record)}
+              className="float-right"
+            />
+          ) : (
+            <Button
+              onClick={() => handleBookClick(record)}
+              className="float-right"
+              disabled={list[record.index] !== 1}
+            >
+              Book
+            </Button>
+          )}
         </div>
       ),
       },
-    // Add other columns if needed
   ];
+
+  console.log('list', list);
 
   const onPanelChange = (value, mode) => {
     // console.log(value.format("YYYY-MM-DD"), mode);
   };
 
-  const openTimeSlotsModal = (e) => {
+  const openTimeSlotsModal = async(e) => {
     // console.log('data', e);
     const dateString = e.format('YYYY-MM-DD');
     console.log('dateString', dateString);
-    // if (selectedDate) {
-      console.log('haah');
+    console.log('mentor', mentor);
+    const {data: {metaData}} = await axios.post(urlcat(BASE_URL, GET_DATE_MENTOR_SCHEDULE), {
+      mentor: mentor._id,
+      startDay: dateString,
+      endDay: dateString
+    }, {
+      headers: {
+        "x-client-id": currentUserInfo?._id,
+        "x-client-refreshtoken" : currentUserInfo?.refreshToken,
+        "x-client-accesstoken" : currentUserInfo?.token,
+      },
+    })
+
+    setMentorSlot(metaData)
       setIsModalVisible(true)
-    // }
   };
 
   return (
@@ -162,8 +192,11 @@ const BookingCalender = () => {
               // Add other data if needed
             }))}
           />
+
+         
         </Modal>
       </div>
+      <Button className="px-5 py-2 justify-end">Submit</Button>
     </div>
   );
 };

@@ -56,7 +56,7 @@ const MentorDetail = ({ id }) => {
           </div>
         </Col>
         <Col xl={10} md={24} lg={24}>
-          <UserInfo avatar={user.avatar} />
+          <UserInfo avatar={user.avatar} user={user}/>
         </Col>
         <Col span={24}>
           <UserCourse courses={courses} />

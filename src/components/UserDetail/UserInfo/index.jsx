@@ -9,9 +9,10 @@ import {
   YoutubeOutlined,
   FacebookOutlined,
 } from "@ant-design/icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Modal from "@/components/public/Modal";
 import BookingCalender from "@/components/public/BookingCalender";
+import { useStoreMentorDetail } from "@/stores/useStoreMentorDetail";
 
 const CONNECT_WITH_MENTOR = [
   {
@@ -22,8 +23,15 @@ const CONNECT_WITH_MENTOR = [
   },
 ];
 
-const UserBio = ({ avatar }) => {
+const UserBio = ({ avatar, user }) => {
+  const setStoreMentor = useStoreMentorDetail(state => state.setStoreMentor)
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useEffect(() => {
+    if(user){
+      setStoreMentor(user)
+    }
+  }, [])
 
   const showModal = () => {
     setIsModalOpen(true);
