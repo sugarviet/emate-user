@@ -61,12 +61,12 @@ function CourseCreation() {
   const params = useSearchParams();
   const id = params.get("id");
 
-  useEffect(async () => {
+  useEffect(() => {
     if (!id) return;
 
     setIsLoading(true);
 
-    await axios
+    axios
       .get(course_item_api(id))
       .then((res) => res.data)
       .then((res) => res.metaData)

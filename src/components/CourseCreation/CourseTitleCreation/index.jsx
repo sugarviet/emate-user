@@ -1,5 +1,4 @@
 import { Input } from "antd";
-import { useEffect, useState } from "react";
 import { Controller } from "react-hook-form";
 
 function CourseTitleCreation({ control, course }) {
