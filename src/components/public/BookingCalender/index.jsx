@@ -1,19 +1,14 @@
 "use client";
 
-// 
-
-import dayjs from 'dayjs';
-import 'dayjs/locale/zh-cn';
-import dayLocaleData from 'dayjs/plugin/localeData';
-
 import React, { useState } from "react";
-import { Calendar, Col, Radio, Row, Select, Typography } from "antd";
+import { Calendar, Col, Radio, Row, Select, Typography, Table, Modal, Button } from "antd";
 
 const { Option } = Select;
 
 const BookingCalender = () => {
   const [selectedDate, setSelectedDate] = useState();
   const [selectedTime, setSelectedTime] = useState("");
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
@@ -41,29 +36,58 @@ const BookingCalender = () => {
     "9:00 PM",
   ];
 
+  const list = [
+    0,
+    1,
+    0,
+    1,
+    1,
+    0,
+    1,
+    1,
+    1,
+    0,
+    1,
+    0,
+    1,
+    1,
+    1,
+  ];
+
+  const columns = [
+    {
+      title: 'Time Slot',
+      dataIndex: 'timeSlot',
+      key: 'timeSlot',
+      render: (text, record) => (
+        <div>
+          {text}
+          <Button onClick={() => handleBookClick(record)} className="float-right" disabled={list[record.index] === 0}>Book</Button>
+        </div>
+      ),
+      },
+    // Add other columns if needed
+  ];
 
   const onPanelChange = (value, mode) => {
     // console.log(value.format("YYYY-MM-DD"), mode);
+  };
+
+  const openTimeSlotsModal = (e) => {
+    // console.log('data', e);
+    const dateString = e.format('YYYY-MM-DD');
+    console.log('dateString', dateString);
+    // if (selectedDate) {
+      console.log('haah');
+      setIsModalVisible(true)
+    // }
   };
 
   return (
     <div>
       <h2 className='font-bold text-xl my-2'>Đặt lịch hẹn</h2>
       <div>
-        <Select
-          placeholder="Select a time slot"
-          style={{ width: 200, marginRight: 16 }}
-          onChange={handleTimeChange}
-          value={selectedTime}
-        >
-          {timeSlots.map((slot) => (
-            <Option key={slot} value={slot}>
-              {slot}
-            </Option>
-          ))}
-        </Select>
-
-        <Calendar onPanelChange={onPanelChange}  headerRender={({ value, type, onChange, onTypeChange }) => {
+        <Calendar onPanelChange={onPanelChange}  onSelect={openTimeSlotsModal} headerRender={({ value, type, onChange, onTypeChange }) => {
           const start = 0;
           const end = 12;
           const monthOptions = [];
@@ -122,6 +146,23 @@ const BookingCalender = () => {
             </div>
           );
         }}/>
+
+<Modal
+          title="Mentor Time Slots"
+          visible={isModalVisible}
+          onCancel={() => setIsModalVisible(false)}
+          footer={null}
+        >
+          <Table
+            columns={columns}
+            dataSource={timeSlots.map((slot, index) => ({
+              key: slot.id,
+              timeSlot: `${slot}`,
+              index
+              // Add other data if needed
+            }))}
+          />
+        </Modal>
       </div>
     </div>
   );

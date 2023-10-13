@@ -98,11 +98,11 @@ const WithdrawModal = ({isModalOpen, setOpenModal}) => {
       type : "Withdraw",
       money: data.money});
 
-    // const res = await axios.post(urlcat(BASE_URL, REQUEST_UPDATE_WALLET), {
-    //   code: code,
-    //   type : "Withdraw",
-    //   money: data.money
-    // })
+    const res = await axios.post(urlcat(BASE_URL, REQUEST_UPDATE_WALLET), {
+      code: code,
+      type : "Withdraw",
+      money: data.money
+    })
   }
 
   const handleOk = () => {

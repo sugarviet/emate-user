@@ -114,7 +114,7 @@ const Navbar = () => {
   const updateWallet = useStoreCurrentUserDetail((state) => state.updateWallet);
 
   const getUserDetail = async() => {
-    const {data: {metaData}} = await axios.get(`http://localhost:8080/getDetail/${currentUserInfo._id}`)
+    const {data: {metaData}} = await axios.get(`${BASE_URL}getDetail/${currentUserInfo._id}`)
     console.log('res', metaData);
     console.log('user Detail', userDetail);
   
