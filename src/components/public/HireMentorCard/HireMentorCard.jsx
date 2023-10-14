@@ -36,7 +36,7 @@ const HireMentorCard = ({ cardData }) => {
       className="lg:w-80 md:w-80 xl:w-80 flex flex-col items-center py-3 w-64 hover:cursor-pointer"
       key={id}
     >
-      <div>
+      <div className="w-56 h-56 rounded-xl overflow-hidden">
         <Image
           src={avatar ? avatar : DEFAULT.AVATAR_IMAGE_PATH}
           alt="img"

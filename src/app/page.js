@@ -73,10 +73,10 @@ const HomePage = () => {
   return (
     <>
       <Head>
-      <title>Emate</title>
-      <meta name="description" content="Emate teaching"/>
-      <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    </Head>
+        <title>Emate</title>
+        <meta name="description" content="Emate teaching" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      </Head>
       <main className="blur_custom">
         <FirstSection />
         <SecondSection />

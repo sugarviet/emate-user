@@ -9,7 +9,7 @@ const about_default =
 
 const UserCard = ({ data }) => {
   console.log('data', data);
-  const { avatar=DEFAULT.AVATAR_IMAGE_PATH, name="Emate", age=20, major="IT", interest="IT", about=about_default } = data;
+  const { avatar=DEFAULT.AVATAR_IMAGE_PATH, name="Emate", age=20, major="IT", interest="IT", about=about_default, fieldsOfStudy } = data;
   return (
     <m.div className="w-full my-10" whileHover={{y: -10}}>
       <div className="w-64 h-52 mx-auto flex justify-center items-centeroverflow-hidden rounded-lg">
@@ -23,12 +23,12 @@ const UserCard = ({ data }) => {
 
         <div className="flex justify-between items-center my-1">
           <h1 className="font-bold text-base">Chuyên ngành:</h1>
-          <h2 className="font-semibold">{major}</h2>
+          <h2 className="font-semibold">{fieldsOfStudy?.length ?fieldsOfStudy[0].name: "Not yet"}</h2>
         </div>
 
         <div className="flex justify-between items-center my-1">
           <h1 className="font-bold text-base">Muốn học:</h1>
-          <h2 className="font-semibold">{interest}</h2>
+          <h2 className="font-semibold">{fieldsOfStudy?.length ?fieldsOfStudy[0].name: "Not yet"}</h2>
         </div>
 
         <div>
