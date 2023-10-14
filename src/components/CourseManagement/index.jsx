@@ -11,6 +11,7 @@ import { Switch, message } from "antd";
 import { useState } from "react";
 import { course_item_api, mentor_course_api } from "@/constants/api";
 import { useChatStore } from "@/stores/useChatStore";
+import SpinnerLoading from "../public/SpinnerLoading";
 
 const CourseItem = ({
   course,
@@ -93,7 +94,7 @@ function CourseManagement() {
     mutate,
   } = useSWR(mentor_course_api(_id), get_fetcher);
 
-  if (coursesLoading || errorLoading) return null;
+  if (coursesLoading || errorLoading) return <SpinnerLoading />;
 
   const handleDeleteCourse = (id) => {
     delete_fetcher(

@@ -14,6 +14,8 @@ import urlcat from "urlcat";
 import { useChatStore } from "@/stores/useChatStore";
 import Image from "next/image";
 import { BASE_URL, CHAT_PAGE_URL, GET_ALL_STUDENTS, GET_SOCIALS_BY_FIELDS } from "@/constants/url";
+import SpinnerLoading from "../public/SpinnerLoading";
+import useFetcher from "@/hooks/global/useFetcher";
 
 const Social = () => {
   const [socialData, setSocialData] = useState(null);
@@ -21,6 +23,8 @@ const Social = () => {
   const selectedUser = useChatStore(state => state.selectedUser)
   const setSelectedUserId = useChatStore(state => state.setSelectedUserId)
   const storeSelectedUser = useChatStore(state => state.storeSelectedUser)
+
+  const { get_with_header_fetcher } = useFetcher();
 
   const [data, setData] = useState([
     {id: 1, name: 'Châu Anh Tú', img: '/default-avatar.svg', age: 20, major: 'Kinh tế', interest: "Kinh Tế"},
@@ -62,7 +66,6 @@ const Social = () => {
   }
 
   const handleChatWithUser = (user) => {
-    console.log(user);
     setSelectedUserId(user)
     // storeSelectedUser({
     //   _id: user._id,
@@ -75,8 +78,10 @@ const Social = () => {
   }
 
   if(isLoading){
-    return <>Loading...</>
+    return <SpinnerLoading />
   }
+
+
   return (
     <m.main
       className="blur_custom"

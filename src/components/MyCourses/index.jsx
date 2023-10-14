@@ -13,6 +13,7 @@ import SuggestCourse from "../public/SuggestCourse";
 import useSWR from "swr";
 import { PURCHASED_COURSE_API } from "@/constants/api";
 import useFetcher from "@/hooks/global/useFetcher";
+import SpinnerLoading from "../public/SpinnerLoading";
 
 const MyCourse = () => {
   return (
@@ -25,11 +26,11 @@ const MyCourse = () => {
       >
         <h1 className={styles.main_text}>Khóa học của tôi</h1>
 
-        <Suspense fallback={<>Loading...</>}>
+        <Suspense fallback={<SpinnerLoading />}>
           <CourseList />
         </Suspense>
 
-        <Suspense fallback={<>Loading...</>}>
+        <Suspense fallback={<SpinnerLoading />}>
           <SuggestCourse />
         </Suspense>
 
@@ -72,7 +73,7 @@ const CourseList = () => {
     error: coursesError,
   } = useSWR(PURCHASED_COURSE_API, (url) => get_with_header_fetcher(url));
 
-  if (coursesLoading || coursesError) return null;
+  if (coursesLoading || coursesError) return <SpinnerLoading />;
 
   return (
     <div className="mt-10 w-full">
