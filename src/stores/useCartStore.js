@@ -9,7 +9,7 @@ export const useCartStore = create(
             purchasingCourses: [],
             total: 0,
             addToSelectedCourses: (course) => set(state => {
-                if (state.selectedCourses.some(c => c._id === course._id)) {
+                if (state.selectedCourses.some(c => c._id == course._id)) {
                     message.warning("Bạn đã thêm khóa học này rồi")
                     return { selectedCourses: state.selectedCourses };
                 }
@@ -18,7 +18,7 @@ export const useCartStore = create(
             }),
             removeFromSelectedCourses: (course) => set(state => ({ selectedCourses: state.selectedCourses.filter(c => c._id !== course._id) })),
             setSelectedCourses: (courses) => set({ selectedCourses: courses }),
-            cleanUpSelectedCourse: () => set(state => { selectedCourses: state.selectedCourses.filter(c => state.purchasingCourses.includes(c)) }),
+            cleanUpSelectedCourse: () => set(state => ({ selectedCourses: state.selectedCourses.filter(c => !state.purchasingCourses.some(item => item._id === c._id)) })),
             setPurchasingCourses: (courses) => set({ purchasingCourses: courses }),
             cleanUpPurchasingCourses: () => set({ purchasingCourses: [] }),
             setTotal: (value) => set({ total: value }),
