@@ -112,9 +112,8 @@ const Navbar = () => {
   const storeUserDetail = useStoreCurrentUserDetail(
     (state) => state.storeUserDetail
   );
-  const updateWallet = useStoreCurrentUserDetail((state) => state.updateWallet);
 
-  const { selectedCourses } = useCartStore();
+  const selectedCourses = useCartStore((state) => state.selectedCourses);
   const cart_items_length = selectedCourses.length;
 
   const getUserDetail = async () => {
