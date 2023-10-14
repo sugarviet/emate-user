@@ -18,7 +18,7 @@ const LEVEL = {
 };
 
 const UserBio = ({ user, courses }) => {
-  const { name, about, degree, education, fieldsOfStudy } = user;
+  const { name, about, degree, education, fieldsOfStudy, topReview } = user;
 
   const params = useSearchParams();
   const role = params.get("role");
@@ -53,7 +53,7 @@ const UserBio = ({ user, courses }) => {
         </div>
         <div>
           <h2 className="text-gray-400 font-semibold text-lg">Reviews</h2>
-          <h1 className="font-bold text-2xl">100,000</h1>
+          <h1 className="font-bold text-2xl">{topReview.length}</h1>
         </div>
       </div>
 
@@ -61,7 +61,7 @@ const UserBio = ({ user, courses }) => {
       <div className="mt-5 text-lg">
         <div className="flex items-center">
           <span className="mr-2 font-bold">Giới thiệu: </span>
-          <p className="my-2">{about}</p>
+          <p className="my-2">{about ? about : 'Not yet'}</p>
         </div>
         <div className="flex items-center">
           <span className="mr-2 font-bold">Giáo dục: </span>

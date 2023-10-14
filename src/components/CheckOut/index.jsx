@@ -14,7 +14,12 @@ import { ORDER_COURSE_API } from "@/constants/api";
 import useFetcher from "@/hooks/global/useFetcher";
 
 function CheckOut() {
-  const { purchasingCourses, cleanUpPurchasingCourses, cleanUpSelectedCourse, total } = useCartStore();
+  const {
+    purchasingCourses,
+    cleanUpPurchasingCourses,
+    cleanUpSelectedCourse,
+    total,
+  } = useCartStore();
   const { balance, widthRaw } = useWallet();
   const { switchDepositModalState } = useModalStore();
   const { post_with_header_fetcher } = useFetcher();

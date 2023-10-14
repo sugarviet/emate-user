@@ -11,7 +11,6 @@ import { STATUS_CODE } from "@/constants/statusCode";
 import { VALIDATOR } from "@/utils/validate";
 import { useSession } from "next-auth/react";
 
-
 const SignIn = () => {
   const router = useRouter();
   const { data: userInfomation } = useSession();
@@ -22,17 +21,17 @@ const SignIn = () => {
       password: values.password,
       redirect: false,
     })
-      .then(async (res) => {
-        console.log('res ne', res);
+      .then((res) => {
         // const { error, status } = JSON.parse(res.error);
-
         // if (status !== STATUS_CODE.OK) {
         //   notification.error({
         //     message: error,
         //   });
         // }
-        console.log('userinfo', userInfomation);
-        return router.push("/");
+        // router.push("/");
+        const newUrl =
+          window.location.protocol + "//" + window.location.host + "/";
+        window.location.href = newUrl;
       })
       .catch((e) => {
         notification.error({
@@ -71,8 +70,8 @@ const SignIn = () => {
                 message: "Vui lòng nhập Email !",
               },
               {
-                validator: VALIDATOR.VALIDATE_EMAIL
-              }
+                validator: VALIDATOR.VALIDATE_EMAIL,
+              },
             ]}
           >
             <Input placeholder="Email" className="black_border_input" />

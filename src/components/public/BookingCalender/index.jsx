@@ -7,10 +7,13 @@ import { useChatStore } from "@/stores/useChatStore";
 import axios from "axios";
 import urlcat from "urlcat";
 import { BASE_URL, GET_DATE_MENTOR_SCHEDULE, HIRE_MENTOR, UPLOAD_SLOT_TEACHING } from "@/constants/url";
+import { useWallet } from "@/stores/useWallet";
+
 import useFetcher from "@/hooks/global/useFetcher";
 
-
 const BookingCalender = ({type="add"}) => {
+  const { widthRaw } = useWallet();
+
   const currentUserInfo = useChatStore((state) => state.currentUserInfo);
   const [mentorInfo, setMentorInfo] = useState({});
   const [linkURL, setLinkURL] = useState("")
@@ -45,15 +48,10 @@ const BookingCalender = ({type="add"}) => {
     "10:00 PM",
   ];
 
-  console.log('mentor slot', mentorSlot);
+  console.log('mentor', mentor);
 
   const handleSubmitRegister = async() => {
-    console.log({
-      slotStatus: registerList,
-      link: linkURL,
-      dateRegister: selectedDate
-    });
-    const {data} = await axios.post(urlcat(BASE_URL, UPLOAD_SLOT_TEACHING), {
+    const res = await axios.post(urlcat(BASE_URL, UPLOAD_SLOT_TEACHING), {
       slotStatus: registerList,
       link: linkURL,
       dateRegister: selectedDate
@@ -64,12 +62,11 @@ const BookingCalender = ({type="add"}) => {
         "x-client-accesstoken" : currentUserInfo?.token,
       },
     })
-
-    console.log('res', data);
-    if(res.status === 200){
+    if(res.data.status === 200){
       notification.success({
         message: "Bạn đã đăng ký lịch thành công",
       });
+      widthRaw(mentor.price)
     }
   }
 
@@ -139,7 +136,7 @@ const BookingCalender = ({type="add"}) => {
             <Button
               onClick={() => handleBookClick(record)}
               className="float-right"
-              disabled={mentorSlot[record.index] !== 1}
+              disabled={mentorSlot ? mentorSlot[record.index] !== 1 : true}
             >
               Book
             </Button>

@@ -33,6 +33,8 @@ import { APPROVE_TO_BE_MENTOR, BASE_URL, CREATE_COURSE_PAGE_URL, GET_ALL_SUBJECT
 import urlcat from "urlcat";
 import fetcher from "@/utils/fetcher";
 import { useRouter } from "next/navigation";
+import SpinnerLoading from "../public/SpinnerLoading";
+import { useWallet } from "@/stores/useWallet";
 
 const PACKAGE = {
   yearly: {
@@ -50,6 +52,8 @@ const PACKAGE = {
 };
 
 const RegisterMentorPackage = () => {
+  const { widthRaw } = useWallet();
+
   const router = useRouter();
   const API_KEY = "373bc9b180e920e9c2ebceaa3b341eed";
   const UPLOAD_IMG_URL = "https://api.imgbb.com/1/upload";
@@ -101,6 +105,7 @@ const RegisterMentorPackage = () => {
         message: "Bạn đã đăng ký trở thành mentor thành công",
       });
 
+      
       router.push(CREATE_COURSE_PAGE_URL)
 
 
@@ -141,7 +146,7 @@ const RegisterMentorPackage = () => {
   };
 
   if (isLoading) {
-    return <>Loading...</>;
+    return <SpinnerLoading />;
   }
 
   const uploadButton = (

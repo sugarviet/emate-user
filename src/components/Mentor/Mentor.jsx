@@ -10,6 +10,7 @@ import { get_fetcher, post_fetcher } from "@/utils/fetcher";
 import { mentor_api } from "@/constants/api";
 import axios from "axios";
 import { metadata } from "@/app/not-found";
+import SpinnerLoading from "../public/SpinnerLoading";
 
 const top_mentor_data = {
   title: "Những gia sư hàng đầu",
@@ -209,8 +210,8 @@ const Mentor = () => {
       })
   );
 
-  if (mentorsLoading || mentorsError) return null;
-  if (mentorsSubjectLoading || mentorsSubjectError) return null;
+  if (mentorsLoading || mentorsError) return <SpinnerLoading />;
+  if (mentorsSubjectLoading || mentorsSubjectError) return <SpinnerLoading />;
 
   top_mentor_data.arrayData = mentors;
   it_mentor_data.arrayData = mentorsSubject;
