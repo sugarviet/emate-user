@@ -51,6 +51,9 @@ export default function RootLayout({ children }) {
                 colorPrimaryHover: pinkColor,
                 colorPrimaryBorder: pinkColor,
                 colorPrimary: pinkColor
+              },
+              Spin: {
+                colorPrimary: pinkColor,
               }
             },
           }}

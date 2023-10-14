@@ -13,6 +13,7 @@ import { useEffect, useState } from "react";
 import Modal from "@/components/public/Modal";
 import BookingCalender from "@/components/public/BookingCalender";
 import { useStoreMentorDetail } from "@/stores/useStoreMentorDetail";
+import { DEFAULT } from "@/constants/defaultElement";
 
 const CONNECT_WITH_MENTOR = [
   {
@@ -50,7 +51,7 @@ const UserBio = ({ avatar, user }) => {
       {/* Mentor avatar */}
       <div>
         <Image
-          src={avatar}
+          src={avatar ? avatar : DEFAULT.AVATAR_IMAGE_PATH}
           alt="mentor"
           width={250}
           height={250}

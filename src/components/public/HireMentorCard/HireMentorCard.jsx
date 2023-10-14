@@ -8,6 +8,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { formattedCoin } from "@/utils/formatedCurrency";
 import { useRouter } from "next/navigation";
+import { DEFAULT } from "@/constants/defaultElement";
 
 const BEFORE_4_SLIDES_PRIORITY = 4;
 
@@ -37,7 +38,7 @@ const HireMentorCard = ({ cardData }) => {
     >
       <div>
         <Image
-          src={avatar}
+          src={avatar ? avatar : DEFAULT.AVATAR_IMAGE_PATH}
           alt="img"
           width={250}
           height={250}

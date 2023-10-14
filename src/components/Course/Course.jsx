@@ -7,6 +7,7 @@ import CarouselCustom from "../public/CarouselCustom/CarouselCustom";
 import useSWR from "swr";
 import { get_fetcher } from "@/utils/fetcher";
 import { courses_by_subject_api } from "@/constants/api";
+import SpinnerLoading from "../public/SpinnerLoading";
 
 const it_data_courses = {
   title: "IT và phần mềm",
@@ -174,7 +175,7 @@ const Course = () => {
     get_fetcher
   );
 
-  if (coursesLoading || courseError) return null;
+  if (coursesLoading || courseError) return <SpinnerLoading />;
 
   it_data_courses.arrayData = courses;
   soft_skills_data_courses.arrayData = courses;

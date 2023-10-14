@@ -22,8 +22,6 @@ const FirstSection = () => {
   );
   const userDetail = useStoreCurrentUserDetail((state) => state.userDetail);
 
-  console.log("session", session);
-
   storeCurrentUser({
     _id: session?.accessToken._id,
     token: session?.accessToken.token,

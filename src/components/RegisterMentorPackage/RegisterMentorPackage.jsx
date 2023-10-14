@@ -33,6 +33,7 @@ import { APPROVE_TO_BE_MENTOR, BASE_URL, CREATE_COURSE_PAGE_URL, GET_ALL_SUBJECT
 import urlcat from "urlcat";
 import fetcher from "@/utils/fetcher";
 import { useRouter } from "next/navigation";
+import SpinnerLoading from "../public/SpinnerLoading";
 
 const PACKAGE = {
   yearly: {
@@ -141,7 +142,7 @@ const RegisterMentorPackage = () => {
   };
 
   if (isLoading) {
-    return <>Loading...</>;
+    return <SpinnerLoading />;
   }
 
   const uploadButton = (

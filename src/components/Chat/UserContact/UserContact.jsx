@@ -7,6 +7,7 @@ import fetcher from "@/utils/fetcher";
 import { useChatStore } from "@/stores/useChatStore";
 import { DEFAULT } from "@/constants/defaultElement";
 import { BASE_URL } from "@/constants/url";
+import SpinnerLoading from "@/components/public/SpinnerLoading";
 
 const UserContact = ({ message }) => {
   const {
@@ -39,7 +40,7 @@ const UserContact = ({ message }) => {
   };
 
   if (isLoading) {
-    return null;
+    return <SpinnerLoading />;
   }
   return (
     <div

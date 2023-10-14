@@ -21,6 +21,7 @@ import { BASE_URL, HOME_PAGE_URL, SEARCH_COURSE_BY_NAME } from "@/constants/url"
 import useSWR from "swr";
 import fetcher, { get_fetcher } from "@/utils/fetcher";
 import urlcat from "urlcat";
+import SpinnerLoading from "../public/SpinnerLoading";
 
 const Search = () => {
   const searchParams = useSearchParams();
@@ -33,7 +34,7 @@ const Search = () => {
   const {data, isLoading} = useSWR(apiSearch, get_fetcher);
 
   if(isLoading){
-    return <>Loading...</>
+    return <SpinnerLoading />
   }
 
   console.log('data', data);

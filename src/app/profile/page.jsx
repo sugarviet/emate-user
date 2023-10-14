@@ -31,6 +31,7 @@ import { DEFAULT } from "@/constants/defaultElement";
 import { useStoreCurrentUserDetail } from "@/stores/useStoreCurrentUserDetail";
 import { useStoreMentorDetail } from "@/stores/useStoreMentorDetail";
 import BookingCalender from "@/components/public/BookingCalender";
+import SpinnerLoading from "../../components/public/SpinnerLoading";
 
 const { TextArea } = Input;
 
@@ -100,8 +101,8 @@ const ProfilePage = () => {
     }
   }, [])
 
-  if (userLoading || userError) return null;
-  if (subjectsLoading || subjectsError) return null
+  if (userLoading || userError) return <SpinnerLoading />;
+  if (subjectsLoading || subjectsError) return <SpinnerLoading />
 
 
   console.log(user);

@@ -11,6 +11,7 @@ import { course_item_api } from "@/constants/api";
 import CourseReview from "./CourseReview";
 import { get_fetcher } from "@/utils/fetcher";
 import { formattedCoin } from "@/utils/formatedCurrency";
+import SpinnerLoading from "../public/SpinnerLoading";
 
 function CourseDetail({ id }) {
   const {
@@ -19,7 +20,7 @@ function CourseDetail({ id }) {
     error,
   } = useSWR(course_item_api(id), get_fetcher);
 
-  if (isLoading || error) return null;
+  if (isLoading || error) return <SpinnerLoading />;
 
   const price = formattedCoin(course.price);
 

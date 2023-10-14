@@ -47,7 +47,7 @@ const Comment = ({ comments }) => {
         ></List>
         {/* </Row> */}
 
-        {comments.length === 3 || comments.length === visibleComments ? null : (
+        {comments.length === visibleComments ||comments.length <= 4 ? null : (
           <button
             className="float-right my-5 underline font-semibold flex gap-2 items-center"
             onClick={loadMore}

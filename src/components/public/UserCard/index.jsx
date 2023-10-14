@@ -4,18 +4,21 @@ import { DEFAULT } from "@/constants/defaultElement";
 import { motion as m } from "framer-motion";
 import Image from "next/image";
 
+const about_default = 
+"Xin chào! Mình là sinh viên đại học và đang tìm kiếm một bạn học để cùng nhau học tập online. Mình mong muốn tìm kiếm bạn có cùng sở thích và cùng chí hướng học tập."
+
 const UserCard = ({ data }) => {
-  const { img=DEFAULT.AVATAR_IMAGE_PATH, name="Emate", age=20, major="IT", interest="IT" } = data;
+  console.log('data', data);
+  const { avatar=DEFAULT.AVATAR_IMAGE_PATH, name="Emate", age=20, major="IT", interest="IT", about=about_default } = data;
   return (
     <m.div className="w-full my-10" whileHover={{y: -10}}>
-      <div className="w-full mx-auto flex justify-center items-center">
-        <Image alt="User" src={img} height={250} width={250} className="rounded-xl"/>
+      <div className="w-64 h-52 mx-auto flex justify-center items-centeroverflow-hidden rounded-lg">
+        <Image alt="User" src={avatar ? avatar : DEFAULT.AVATAR_IMAGE_PATH} height={250} width={250} className="rounded-xl"/>
       </div>
 
       <div className="flex flex-col px-12 md:px-2 lg:px-16 mt-4 ">
         <div className="flex justify-between items-center">
           <h1 className="font-bold text-base lg:text-xl">{name}</h1>
-          <h2>{age} tuổi</h2>
         </div>
 
         <div className="flex justify-between items-center my-1">
@@ -30,9 +33,7 @@ const UserCard = ({ data }) => {
 
         <div>
           <p>
-            Xin chào! Mình là sinh viên đại học và đang tìm kiếm một bạn học để
-            cùng nhau học tập online. Mình mong muốn tìm kiếm bạn có cùng sở
-            thích và cùng chí hướng học tập.
+            {about ? about : about_default}
           </p>
         </div>
       </div>
