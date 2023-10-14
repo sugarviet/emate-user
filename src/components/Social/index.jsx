@@ -18,6 +18,8 @@ import SpinnerLoading from "../public/SpinnerLoading";
 import useFetcher from "@/hooks/global/useFetcher";
 
 const Social = () => {
+  const { currentUserInfo } = useChatStore();
+
   const [socialData, setSocialData] = useState(null);
   const router = useRouter();
   const selectedUser = useChatStore(state => state.selectedUser)
@@ -34,13 +36,21 @@ const Social = () => {
 ]);
   const [hasMore, setHasMore] = useState(true);
 
-  const {data:listStudents, isLoading} = useSWR(urlcat(BASE_URL, GET_ALL_STUDENTS), fetcher);
+  // const {data:listStudents, isLoading} = useSWR(urlcat(BASE_URL, GET_ALL_STUDENTS), (url) => get_with_header_fetcher(url));
+
+  const {data:listStudents, isLoading} = useSWR(urlcat(BASE_URL, GET_ALL_STUDENTS), (url) => get_with_header_fetcher(url));
 
   const handleChangeTab = async() => {
     const data = {
       fieldsOfStudy: [{name: "Information Security", level: 3}]
     }
-    const res = await axios.post(urlcat(BASE_URL, GET_SOCIALS_BY_FIELDS), data)
+    const res = await axios.post(urlcat(BASE_URL, GET_SOCIALS_BY_FIELDS), data, {
+      headers: {
+        "x-client-id": currentUserInfo._id,
+        "x-client-refreshtoken": currentUserInfo.refreshToken,
+        "x-client-accesstoken": currentUserInfo.token,
+      },
+    })
 
     setSocialData(res.data.metaData)
   }
@@ -104,7 +114,7 @@ const Social = () => {
                 md: 2,
                 xs: 1
             }}
-            dataSource={socialData ? socialData : listStudents?.metaData}
+            dataSource={socialData ? socialData : listStudents}
             renderItem={(user,index) => (
                 <div key={user._id} onClick={()=> handleChatWithUser(user)} className="hover:cursor-pointer">
                 <UserCard key={user._id} data={user}/>
