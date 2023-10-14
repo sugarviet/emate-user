@@ -21,10 +21,10 @@ const UserCard = ({ data }) => {
           <h1 className="font-bold text-base lg:text-xl">{name}</h1>
         </div>
 
-        {/* <div className="flex justify-between items-center my-1">
+        <div className="flex justify-between items-center my-1">
           <h1 className="font-bold text-base">Chuyên ngành:</h1>
-          <h2 className="font-semibold">{major}</h2>
-        </div> */}
+          <h2 className="font-semibold">{fieldsOfStudy?.length ?fieldsOfStudy[0].name: "Not yet"}</h2>
+        </div>
 
         <div className="flex justify-between items-center my-1">
           <h1 className="font-bold text-base">Muốn học:</h1>
