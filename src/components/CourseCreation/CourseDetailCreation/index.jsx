@@ -5,6 +5,7 @@ import {
   DeleteFilled,
   PlusCircleFilled,
   UploadOutlined,
+  WarningFilled,
 } from "@ant-design/icons";
 import { Button, Input, InputNumber, Upload, message } from "antd";
 import TextArea from "antd/es/input/TextArea";
@@ -82,7 +83,7 @@ const SectionItem = ({ content, sectionIndex, onChange }) => {
 
   useEffect(() => {
     handleUpdateContent({ sections: lessons });
-  }, [lessons, handleUpdateContent]);
+  }, [lessons]);
 
   return (
     <div className="w-full border border-black bg-gray-50 p-4 my-2">
@@ -336,15 +337,26 @@ function CourseDetailCreation({ control, course }) {
               name={`requirement`}
               control={control}
               defaultValue={course.requirement}
-              render={({ field }) => (
-                <Input
-                  className="my-2"
-                  size="large"
-                  placeholder={
-                    "Example: No programming experience needed. You will learn everything you need to know"
-                  }
-                  {...field}
-                />
+              rules={{
+                required: { value: true, message: "Bắt buộc nhập" },
+                minLength: { value: 4, message: "Tối thiểu 4 ký tự" },
+              }}
+              render={({ field, fieldState }) => (
+                <div>
+                  <Input
+                    className="my-2"
+                    size="large"
+                    placeholder={
+                      "Example: No programming experience needed. You will learn everything you need to know"
+                    }
+                    {...field}
+                  />
+                  {fieldState.error && (
+                    <span className="text-red-400 text-sm font-semibold">
+                      <WarningFilled /> {fieldState.error.message}
+                    </span>
+                  )}
+                </div>
               )}
             />
           </div>
@@ -353,15 +365,26 @@ function CourseDetailCreation({ control, course }) {
           <span className="font-bold">Khóa học của bạn dành cho những ai?</span>
           <Controller
             name="level"
+            rules={{
+              required: { value: true, message: "Bắt buộc nhập" },
+              minLength: { value: 4, message: "Tối thiểu 4 ký tự" },
+            }}
             control={control}
             defaultValue={course.level}
-            render={({ field }) => (
-              <Input
-                className="my-2"
-                size="large"
-                placeholder="Example: Beginner Python developers curious about data science"
-                {...field}
-              />
+            render={({ field, fieldState }) => (
+              <div>
+                <Input
+                  className="my-2"
+                  size="large"
+                  placeholder="Example: Beginner Python developers curious about data science"
+                  {...field}
+                />
+                {fieldState.error && (
+                  <span className="text-red-400 text-sm font-semibold">
+                    <WarningFilled /> {fieldState.error.message}
+                  </span>
+                )}
+              </div>
             )}
           />
         </div>

@@ -97,7 +97,12 @@ function CourseCreation() {
       newCourse,
       () => {
         message.success("Bạn đã thêm khóa học thành công");
-        router.push("/instructor/courses");
+        const newUrl =
+          window.location.protocol +
+          "//" +
+          window.location.host +
+          "/instructor/courses";
+        window.location.href = newUrl;
       },
       (err) => {
         message.error("Bạn đã thêm khóa học thất bại");
@@ -118,7 +123,12 @@ function CourseCreation() {
       newCourse,
       () => {
         message.success("Bạn đã cập nhật khóa học thành công");
-        router.push("/instructor/courses");
+        const newUrl =
+          window.location.protocol +
+          "//" +
+          window.location.host +
+          "/instructor/courses";
+        window.location.href = newUrl;
       },
       (err) => {
         message.error("Bạn đã cập nhật khóa học thất bại");

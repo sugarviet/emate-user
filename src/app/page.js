@@ -69,7 +69,7 @@ const HomePage = () => {
 
   return (
     <>
-    <Head>
+      <Head>
       <title>Emate</title>
       <meta name="description" content="Emate teaching"/>
       <meta name="viewport" content="width=device-width, initial-scale=1"/>

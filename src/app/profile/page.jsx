@@ -15,7 +15,6 @@ import {
 
 import Modal from "@/components/public/Modal";
 
-
 import { motion as m } from "framer-motion";
 
 import styles from "./profile.module.css";
@@ -46,14 +45,11 @@ const ProfilePage = () => {
   const [avatar, setAvatar] = useState(DEFAULT.AVATAR_IMAGE_PATH);
 
   const { currentUserInfo } = useChatStore();
-  const {userDetail} = useStoreCurrentUserDetail()
-  const {setStoreMentor} = useStoreMentorDetail()
+  const { userDetail } = useStoreCurrentUserDetail();
+  const { setStoreMentor } = useStoreMentorDetail();
 
   const { _id } = currentUserInfo;
-  const {role} = userDetail;
-
-
-  console.log('role', role);
+  const { role } = userDetail;
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -66,7 +62,6 @@ const ProfilePage = () => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-
 
   const {
     data: user,
@@ -95,21 +90,15 @@ const ProfilePage = () => {
   }, [user]);
 
   useEffect(() => {
-    if(user){
-      setStoreMentor(user)
+    if (user) {
+      setStoreMentor(user);
     }
-  }, [])
+  }, []);
 
   if (userLoading || userError) return null;
-  if (subjectsLoading || subjectsError) return null
-
-
-  console.log(user);
-  console.log(subjects);
+  if (subjectsLoading || subjectsError) return null;
 
   const onFinish = (values) => {
-    console.log("Success:", values);
-
     put_fetcher(
       user_edit_profile_api(_id),
       {
@@ -169,7 +158,6 @@ const ProfilePage = () => {
     }
   };
 
-  
   return (
     <m.main
       className={styles.blur_bg}
@@ -195,18 +183,24 @@ const ProfilePage = () => {
           </Upload>
           <span>Chọn ảnh đại diện</span>
 
-          {role.length == 2 ?  <button className="bg-pink-300 text-white p-4 my-4 font-bold rounded-xl" onClick={showModal}>
-            Xem lịch giảng dạy
-          </button> : <></>}
-
+          {role.length == 2 ? (
+            <button
+              className="bg-pink-300 text-white p-4 my-4 font-bold rounded-xl"
+              onClick={showModal}
+            >
+              Xem lịch giảng dạy
+            </button>
+          ) : (
+            <></>
+          )}
 
           <Modal
-          isModalOpen={isModalOpen}
-          handleCancel={handleCancel}
-          handleOk={handleOk}
-        >
-          <BookingCalender type="add"/>
-        </Modal>
+            isModalOpen={isModalOpen}
+            handleCancel={handleCancel}
+            handleOk={handleOk}
+          >
+            <BookingCalender type="add" />
+          </Modal>
         </div>
 
         <div className={`col-span-3`}>
@@ -331,7 +325,7 @@ const ProfilePage = () => {
                 <Upload
                   customRequest={(props) =>
                     customRequestForUploadImage({ ...props }, (imageUrl) =>
-                      setFeatureImage([...featuredImage, imageUrl])
+                      setFeatureImage([...featuredImage, { image: imageUrl }])
                     )
                   }
                 >
