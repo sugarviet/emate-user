@@ -71,7 +71,7 @@ const top_mentor_data = {
 };
 
 const it_mentor_data = {
-  title: "IT và phần mềm",
+  title: "Lập trình Game",
   arrayData: [
     {
       id: 1,
@@ -128,7 +128,7 @@ const it_mentor_data = {
 };
 
 const marketing_mentor_data = {
-  title: "Marketing",
+  title: "Lập trình BackEnd",
   arrayData: [
     {
       id: 1,
@@ -195,27 +195,47 @@ const Mentor = () => {
   } = useSWR(mentor_api(), get_fetcher);
 
   const {
-    data: mentorsSubject,
-    isLoading: mentorsSubjectLoading,
-    error: mentorsSubjectError,
+    data: mentorsBackend,
+    isLoading: mentorsBackendLoading,
+    error: mentorsBackendError,
   } = useSWR(
     "https://back-end-ematee.vercel.app/mentorSubject?page=1&limit=12",
     (url) =>
       post_fetcher(url, {
         fieldsOfStudy: [
           {
-            name: "BackEnd Developer",
+            name: "Lập Trình BackEnd",
+          },
+        ],
+      })
+  );
+
+  const {
+    data: mentorsGame,
+    isLoading: mentorsGameLoading,
+    error: mentorsGameError,
+  } = useSWR(
+    "https://back-end-ematee.vercel.app/mentorSubject?page=1&limit=12",
+    (url) =>
+      post_fetcher(url, {
+        fieldsOfStudy: [
+          {
+            name: "Lập Trình FrontEnd",
           },
         ],
       })
   );
 
   if (mentorsLoading || mentorsError) return <SpinnerLoading />;
-  if (mentorsSubjectLoading || mentorsSubjectError) return <SpinnerLoading />;
+  if (mentorsGameLoading || mentorsGameError) return <SpinnerLoading />;
+  if (mentorsBackendLoading || mentorsBackendError) return <SpinnerLoading />;
 
   top_mentor_data.arrayData = mentors;
-  it_mentor_data.arrayData = mentorsSubject;
-  marketing_mentor_data.arrayData = mentors;
+  it_mentor_data.arrayData = mentorsGame;
+  marketing_mentor_data.arrayData = mentorsBackend;
+
+  console.log(it_mentor_data);
+  console.log(marketing_mentor_data);
 
   return (
     <main className="blur_custom">

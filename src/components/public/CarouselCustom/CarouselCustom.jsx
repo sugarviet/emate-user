@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
@@ -7,9 +7,8 @@ import { motion as m } from "framer-motion";
 
 import HireMentorCard from "../HireMentorCard/HireMentorCard";
 
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import RegisterCourseCard from "../RegisterCourseCard/RegisterCourseCard";
-
 
 const responsive = {
   superLargeDesktop: {
@@ -33,25 +32,25 @@ const responsive = {
 const fadeInAnimationVariants = {
   initial: {
     opacity: 0,
-    y: -100
+    y: -100,
   },
   animate: (index) => ({
     opacity: 1,
-    y:0,
+    y: 0,
     transition: {
       delay: 0.05 * index,
-      duration: 0.5
-    }
+      duration: 0.5,
+    },
   }),
   hoverInDesktop: {
     y: -10,
   },
   hoverInMobile: {
     y: 0,
-  }
-}
+  },
+};
 
-const RenderCardWithCondition = ({type, cardData, index}) => {
+const RenderCardWithCondition = ({ type, cardData, index }) => {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -68,37 +67,62 @@ const RenderCardWithCondition = ({type, cardData, index}) => {
     };
   }, []);
 
-  if(type === 'mentor'){
+  if (type === "mentor") {
     return (
-        <m.div key={index} variants={fadeInAnimationVariants} initial="initial" whileInView="animate" viewport={{once: true}} custom={index} whileHover={isMobile ? "hoverInMobile" : "hoverInDesktop"}>
-          <HireMentorCard index={index} cardData={cardData} />
-        </m.div>
-    )
-  }else if(type === 'course'){
+      <m.div
+        key={index}
+        variants={fadeInAnimationVariants}
+        initial="initial"
+        whileInView="animate"
+        viewport={{ once: true }}
+        custom={index}
+        whileHover={isMobile ? "hoverInMobile" : "hoverInDesktop"}
+      >
+        <HireMentorCard index={index} cardData={cardData} />
+      </m.div>
+    );
+  } else if (type === "course") {
     return (
-      <m.div key={index} variants={fadeInAnimationVariants} initial="initial" whileInView="animate" whileHover={isMobile ? "hoverInMobile" : "hoverInDesktop"} viewport={{once: true}} custom={index}>
+      <m.div
+        key={index}
+        variants={fadeInAnimationVariants}
+        initial="initial"
+        whileInView="animate"
+        whileHover={isMobile ? "hoverInMobile" : "hoverInDesktop"}
+        viewport={{ once: true }}
+        custom={index}
+      >
         <RegisterCourseCard index={index} cardData={cardData} />
       </m.div>
-    )
+    );
   }
-}
-
+};
 
 const CarouselCustom = ({ carouselData }) => {
   return (
     <div className="mb-10">
-      <m.h1 className="text-3xl font-bold underline sm:ml-9 mb-6" variants={fadeInAnimationVariants} initial="initial" whileInView="animate" viewport={{once: true}} >
-            {carouselData.title}
-          </m.h1>
-          <Carousel responsive={responsive}>
-            {carouselData.arrayData.map((item, index) => (
-              <RenderCardWithCondition key={item.id} index={index} type={carouselData.type} cardData={item} />
-            ))}
-            
-          </Carousel>
+      <m.h1
+        className="text-3xl font-bold underline sm:ml-9 mb-6"
+        variants={fadeInAnimationVariants}
+        initial="initial"
+        whileInView="animate"
+        viewport={{ once: true }}
+      >
+        {carouselData.title}
+      </m.h1>
+      <Carousel responsive={responsive}>
+        {carouselData.arrayData.map((item, index) => (
+          <RenderCardWithCondition
+            key={item.id}
+            index={index}
+            type={carouselData.type}
+            cardData={item}
+          />
+        ))}
+      </Carousel>
     </div>
-  )
-}
+  );
+};
 
 CarouselCustom.propTypes = {
   carouselData: PropTypes.shape({
@@ -108,4 +132,4 @@ CarouselCustom.propTypes = {
   }).isRequired,
 };
 
-export default CarouselCustom
+export default CarouselCustom;
