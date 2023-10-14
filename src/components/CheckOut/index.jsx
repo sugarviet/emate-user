@@ -16,8 +16,10 @@ import useFetcher from "@/hooks/global/useFetcher";
 function CheckOut() {
   const {
     purchasingCourses,
+    selectedCourses,
     cleanUpPurchasingCourses,
     cleanUpSelectedCourse,
+    setSelectedCourses,
     total,
   } = useCartStore();
   const { balance, widthRaw } = useWallet();
@@ -46,7 +48,11 @@ function CheckOut() {
         message.success("Bạn đã thanh toán thành công");
         widthRaw(total);
         cleanUpPurchasingCourses();
-        cleanUpSelectedCourse();
+        // cleanUpSelectedCourse();
+        const newCourses = selectedCourses.filter(
+          (c) => !purchasingCourses.some((item) => item._id === c._id)
+        );
+        setSelectedCourses(newCourses);
         router.push(MY_COURSES_PAGE_URL);
       },
       () => {
