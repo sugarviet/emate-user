@@ -234,9 +234,6 @@ const Mentor = () => {
   it_mentor_data.arrayData = mentorsGame;
   marketing_mentor_data.arrayData = mentorsBackend;
 
-  console.log(it_mentor_data);
-  console.log(marketing_mentor_data);
-
   return (
     <main className="blur_custom">
       <div className={styles.container}>

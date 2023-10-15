@@ -1,7 +1,7 @@
 "use client";
 
 import { useCartStore } from "@/stores/useCartStore";
-import { formattedCoin } from "@/utils/formatedCurrency";
+import { formattedCoin, formattedCurrency } from "@/utils/formatedCurrency";
 import Image from "next/image";
 
 import styles from "./CheckOut.module.css";
@@ -92,6 +92,10 @@ function CheckOut() {
               <span>Tổng cộng: </span>
               <span>{formattedCoin(total)}</span>
             </div>
+            <p className="text-sm flex items-center">
+              1 <Image width={40} height={40} src={"/emate-coin.svg"} /> ứng với{" "}
+              {formattedCurrency(1000)}
+            </p>
           </div>
           <button
             onClick={handlePayment}
