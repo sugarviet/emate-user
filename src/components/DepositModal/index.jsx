@@ -87,15 +87,12 @@ export default function DepositModal() {
   );
   const currentUserInfo = useChatStore((state) => state.currentUserInfo);
 
-  console.log("currentUserInfo", currentUserInfo);
-
   const [selectedDepositOption, setSelectedDepositOption] = useState(undefined);
   const [paymentCode, setPaymentCode] = useState(undefined);
   const [moneyWantToSend, setMoneyWantToSend] = useState(0);
 
   const handleSelectDeposit = (record) => {
     setSelectedDepositOption(record);
-    console.log("recording", record.value);
     setMoneyWantToSend(record.value);
   };
 
@@ -139,12 +136,11 @@ export default function DepositModal() {
         },
       }
     );
-    if(res.data.status === 200){
+    if (res.data.status === 200) {
       notification.success({
         message: "Yêu cầu nạp tiền của bạn đã được chuyển đến Emate thành công",
       });
     }
-    console.log('res', res);
   };
 
   if (!isDepositModalOpened) return null;
@@ -178,8 +174,12 @@ export default function DepositModal() {
                 value="https://ant.design/"
               /> */}
               <div className="w-64 h-64 overflow-hidden">
-              <Image src={'/QR_code.jpg'} alt="Qr_code" width={250} height={250}/>
-
+                <Image
+                  src={"/QR_code.jpg"}
+                  alt="Qr_code"
+                  width={250}
+                  height={250}
+                />
               </div>
               <span className="text-lg">
                 Mã thanh toán: <span className="font-bold">{paymentCode}</span>

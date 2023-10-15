@@ -59,7 +59,7 @@ export default function RootLayout({ children }) {
           }}
         >
           <Providers >
-            <Navbar />
+            {/* <Navbar /> */}
             {children}
             <DepositModal />
             <CompletingInfoNotification />

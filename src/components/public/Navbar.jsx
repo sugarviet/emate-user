@@ -2,7 +2,7 @@
 
 import axios from "axios";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { signOut } from "next-auth/react";
@@ -33,6 +33,7 @@ import {
   CHAT_PAGE_URL,
   COURSES_PAGE_URL,
   HOME_PAGE_URL,
+  INSTRUCTOR_COURSE_PAGE_URL,
   LOGIN_PAGE_URL,
   MENTOR_PAGE_URL,
   MY_COURSES_PAGE_URL,
@@ -45,6 +46,7 @@ import { DEFAULT } from "@/constants/defaultElement";
 import Wallet from "../Wallet";
 import { useCartStore } from "@/stores/useCartStore";
 import { user_api } from "@/constants/api";
+import useUser from "@/hooks/global/useUser";
 
 const NAVBAR_LINKS_WITH_LOG_IN = [
   {
@@ -113,9 +115,6 @@ const Navbar = () => {
     (state) => state.storeUserDetail
   );
 
-  const selectedCourses = useCartStore((state) => state.selectedCourses);
-  const cart_items_length = selectedCourses.length;
-
   const getUserDetail = async () => {
     const {
       data: { metaData },
@@ -124,13 +123,8 @@ const Navbar = () => {
   };
 
   useEffect(() => {
-    console.log("currentUserInfo", currentUserInfo);
-    if (currentUserInfo?._id) {
-      console.log("im here");
-      getUserDetail();
-    } else {
-      console.log("im there");
-    }
+    if (!currentUserInfo?._id) return;
+    getUserDetail();
   }, [currentUserInfo?._id]);
 
   return (
@@ -211,56 +205,7 @@ const Navbar = () => {
         )}
 
         {/* LOG IN */}
-        {isUserLogin ? (
-          <div className="hidden lg:flex sm:gap-12 items-center">
-            <div className="flex items-center">
-              <p className="flex items-center">
-                <Wallet />
-              </p>
-            </div>
-
-            <Link href="/">
-              <Badge count={2}>
-                <motion.span className="text-2xl" whileHover={{ scale: 1.1 }}>
-                  <BellOutlined />
-                </motion.span>
-              </Badge>
-            </Link>
-
-            <Link href={CHAT_PAGE_URL}>
-              <Badge count={3}>
-                <motion.span className="text-2xl" whileHover={{ scale: 1.1 }}>
-                  <MessageOutlined />
-                </motion.span>
-              </Badge>
-            </Link>
-
-            <Link href={CART_PAGE_URL}>
-              <Badge count={cart_items_length}>
-                <motion.span className="text-2xl" whileHover={{ scale: 1.1 }}>
-                  <ShoppingCartOutlined />
-                </motion.span>
-              </Badge>
-            </Link>
-
-            <div>
-              <Dropdown
-                menu={{
-                  items,
-                }}
-                trigger={["hover"]}
-                align="middle"
-              >
-                <Avatar
-                  src={DEFAULT.AVATAR_IMAGE_PATH}
-                  alt="User Image"
-                  style={{ cursor: "pointer" }}
-                  size="large"
-                />
-              </Dropdown>
-            </div>
-          </div>
-        ) : null}
+        {isUserLogin && <UserLoginMenu />}
 
         {/* Show if the screen is on mobile */}
         <div className="block lg:hidden">
@@ -271,6 +216,92 @@ const Navbar = () => {
       {/* Show search bar if logged in */}
       {isUserLogin ? <SearchBar /> : null}
     </motion.div>
+  );
+};
+
+const UserLoginMenu = () => {
+  const router = useRouter();
+
+  const ROLE = {
+    user: {
+      name: "Học viên",
+      to_be: "Gia sư",
+      go_to: INSTRUCTOR_COURSE_PAGE_URL,
+    },
+    mentor: {
+      name: "Gia sư",
+      to_be: "Học viên",
+      go_to: HOME_PAGE_URL,
+    },
+  };
+
+  const selectedCourses = useCartStore((state) => state.selectedCourses);
+  const cart_items_length = selectedCourses.length;
+  const { currentRole, switchRole } = useUser();
+
+  return (
+    <div className="hidden lg:flex sm:gap-12 items-center">
+      <div className="flex items-center">
+        <p className="flex items-center">
+          <Wallet />
+        </p>
+      </div>
+
+      <div className="flex items-center">
+        <p className="flex items-center">
+          <button
+            onClick={() => {
+              switchRole();
+              if (!currentRole) return;
+              router.push(ROLE[currentRole.name]?.go_to);
+            }}
+          >
+            {ROLE[currentRole.name]?.to_be}
+          </button>
+        </p>
+      </div>
+
+      <Link href="/">
+        <Badge count={2}>
+          <motion.span className="text-2xl" whileHover={{ scale: 1.1 }}>
+            <BellOutlined />
+          </motion.span>
+        </Badge>
+      </Link>
+
+      <Link href={CHAT_PAGE_URL}>
+        <Badge count={3}>
+          <motion.span className="text-2xl" whileHover={{ scale: 1.1 }}>
+            <MessageOutlined />
+          </motion.span>
+        </Badge>
+      </Link>
+
+      <Link href={CART_PAGE_URL}>
+        <Badge count={cart_items_length}>
+          <motion.span className="text-2xl" whileHover={{ scale: 1.1 }}>
+            <ShoppingCartOutlined />
+          </motion.span>
+        </Badge>
+      </Link>
+
+      <div>
+        <Dropdown
+          menu={{
+            items,
+          }}
+          trigger={["hover"]}
+          align="middle"
+        >
+          <Avatar
+            src={DEFAULT.AVATAR_IMAGE_PATH}
+            alt="User Image"
+            style={{ cursor: "pointer" }}
+            size="large"
+          />
+        </Dropdown>
+      </div>
+    </div>
   );
 };
 
