@@ -59,9 +59,9 @@ const UserBio = ({ user, courses }) => {
 
       {/* About me */}
       <div className="mt-5 text-lg">
-        <div className="flex items-center">
-          <span className="mr-2 font-bold">Giới thiệu: </span>
-          <p className="my-2">{about ? about : 'Not yet'}</p>
+        <div>
+          <span className="mr-2 font-bold flex-1">Giới thiệu: </span>
+          <span className="my-2">{about ? about : "Not yet"}</span>
         </div>
         <div className="flex items-center">
           <span className="mr-2 font-bold">Giáo dục: </span>
