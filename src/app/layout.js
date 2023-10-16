@@ -1,7 +1,6 @@
 "use client"
 import dynamic from "next/dynamic";
 
-import Navbar from "@/components/public/Navbar";
 import "./globals.css";
 import DepositModal from "@/components/DepositModal";
 
@@ -59,7 +58,6 @@ export default function RootLayout({ children }) {
           }}
         >
           <Providers >
-            {/* <Navbar /> */}
             {children}
             <DepositModal />
             <CompletingInfoNotification />

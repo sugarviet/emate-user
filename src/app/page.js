@@ -2,6 +2,7 @@ import dynamic from "next/dynamic";
 import Head from "next/head";
 import FirstSection from "@/components/Home/FirstSection/FirstSection";
 import SpinnerLoading from "@/components/public/SpinnerLoading";
+import GuestNavbar from "@/components/public/GuestNavbar";
 
 
 
@@ -77,6 +78,7 @@ const HomePage = () => {
         <meta name="description" content="Emate teaching" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
+      <GuestNavbar />
       <main className="blur_custom">
         <FirstSection />
         <SecondSection />

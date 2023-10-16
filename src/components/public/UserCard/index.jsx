@@ -43,6 +43,7 @@ const UserCard = ({ data }) => {
             </span>
             <span>
               <Rate
+                disabled
                 value={
                   fieldsOfStudy?.length &&
                   Math.ceil((fieldsOfStudy[0].level * 3) / 2)
