@@ -12,6 +12,7 @@ import { BASE_URL, REQUEST_UPDATE_WALLET } from "@/constants/url";
 import { useStoreCurrentUserDetail } from "@/stores/useStoreCurrentUserDetail";
 import { useChatStore } from "@/stores/useChatStore";
 import { notification } from "antd";
+import Animation3D from "../Animation3D";
 
 const columns = [
   {
@@ -90,35 +91,38 @@ export default function DepositModal() {
   const [selectedDepositOption, setSelectedDepositOption] = useState(undefined);
   const [paymentCode, setPaymentCode] = useState(undefined);
   const [moneyWantToSend, setMoneyWantToSend] = useState(0);
+  const [dealSuccess, setDealSuccess] = useState(false);
 
   const handleSelectDeposit = (record) => {
+    setDealSuccess(false);
     setSelectedDepositOption(record);
     setMoneyWantToSend(record.value);
   };
 
   const handleConfirmPayment = () => {
-    // setPaymentCode("NOAN_CUTEDANGIUXINHDEP")
     setPaymentCode(`${userDetail.email}_${moneyWantToSend}`);
   };
 
   const handleConfirmPaymentFinal = () => {
     updateWallet();
+    setSelectedDepositOption(undefined);
+    setPaymentCode(undefined);
   };
 
   const handleCloseModal = () => {
+    resetState();
     switchDepositModalState(false);
+  };
+
+  const resetState = () => {
+    setSelectedDepositOption(undefined);
+    setPaymentCode(undefined);
+    setDealSuccess(false);
   };
 
   useEffect(() => {
     setPaymentCode(undefined);
   }, [selectedDepositOption]);
-
-  useEffect(() => {
-    return () => {
-      setSelectedDepositOption(undefined);
-      setPaymentCode(undefined);
-    };
-  }, []);
 
   const updateWallet = async () => {
     const res = await axios.post(
@@ -137,6 +141,7 @@ export default function DepositModal() {
       }
     );
     if (res.data.status === 200) {
+      setDealSuccess(true);
       notification.success({
         message: "Yêu cầu nạp tiền của bạn đã được chuyển đến Emate thành công",
       });
@@ -161,6 +166,13 @@ export default function DepositModal() {
           pagination={false}
           bordered
         />
+        {dealSuccess && (
+          <div className="flex items-center justify-center">
+            <div className="w-72 h-72">
+              <Animation3D loop={false} name="success" />
+            </div>
+          </div>
+        )}
         {selectedDepositOption ? (
           paymentCode ? (
             <div className="flex flex-col h-full items-center justify-center p-4">
@@ -227,6 +239,8 @@ export default function DepositModal() {
               </button>
             </div>
           )
+        ) : dealSuccess ? (
+          ""
         ) : (
           <div className="h-full flex items-center">
             <span className="font-medium text-lg text-center">
