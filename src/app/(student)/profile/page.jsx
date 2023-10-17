@@ -21,7 +21,7 @@ import styles from "./profile.module.css";
 import Link from "next/link";
 import { useChatStore } from "@/stores/useChatStore";
 import useSWR from "swr";
-import { get_fetcher, post_fetcher, put_fetcher } from "@/utils/fetcher";
+import { get_fetcher, put_fetcher } from "@/utils/fetcher";
 import { subject_api, user_api, user_edit_profile_api } from "@/constants/api";
 import { IMG_BB_API_KEY } from "@/constants/apiKey";
 import axios from "axios";
@@ -30,8 +30,7 @@ import { DEFAULT } from "@/constants/defaultElement";
 import { useStoreCurrentUserDetail } from "@/stores/useStoreCurrentUserDetail";
 import { useStoreMentorDetail } from "@/stores/useStoreMentorDetail";
 import BookingCalender from "@/components/public/BookingCalender";
-import SpinnerLoading from "../../components/public/SpinnerLoading";
-
+import SpinnerLoading from "@/components/public/SpinnerLoading";
 const { TextArea } = Input;
 
 const ProfilePage = () => {
@@ -97,8 +96,7 @@ const ProfilePage = () => {
   }, []);
 
   if (userLoading || userError) return <SpinnerLoading />;
-  if (subjectsLoading || subjectsError) return <SpinnerLoading />
-
+  if (subjectsLoading || subjectsError) return <SpinnerLoading />;
 
   console.log(user);
   console.log(subjects);
