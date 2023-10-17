@@ -45,21 +45,60 @@ import {
 import { DEFAULT } from "@/constants/defaultElement";
 import Wallet from "../Wallet";
 import { useCartStore } from "@/stores/useCartStore";
-import { user_api } from "@/constants/api";
-import useUser from "@/hooks/global/useUser";
+import { subject_api, user_api } from "@/constants/api";
+import useSWR from "swr";
+import { get_fetcher } from "@/utils/fetcher";
 
 const NAVBAR_LINKS_WITH_LOG_IN = [
   {
     href: COURSES_PAGE_URL,
     text: "Khoá học",
+    component: ({ href, text, active, items }) => {
+      return (
+        <Dropdown
+          menu={{
+            items,
+          }}
+          trigger={["hover"]}
+          align="middle"
+        >
+          <Link
+            href={href}
+            className={`${active ? "text-purple-400" : "text-black"}`}
+          >
+            <p className="lg:text-xl text-base">{text}</p>
+          </Link>
+        </Dropdown>
+      );
+    },
   },
   {
     href: MENTOR_PAGE_URL,
     text: "Gia sư",
+    component: ({ href, text, active }) => {
+      return (
+        <Link
+          href={href}
+          className={`${active ? "text-purple-400" : "text-black"}`}
+        >
+          <p className="lg:text-xl text-base">{text}</p>
+        </Link>
+      );
+    },
   },
   {
     href: TEACH_WITH_EMATE_PAGE_URL,
     text: "Dạy cùng Emate",
+    component: ({ href, text, active }) => {
+      return (
+        <Link
+          href={href}
+          className={`${active ? "text-purple-400" : "text-black"}`}
+        >
+          <p className="lg:text-xl text-base">{text}</p>
+        </Link>
+      );
+    },
   },
 ];
 
@@ -122,10 +161,18 @@ const Navbar = () => {
     storeUserDetail(metaData);
   };
 
+  const {
+    data: subjects,
+    isLoading: subjectsLoading,
+    error: subjectsError,
+  } = useSWR(subject_api, get_fetcher);
+
   useEffect(() => {
     if (!currentUserInfo?._id) return;
     getUserDetail();
   }, [currentUserInfo?._id]);
+
+  if (subjectsLoading || subjectsError) return null;
 
   return (
     <motion.div
@@ -164,22 +211,31 @@ const Navbar = () => {
           <></>
         )}
 
-        {NAVBAR_LINKS_WITH_LOG_IN.map((nav) => (
-          <motion.div
-            key={nav.text}
-            className="cursor_pointer hide_on_mobile"
-            whileHover={{ scale: 1.2 }}
-          >
-            <Link
-              href={nav.href}
-              className={`${
-                nav.href === pathname ? "text-purple-400" : "text-black"
-              }`}
+        {NAVBAR_LINKS_WITH_LOG_IN.map((nav) => {
+          const Component = nav.component;
+
+          return (
+            <motion.div
+              key={nav.text}
+              className="cursor_pointer hide_on_mobile"
+              whileHover={{ scale: 1.2 }}
             >
-              <p className="lg:text-xl text-base">{nav.text}</p>
-            </Link>
-          </motion.div>
-        ))}
+              <Component
+                active={nav.href === pathname}
+                href={nav.href}
+                text={nav.text}
+                items={subjects.map((subject, index) => ({
+                  label: (
+                    <Link href={`/courses/subject/${subject._id}`}>
+                      {subject.name}
+                    </Link>
+                  ),
+                  key: index,
+                }))}
+              />
+            </motion.div>
+          );
+        })}
 
         {/* NOT LOGGED IN */}
         {isUserLogin ? null : (
