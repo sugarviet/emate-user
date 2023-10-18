@@ -215,12 +215,12 @@ const Mentor = () => {
     isLoading: mentorsGameLoading,
     error: mentorsGameError,
   } = useSWR(
-    "https://back-end-ematee.vercel.app/mentorSubject?page=1&limit=12",
+    "https://emate-af7e6f8fb027.herokuapp.com/mentorSubject?page=1&limit=12",
     (url) =>
       post_fetcher(url, {
         fieldsOfStudy: [
           {
-            name: "Lập Trình FrontEnd",
+            name: "Lập Trình Game",
           },
         ],
       })
@@ -233,6 +233,8 @@ const Mentor = () => {
   top_mentor_data.arrayData = mentors;
   it_mentor_data.arrayData = mentorsGame;
   marketing_mentor_data.arrayData = mentorsBackend;
+
+  console.log(it_mentor_data);
 
   return (
     <main className="blur_custom">

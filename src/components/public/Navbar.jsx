@@ -53,7 +53,8 @@ const NAVBAR_LINKS_WITH_LOG_IN = [
   {
     href: COURSES_PAGE_URL,
     text: "Khoá học",
-    component: ({ href, text, active, items }) => {
+    component: ({ href, text, active, items, hidden = false }) => {
+      if (hidden) return null;
       return (
         <Dropdown
           menu={{
@@ -290,7 +291,7 @@ const UserLoginMenu = () => {
       </div>
 
       <div className="flex items-center">
-        <p className="flex items-center">
+        <div className="flex items-center bg-pink-300 px-4 py-2 font-bold">
           <button
             onClick={() => {
               router.push(INSTRUCTOR_COURSE_PAGE_URL);
@@ -298,7 +299,7 @@ const UserLoginMenu = () => {
           >
             Gia sư
           </button>
-        </p>
+        </div>
       </div>
 
       <Link href="/">

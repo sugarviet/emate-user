@@ -21,15 +21,17 @@ import {
 } from "@/constants/url";
 import SpinnerLoading from "../public/SpinnerLoading";
 import useFetcher from "@/hooks/global/useFetcher";
+import useUser from "@/hooks/global/useUser";
+import { useModalStore } from "@/stores/useModalStore";
 
 const Social = () => {
   const { currentUserInfo } = useChatStore();
+  const { user } = useUser();
+  const { switchCompletingInfoNotificationModalState } = useModalStore();
 
   const [socialData, setSocialData] = useState(null);
   const router = useRouter();
-  const selectedUser = useChatStore((state) => state.selectedUser);
   const setSelectedUserId = useChatStore((state) => state.setSelectedUserId);
-  const storeSelectedUser = useChatStore((state) => state.storeSelectedUser);
 
   const { get_with_header_fetcher } = useFetcher();
 
@@ -77,6 +79,11 @@ const Social = () => {
   );
 
   const handleChangeTab = async () => {
+    if (user.fieldsOfStudy.length <= 0) {
+      switchCompletingInfoNotificationModalState(true);
+      return;
+    }
+
     const data = {
       fieldsOfStudy: [{ name: "Information Security", level: 3 }],
     };

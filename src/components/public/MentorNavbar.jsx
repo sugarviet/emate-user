@@ -171,7 +171,7 @@ const UserLoginMenu = () => {
       </div>
 
       <div className="flex items-center">
-        <p className="flex items-center">
+        <div className="flex items-center bg-gray-300 px-4 py-2 font-bold">
           <button
             onClick={() => {
               router.push(COURSES_PAGE_URL);
@@ -179,7 +179,7 @@ const UserLoginMenu = () => {
           >
             Học viên
           </button>
-        </p>
+        </div>
       </div>
 
       <div>
