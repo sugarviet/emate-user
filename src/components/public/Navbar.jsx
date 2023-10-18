@@ -13,7 +13,7 @@ import MobileNavbar from "@/components/Navbar/MobileNavbar";
 import SearchBar from "@/components/SearchBar/SearchBar";
 import { useStoreCurrentUserDetail } from "@/stores/useStoreCurrentUserDetail";
 import { useChatStore } from "@/stores/useChatStore";
-import { Avatar, Dropdown, Badge } from "antd";
+import { Avatar, Dropdown, Badge, Popover } from "antd";
 import {
   BellOutlined,
   MessageOutlined,
@@ -25,6 +25,7 @@ import {
   UserOutlined,
   MailOutlined,
   WalletOutlined,
+  InfoCircleOutlined,
 } from "@ant-design/icons";
 
 import {
@@ -48,6 +49,7 @@ import { useCartStore } from "@/stores/useCartStore";
 import { subject_api, user_api } from "@/constants/api";
 import useSWR from "swr";
 import { get_fetcher } from "@/utils/fetcher";
+import { switchRoleDescription } from "@/constants/description";
 
 const NAVBAR_LINKS_WITH_LOG_IN = [
   {
@@ -149,7 +151,7 @@ const items = [
 const Navbar = () => {
   const { data: isUserLogin } = useSession();
   const pathname = usePathname();
-  const userDetail = useStoreCurrentUserDetail((state) => state.userDetail);
+  
   const currentUserInfo = useChatStore((state) => state.currentUserInfo);
   const storeUserDetail = useStoreCurrentUserDetail(
     (state) => state.storeUserDetail
@@ -162,6 +164,7 @@ const Navbar = () => {
     storeUserDetail(metaData);
   };
 
+  
   const {
     data: subjects,
     isLoading: subjectsLoading,
@@ -277,6 +280,7 @@ const Navbar = () => {
 };
 
 const UserLoginMenu = () => {
+  const userDetail = useStoreCurrentUserDetail((state) => state.userDetail);
   const router = useRouter();
 
   const selectedCourses = useCartStore((state) => state.selectedCourses);
@@ -290,8 +294,8 @@ const UserLoginMenu = () => {
         </p>
       </div>
 
-      <div className="flex items-center">
-        <div className="flex items-center bg-pink-300 px-4 py-2 font-bold">
+      <div className="flex items-center gap-2">
+        <div className="flex items-center bg-pink-300 px-4 py-2 font-bold rounded-lg">
           <button
             onClick={() => {
               router.push(INSTRUCTOR_COURSE_PAGE_URL);
@@ -300,6 +304,9 @@ const UserLoginMenu = () => {
             Gia sư
           </button>
         </div>
+        <Popover content={switchRoleDescription}>
+          <InfoCircleOutlined />
+        </Popover>
       </div>
 
       <Link href="/">
@@ -335,7 +342,7 @@ const UserLoginMenu = () => {
           align="middle"
         >
           <Avatar
-            src={DEFAULT.AVATAR_IMAGE_PATH}
+            src={userDetail?.avatar ? userDetail.avatar: DEFAULT.AVATAR_IMAGE_PATH}
             alt="User Image"
             style={{ cursor: "pointer" }}
             size="large"
