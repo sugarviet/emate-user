@@ -11,6 +11,7 @@ import UserCard from "../public/UserCard";
 import useSWR from "swr";
 import fetcher from "@/utils/fetcher";
 import urlcat from "urlcat";
+import { useStoreCurrentUserDetail } from "@/stores/useStoreCurrentUserDetail";
 import { useChatStore } from "@/stores/useChatStore";
 import Image from "next/image";
 import {
@@ -26,6 +27,8 @@ import { useModalStore } from "@/stores/useModalStore";
 
 const Social = () => {
   const { currentUserInfo } = useChatStore();
+  const { userDetail } = useStoreCurrentUserDetail();
+
   const { user } = useUser();
   const { switchCompletingInfoNotificationModalState } = useModalStore();
 
@@ -34,6 +37,8 @@ const Social = () => {
   const setSelectedUserId = useChatStore((state) => state.setSelectedUserId);
 
   const { get_with_header_fetcher } = useFetcher();
+
+  console.log('userDetail', userDetail);
 
   const [data, setData] = useState([
     {
@@ -84,12 +89,9 @@ const Social = () => {
       return;
     }
 
-    const data = {
-      fieldsOfStudy: [{ name: "Information Security", level: 3 }],
-    };
     const res = await axios.post(
       urlcat(BASE_URL, GET_SOCIALS_BY_FIELDS),
-      data,
+      userDetail.fieldsOfStudy,
       {
         headers: {
           "x-client-id": currentUserInfo._id,

@@ -13,7 +13,7 @@ import MobileNavbar from "@/components/Navbar/MobileNavbar";
 import SearchBar from "@/components/SearchBar/SearchBar";
 import { useStoreCurrentUserDetail } from "@/stores/useStoreCurrentUserDetail";
 import { useChatStore } from "@/stores/useChatStore";
-import { Avatar, Dropdown, Badge } from "antd";
+import { Avatar, Dropdown, Badge, Popover } from "antd";
 import {
   BellOutlined,
   MessageOutlined,
@@ -25,6 +25,7 @@ import {
   UserOutlined,
   MailOutlined,
   WalletOutlined,
+  InfoCircleOutlined,
 } from "@ant-design/icons";
 
 import {
@@ -46,6 +47,7 @@ import { DEFAULT } from "@/constants/defaultElement";
 import Wallet from "../Wallet";
 import { useCartStore } from "@/stores/useCartStore";
 import { user_api } from "@/constants/api";
+import { switchRoleDescription } from "@/constants/description";
 
 const NAVBAR_LINKS_WITH_LOG_IN = [
   {
@@ -158,7 +160,7 @@ const MentorNavbar = () => {
 
 const UserLoginMenu = () => {
   const router = useRouter();
-
+  const userDetail = useStoreCurrentUserDetail((state) => state.userDetail);
   const selectedCourses = useCartStore((state) => state.selectedCourses);
   const cart_items_length = selectedCourses.length;
 
@@ -170,8 +172,8 @@ const UserLoginMenu = () => {
         </p>
       </div>
 
-      <div className="flex items-center">
-        <div className="flex items-center bg-gray-300 px-4 py-2 font-bold">
+      <div className="flex items-center gap-2">
+        <div className="flex items-center bg-gray-300 px-4 py-2 font-bold rounded-lg">
           <button
             onClick={() => {
               router.push(COURSES_PAGE_URL);
@@ -180,6 +182,9 @@ const UserLoginMenu = () => {
             Học viên
           </button>
         </div>
+        <Popover content={switchRoleDescription}>
+          <InfoCircleOutlined />
+        </Popover>
       </div>
 
       <div>
@@ -191,12 +196,13 @@ const UserLoginMenu = () => {
           align="middle"
         >
           <Avatar
-            src={DEFAULT.AVATAR_IMAGE_PATH}
+            src={userDetail?.avatar ? userDetail.avatar: DEFAULT.AVATAR_IMAGE_PATH}
             alt="User Image"
             style={{ cursor: "pointer" }}
             size="large"
           />
         </Dropdown>
+
       </div>
     </div>
   );
