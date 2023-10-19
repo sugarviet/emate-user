@@ -1,5 +1,5 @@
 import Lottie from "lottie-react";
-import { checkout_success, success } from "@/animations_data";
+import { checkout_success, coming_soon, success } from "@/animations_data";
 
 const TYPE = {
   checkout_success: {
@@ -7,6 +7,9 @@ const TYPE = {
   },
   success: {
     data: success,
+  },
+  coming_soon: {
+    data: coming_soon,
   },
 };
 
