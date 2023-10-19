@@ -50,13 +50,13 @@ import { subject_api, user_api } from "@/constants/api";
 import useSWR from "swr";
 import { get_fetcher } from "@/utils/fetcher";
 import { switchRoleDescription } from "@/constants/description";
+import useUser from "@/hooks/global/useUser";
 
 const NAVBAR_LINKS_WITH_LOG_IN = [
   {
     href: COURSES_PAGE_URL,
     text: "Khoá học",
-    component: ({ href, text, active, items, hidden = false }) => {
-      if (hidden) return null;
+    component: ({ href, text, active, items }) => {
       return (
         <Dropdown
           menu={{
@@ -92,7 +92,9 @@ const NAVBAR_LINKS_WITH_LOG_IN = [
   {
     href: TEACH_WITH_EMATE_PAGE_URL,
     text: "Dạy cùng Emate",
-    component: ({ href, text, active }) => {
+    component: ({ href, text, active, hidden = false }) => {
+      if (hidden) return null;
+
       return (
         <Link
           href={href}
@@ -156,6 +158,8 @@ const Navbar = () => {
   const storeUserDetail = useStoreCurrentUserDetail(
     (state) => state.storeUserDetail
   );
+
+  const { roles } = useUser();
 
   const getUserDetail = async () => {
     const {
@@ -228,6 +232,7 @@ const Navbar = () => {
                 active={nav.href === pathname}
                 href={nav.href}
                 text={nav.text}
+                hidden={roles.includes("mentor")}
                 items={subjects.map((subject, index) => ({
                   label: (
                     <Link href={`/courses/subject/${subject._id}`}>
@@ -282,6 +287,7 @@ const Navbar = () => {
 const UserLoginMenu = () => {
   const userDetail = useStoreCurrentUserDetail((state) => state.userDetail);
   const router = useRouter();
+  const { roles } = useUser();
 
   const selectedCourses = useCartStore((state) => state.selectedCourses);
   const cart_items_length = selectedCourses.length;
@@ -294,20 +300,19 @@ const UserLoginMenu = () => {
         </p>
       </div>
 
-      <div className="flex items-center gap-2">
-        <div className="flex items-center bg-pink-300 px-4 py-2 font-bold rounded-lg">
-          <button
-            onClick={() => {
-              router.push(INSTRUCTOR_COURSE_PAGE_URL);
-            }}
-          >
-            Gia sư
-          </button>
+      {roles.includes("mentor") && (
+        <div className="flex items-center">
+          <div className="flex items-center bg-pink-300 px-4 py-2 font-bold">
+            <button
+              onClick={() => {
+                router.push(INSTRUCTOR_COURSE_PAGE_URL);
+              }}
+            >
+              Gia sư
+            </button>
+          </div>
         </div>
-        <Popover content={switchRoleDescription}>
-          <InfoCircleOutlined />
-        </Popover>
-      </div>
+      )}
 
       <Link href="/">
         <Badge count={2}>
