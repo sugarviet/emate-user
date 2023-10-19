@@ -11,6 +11,8 @@ import urlcat from "urlcat";
 import { BASE_URL, REQUEST_UPDATE_WALLET } from "@/constants/url";
 import { useStoreCurrentUserDetail } from "@/stores/useStoreCurrentUserDetail";
 import { useChatStore } from "@/stores/useChatStore";
+import { notification } from "antd";
+import Animation3D from "../Animation3D";
 
 const columns = [
   {
@@ -86,41 +88,41 @@ export default function DepositModal() {
   );
   const currentUserInfo = useChatStore((state) => state.currentUserInfo);
 
-  console.log("currentUserInfo", currentUserInfo);
-
   const [selectedDepositOption, setSelectedDepositOption] = useState(undefined);
   const [paymentCode, setPaymentCode] = useState(undefined);
   const [moneyWantToSend, setMoneyWantToSend] = useState(0);
+  const [dealSuccess, setDealSuccess] = useState(false);
 
   const handleSelectDeposit = (record) => {
+    setDealSuccess(false);
     setSelectedDepositOption(record);
-    console.log("recording", record.value);
     setMoneyWantToSend(record.value);
   };
 
   const handleConfirmPayment = () => {
-    // setPaymentCode("NOAN_CUTEDANGIUXINHDEP")
     setPaymentCode(`${userDetail.email}_${moneyWantToSend}`);
   };
 
   const handleConfirmPaymentFinal = () => {
     updateWallet();
+    setSelectedDepositOption(undefined);
+    setPaymentCode(undefined);
   };
 
   const handleCloseModal = () => {
+    resetState();
     switchDepositModalState(false);
+  };
+
+  const resetState = () => {
+    setSelectedDepositOption(undefined);
+    setPaymentCode(undefined);
+    setDealSuccess(false);
   };
 
   useEffect(() => {
     setPaymentCode(undefined);
   }, [selectedDepositOption]);
-
-  useEffect(() => {
-    return () => {
-      setSelectedDepositOption(undefined);
-      setPaymentCode(undefined);
-    };
-  }, []);
 
   const updateWallet = async () => {
     const res = await axios.post(
@@ -132,14 +134,18 @@ export default function DepositModal() {
       },
       {
         headers: {
-          "x-client-id": currentUserInfo.id,
+          "x-client-id": currentUserInfo._id,
           "x-client-refreshtoken": currentUserInfo.refreshToken,
           "x-client-accesstoken": currentUserInfo.token,
         },
       }
     );
-
-    console.log("res", res);
+    if (res.data.status === 200) {
+      setDealSuccess(true);
+      notification.success({
+        message: "Yêu cầu nạp tiền của bạn đã được chuyển đến Emate thành công",
+      });
+    }
   };
 
   if (!isDepositModalOpened) return null;
@@ -160,6 +166,13 @@ export default function DepositModal() {
           pagination={false}
           bordered
         />
+        {dealSuccess && (
+          <div className="flex items-center justify-center">
+            <div className="w-72 h-72">
+              <Animation3D loop={false} name="success" />
+            </div>
+          </div>
+        )}
         {selectedDepositOption ? (
           paymentCode ? (
             <div className="flex flex-col h-full items-center justify-center p-4">
@@ -167,11 +180,19 @@ export default function DepositModal() {
                 Quét mã QR bằng ví MOMO và nhập mã thanh toán vào nội dung tin
                 nhắn
               </span>
-              <QRCode
+              {/* <QRCode
                 className="my-4 flex-1"
                 size={200}
                 value="https://ant.design/"
-              />
+              /> */}
+              <div className="w-64 h-64 overflow-hidden">
+                <Image
+                  src={"/QR_code.jpg"}
+                  alt="Qr_code"
+                  width={250}
+                  height={250}
+                />
+              </div>
               <span className="text-lg">
                 Mã thanh toán: <span className="font-bold">{paymentCode}</span>
               </span>
@@ -208,7 +229,7 @@ export default function DepositModal() {
               </div>
               <div className="flex items-center justify-between text-lg py-2">
                 <span className="font-medium">Tên tài khoản:</span>
-                <span>KimNoannn</span>
+                <span>Việt Đặng</span>
               </div>
               <button
                 onClick={handleConfirmPayment}
@@ -218,6 +239,8 @@ export default function DepositModal() {
               </button>
             </div>
           )
+        ) : dealSuccess ? (
+          ""
         ) : (
           <div className="h-full flex items-center">
             <span className="font-medium text-lg text-center">

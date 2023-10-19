@@ -1,5 +1,5 @@
 .container {
-    @apply md:px-20 sm:px-2 relative px-12 md:pb-40 pt-28 pb-16;
+    @apply md:px-16 sm:px-2 relative px-12 md:pb-40 pt-28 pb-16;
   }
   .main_text {
     @apply text-black font-bold leading-tight md:text-4xl text-3xl text-center;
@@ -20,14 +20,6 @@
     position: absolute;
     left: -3%;
     top: 70%;
-    @apply sm:block hidden;
-    animation: pulse 1s infinite ease-in-out alternate;
-  }
-
-  .pink_dot_third {
-    position: absolute;
-    right: -3%;
-    top: 10%;
     @apply sm:block hidden;
     animation: pulse 1s infinite ease-in-out alternate;
   }

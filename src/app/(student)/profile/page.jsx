@@ -13,21 +13,29 @@ import {
   message,
 } from "antd";
 
+import Modal from "@/components/public/Modal";
+
 import { motion as m } from "framer-motion";
 
 import styles from "./profile.module.css";
 import Link from "next/link";
 import { useChatStore } from "@/stores/useChatStore";
 import useSWR from "swr";
-import { get_fetcher, post_fetcher, put_fetcher } from "@/utils/fetcher";
+import { get_fetcher, put_fetcher } from "@/utils/fetcher";
 import { subject_api, user_api, user_edit_profile_api } from "@/constants/api";
 import { IMG_BB_API_KEY } from "@/constants/apiKey";
 import axios from "axios";
 import { DEFAULT } from "@/constants/defaultElement";
+
+import { useStoreCurrentUserDetail } from "@/stores/useStoreCurrentUserDetail";
+import { useStoreMentorDetail } from "@/stores/useStoreMentorDetail";
+import BookingCalender from "@/components/public/BookingCalender";
+import SpinnerLoading from "@/components/public/SpinnerLoading";
 const { TextArea } = Input;
 
 const ProfilePage = () => {
   const [featuredImage, setFeatureImage] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [name, setName] = useState("");
   const [male, setMale] = useState(1);
@@ -37,8 +45,23 @@ const ProfilePage = () => {
   const [avatar, setAvatar] = useState(DEFAULT.AVATAR_IMAGE_PATH);
 
   const { currentUserInfo } = useChatStore();
+  const { userDetail } = useStoreCurrentUserDetail();
+  const { setStoreMentor } = useStoreMentorDetail();
 
   const { _id } = currentUserInfo;
+  const { role } = userDetail;
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
 
   const {
     data: user,
@@ -66,15 +89,19 @@ const ProfilePage = () => {
     setFeatureImage(featuredImage);
   }, [user]);
 
-  if (userLoading || userError) return null;
-  if (subjectsLoading || subjectsError) return null;
+  useEffect(() => {
+    if (user) {
+      setStoreMentor(user);
+    }
+  }, []);
+
+  if (userLoading || userError) return <SpinnerLoading />;
+  if (subjectsLoading || subjectsError) return <SpinnerLoading />;
 
   console.log(user);
   console.log(subjects);
 
   const onFinish = (values) => {
-    console.log("Success:", values);
-
     put_fetcher(
       user_edit_profile_api(_id),
       {
@@ -158,9 +185,25 @@ const ProfilePage = () => {
             </button>
           </Upload>
           <span>Chọn ảnh đại diện</span>
-          <button className="bg-pink-300 text-white p-4 my-4 font-bold rounded-xl">
-            Xem lịch giảng dạy
-          </button>
+
+          {role.length == 2 ? (
+            <button
+              className="bg-pink-300 text-white p-4 my-4 font-bold rounded-xl"
+              onClick={showModal}
+            >
+              Xem lịch giảng dạy
+            </button>
+          ) : (
+            <></>
+          )}
+
+          <Modal
+            isModalOpen={isModalOpen}
+            handleCancel={handleCancel}
+            handleOk={handleOk}
+          >
+            <BookingCalender type="add" />
+          </Modal>
         </div>
 
         <div className={`col-span-3`}>
@@ -285,7 +328,7 @@ const ProfilePage = () => {
                 <Upload
                   customRequest={(props) =>
                     customRequestForUploadImage({ ...props }, (imageUrl) =>
-                      setFeatureImage([...featuredImage, imageUrl])
+                      setFeatureImage([...featuredImage, { image: imageUrl }])
                     )
                   }
                 >

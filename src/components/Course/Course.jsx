@@ -7,9 +7,10 @@ import CarouselCustom from "../public/CarouselCustom/CarouselCustom";
 import useSWR from "swr";
 import { get_fetcher } from "@/utils/fetcher";
 import { courses_by_subject_api } from "@/constants/api";
+import SpinnerLoading from "../public/SpinnerLoading";
 
 const it_data_courses = {
-  title: "IT và phần mềm",
+  title: "Lập trình Game",
   type: "course",
   arrayData: [
     {
@@ -61,7 +62,7 @@ const it_data_courses = {
 };
 
 const soft_skills_data_courses = {
-  title: "Kỹ năng mềm",
+  title: "Lập trình backend",
   type: "course",
   arrayData: [
     {
@@ -166,19 +167,39 @@ const economy_data_courses = {
 
 const Course = () => {
   const {
-    data: courses,
-    isLoading: coursesLoading,
-    error: courseError,
+    data: backendCourses,
+    isLoading: backendCoursesLoading,
+    error: backendCoursesError,
   } = useSWR(
     courses_by_subject_api("650ff722b36ad198e85ab814?page=1&limit=12"),
     get_fetcher
   );
 
-  if (coursesLoading || courseError) return null;
+  const {
+    data: gameCourses,
+    isLoading: gameCoursesLoading,
+    error: gameCoursesError,
+  } = useSWR(
+    courses_by_subject_api("650ff737b36ad198e85ab81a?page=1&limit=12"),
+    get_fetcher
+  );
 
-  it_data_courses.arrayData = courses;
-  soft_skills_data_courses.arrayData = courses;
-  economy_data_courses.arrayData = courses;
+  const {
+    data: economyCourses,
+    isLoading: economyCoursesLoading,
+    error: economyCoursesError,
+  } = useSWR(
+    courses_by_subject_api("6526af26f68a06061773ae2e?page=1&limit=12"),
+    get_fetcher
+  );
+
+  if (backendCoursesLoading || backendCoursesError) return <SpinnerLoading />;
+  if (gameCoursesLoading || gameCoursesError) return <SpinnerLoading />;
+  if (economyCoursesLoading || economyCoursesError) return <SpinnerLoading />;
+
+  it_data_courses.arrayData = gameCourses;
+  soft_skills_data_courses.arrayData = backendCourses;
+  economy_data_courses.arrayData = economyCourses;
 
   return (
     <main className="blur_custom">

@@ -5,6 +5,7 @@ import { StarFilled } from "@ant-design/icons";
 import { Avatar, Checkbox, Collapse, Progress, Rate } from "antd";
 import { useState } from "react";
 import useSWR from "swr";
+import SpinnerLoading from "../public/SpinnerLoading";
 
 function CourseLearning({ id }) {
   const [currentLesson, setCurrentLesson] = useState({});
@@ -23,7 +24,7 @@ function CourseLearning({ id }) {
     error: courseError,
   } = useSWR(course_item_api(id), get_fetcher);
 
-  if (courseLoading || courseError) return null;
+  if (courseLoading || courseError) return <SpinnerLoading />;
   console.log(course);
 
   const { rating, content, name, owner, topReview } = course;

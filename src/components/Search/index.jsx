@@ -17,12 +17,27 @@ import RegisterCourseCard from "../public/RegisterCourseCard/RegisterCourseCard"
 import { useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import SlideUpCardAnimation from "@/animations/SlideUpCardAnimation";
-import { HOME_PAGE_URL } from "@/constants/url";
+import { BASE_URL, HOME_PAGE_URL, SEARCH_COURSE_BY_NAME } from "@/constants/url";
+import useSWR from "swr";
+import fetcher, { get_fetcher } from "@/utils/fetcher";
+import urlcat from "urlcat";
+import SpinnerLoading from "../public/SpinnerLoading";
 
 const Search = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const search = searchParams.get("q");
+
+  const apiSearch =  `${BASE_URL}${SEARCH_COURSE_BY_NAME}${search}`
+
+  console.log(apiSearch)
+  const {data, isLoading} = useSWR(apiSearch, get_fetcher);
+
+  if(isLoading){
+    return <SpinnerLoading />
+  }
+
+  console.log('data', data);
 
   if(!search) {
     router.push(HOME_PAGE_URL)
@@ -52,7 +67,7 @@ const Search = () => {
                 xs: 2,
                 md: 1,
               }}
-              dataSource={IT_DATA_COURSES.arrayData}
+              dataSource={data}
               renderItem={(courseCard, index) => (
                 <List.Item>
                   <SlideUpCardAnimation key={index}>

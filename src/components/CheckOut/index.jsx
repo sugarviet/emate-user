@@ -1,7 +1,7 @@
 "use client";
 
 import { useCartStore } from "@/stores/useCartStore";
-import { formattedCoin } from "@/utils/formatedCurrency";
+import { formattedCoin, formattedCurrency } from "@/utils/formatedCurrency";
 import Image from "next/image";
 
 import styles from "./CheckOut.module.css";
@@ -12,12 +12,23 @@ import { useRouter } from "next/navigation";
 import { MY_COURSES_PAGE_URL } from "@/constants/url";
 import { ORDER_COURSE_API } from "@/constants/api";
 import useFetcher from "@/hooks/global/useFetcher";
+import { useState } from "react";
+import Animation3D from "../Animation3D";
 
 function CheckOut() {
-  const { purchasingCourses, cleanUpPurchasingCourses, cleanUpSelectedCourse, total } = useCartStore();
+  const {
+    purchasingCourses,
+    selectedCourses,
+    cleanUpPurchasingCourses,
+    setSelectedCourses,
+    total,
+  } = useCartStore();
   const { balance, widthRaw } = useWallet();
   const { switchDepositModalState } = useModalStore();
   const { post_with_header_fetcher } = useFetcher();
+  const [paymentSuccess, setPaymentSuccess] = useState(
+    purchasingCourses.length === 0
+  );
 
   const router = useRouter();
 
@@ -41,14 +52,36 @@ function CheckOut() {
         message.success("Bạn đã thanh toán thành công");
         widthRaw(total);
         cleanUpPurchasingCourses();
-        cleanUpSelectedCourse();
-        router.push(MY_COURSES_PAGE_URL);
+        const newCourses = selectedCourses.filter(
+          (c) => !purchasingCourses.some((item) => item._id === c._id)
+        );
+        setSelectedCourses(newCourses);
+        setPaymentSuccess(true);
       },
       () => {
         message.error("Bạn thanh toán thất bại");
       }
     );
   };
+
+  if (paymentSuccess) {
+    return (
+      <div className="justify-center blur_wrapper_in_page">
+        <div className="flex flex-col w-1/2 h-1/2 items-center justify-center pb-20">
+          <Animation3D name="checkout_success" />
+          <button
+            onClick={() => {
+              router.push(MY_COURSES_PAGE_URL);
+            }}
+            className="flex bg-pink-50 items-center justify-center border-pink-300 rounded-3xl text-xl font-semibold border h-20 w-80"
+          >
+            <span>Tiếp tục học tập cùng </span>
+            <Image className="ml-4" width={60} height={60} src={"/emate.svg"} />
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.blur_bg}>
@@ -81,6 +114,10 @@ function CheckOut() {
               <span>Tổng cộng: </span>
               <span>{formattedCoin(total)}</span>
             </div>
+            <p className="text-sm flex items-center">
+              1 <Image width={40} height={40} src={"/emate-coin.svg"} /> ứng với{" "}
+              {formattedCurrency(1000)}
+            </p>
           </div>
           <button
             onClick={handlePayment}

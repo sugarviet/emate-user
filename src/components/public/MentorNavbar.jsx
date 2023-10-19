@@ -46,62 +46,21 @@ import {
 import { DEFAULT } from "@/constants/defaultElement";
 import Wallet from "../Wallet";
 import { useCartStore } from "@/stores/useCartStore";
-import { subject_api, user_api } from "@/constants/api";
-import useSWR from "swr";
-import { get_fetcher } from "@/utils/fetcher";
+import { user_api } from "@/constants/api";
 import { switchRoleDescription } from "@/constants/description";
 
 const NAVBAR_LINKS_WITH_LOG_IN = [
   {
     href: COURSES_PAGE_URL,
     text: "Khoá học",
-    component: ({ href, text, active, items, hidden = false }) => {
-      if (hidden) return null;
-      return (
-        <Dropdown
-          menu={{
-            items,
-          }}
-          trigger={["hover"]}
-          align="middle"
-        >
-          <Link
-            href={href}
-            className={`${active ? "text-purple-400" : "text-black"}`}
-          >
-            <p className="lg:text-xl text-base">{text}</p>
-          </Link>
-        </Dropdown>
-      );
-    },
   },
   {
     href: MENTOR_PAGE_URL,
     text: "Gia sư",
-    component: ({ href, text, active }) => {
-      return (
-        <Link
-          href={href}
-          className={`${active ? "text-purple-400" : "text-black"}`}
-        >
-          <p className="lg:text-xl text-base">{text}</p>
-        </Link>
-      );
-    },
   },
   {
     href: TEACH_WITH_EMATE_PAGE_URL,
     text: "Dạy cùng Emate",
-    component: ({ href, text, active }) => {
-      return (
-        <Link
-          href={href}
-          className={`${active ? "text-purple-400" : "text-black"}`}
-        >
-          <p className="lg:text-xl text-base">{text}</p>
-        </Link>
-      );
-    },
   },
 ];
 
@@ -148,10 +107,9 @@ const items = [
   },
 ];
 
-const Navbar = () => {
+const MentorNavbar = () => {
   const { data: isUserLogin } = useSession();
   const pathname = usePathname();
-  
   const currentUserInfo = useChatStore((state) => state.currentUserInfo);
   const storeUserDetail = useStoreCurrentUserDetail(
     (state) => state.storeUserDetail
@@ -164,19 +122,10 @@ const Navbar = () => {
     storeUserDetail(metaData);
   };
 
-  
-  const {
-    data: subjects,
-    isLoading: subjectsLoading,
-    error: subjectsError,
-  } = useSWR(subject_api, get_fetcher);
-
   useEffect(() => {
     if (!currentUserInfo?._id) return;
     getUserDetail();
   }, [currentUserInfo?._id]);
-
-  if (subjectsLoading || subjectsError) return null;
 
   return (
     <motion.div
@@ -196,73 +145,6 @@ const Navbar = () => {
             />
           </Link>
         </motion.div>
-        {/* Show if the screen is on desktop */}
-        {isUserLogin ? (
-          <motion.div
-            className="cursor_pointer hide_on_mobile"
-            whileHover={{ scale: 1.2 }}
-          >
-            <Link
-              href={SOCIAL_PAGE_URL}
-              className={`${
-                SOCIAL_PAGE_URL === pathname ? "text-purple-400" : "text-black"
-              }`}
-            >
-              <p className="lg:text-xl text-base">Cộng đồng</p>
-            </Link>
-          </motion.div>
-        ) : (
-          <></>
-        )}
-
-        {NAVBAR_LINKS_WITH_LOG_IN.map((nav) => {
-          const Component = nav.component;
-
-          return (
-            <motion.div
-              key={nav.text}
-              className="cursor_pointer hide_on_mobile"
-              whileHover={{ scale: 1.2 }}
-            >
-              <Component
-                active={nav.href === pathname}
-                href={nav.href}
-                text={nav.text}
-                items={subjects.map((subject, index) => ({
-                  label: (
-                    <Link href={`/courses/subject/${subject._id}`}>
-                      {subject.name}
-                    </Link>
-                  ),
-                  key: index,
-                }))}
-              />
-            </motion.div>
-          );
-        })}
-
-        {/* NOT LOGGED IN */}
-        {isUserLogin ? null : (
-          <div className="hidden lg:flex sm:gap-5">
-            <Link href={LOGIN_PAGE_URL}>
-              <motion.button
-                className="none_btn_color"
-                whileHover={{ scale: 1.1 }}
-              >
-                Đăng nhập
-              </motion.button>
-            </Link>
-
-            <Link href={SIGN_UP_PAGE_URL}>
-              <motion.button
-                className="blue_btn_color"
-                whileHover={{ scale: 1.1 }}
-              >
-                Đăng Kí
-              </motion.button>
-            </Link>
-          </div>
-        )}
 
         {/* LOG IN */}
         {isUserLogin && <UserLoginMenu />}
@@ -272,17 +154,13 @@ const Navbar = () => {
           <MobileNavbar />
         </div>
       </nav>
-
-      {/* Show search bar if logged in */}
-      {isUserLogin ? <SearchBar /> : null}
     </motion.div>
   );
 };
 
 const UserLoginMenu = () => {
-  const userDetail = useStoreCurrentUserDetail((state) => state.userDetail);
   const router = useRouter();
-
+  const userDetail = useStoreCurrentUserDetail((state) => state.userDetail);
   const selectedCourses = useCartStore((state) => state.selectedCourses);
   const cart_items_length = selectedCourses.length;
 
@@ -295,43 +173,19 @@ const UserLoginMenu = () => {
       </div>
 
       <div className="flex items-center gap-2">
-        <div className="flex items-center bg-pink-300 px-4 py-2 font-bold rounded-lg">
+        <div className="flex items-center bg-gray-300 px-4 py-2 font-bold rounded-lg">
           <button
             onClick={() => {
-              router.push(INSTRUCTOR_COURSE_PAGE_URL);
+              router.push(COURSES_PAGE_URL);
             }}
           >
-            Gia sư
+            Học viên
           </button>
         </div>
         <Popover content={switchRoleDescription}>
           <InfoCircleOutlined />
         </Popover>
       </div>
-
-      <Link href="/">
-        <Badge count={2}>
-          <motion.span className="text-2xl" whileHover={{ scale: 1.1 }}>
-            <BellOutlined />
-          </motion.span>
-        </Badge>
-      </Link>
-
-      <Link href={CHAT_PAGE_URL}>
-        <Badge count={3}>
-          <motion.span className="text-2xl" whileHover={{ scale: 1.1 }}>
-            <MessageOutlined />
-          </motion.span>
-        </Badge>
-      </Link>
-
-      <Link href={CART_PAGE_URL}>
-        <Badge count={cart_items_length}>
-          <motion.span className="text-2xl" whileHover={{ scale: 1.1 }}>
-            <ShoppingCartOutlined />
-          </motion.span>
-        </Badge>
-      </Link>
 
       <div>
         <Dropdown
@@ -348,9 +202,10 @@ const UserLoginMenu = () => {
             size="large"
           />
         </Dropdown>
+
       </div>
     </div>
   );
 };
 
-export default Navbar;
+export default MentorNavbar;

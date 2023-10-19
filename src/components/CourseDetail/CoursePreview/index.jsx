@@ -1,6 +1,6 @@
 import Image from "next/image";
 import styles from "./CoursePreview.module.css";
-import { formattedCoin } from "@/utils/formatedCurrency";
+import { formattedCoin, formattedCurrency } from "@/utils/formatedCurrency";
 import {
   DesktopOutlined,
   FileTextOutlined,
@@ -10,6 +10,8 @@ import {
   FieldTimeOutlined,
 } from "@ant-design/icons";
 import { useCartStore } from "@/stores/useCartStore";
+import { useRouter } from "next/navigation";
+import { CART_PAGE_URL, CHECKOUT_PAGE_URL } from "@/constants/url";
 
 const about_course = [
   {
@@ -40,6 +42,7 @@ const about_course = [
 
 function CoursePreview({ course }) {
   const price = formattedCoin(course.price, 100);
+  const router = useRouter();
 
   const addToSelectedCourses = useCartStore(
     (state) => state.addToSelectedCourses
@@ -47,6 +50,11 @@ function CoursePreview({ course }) {
 
   const handleAddToCart = () => {
     addToSelectedCourses(course);
+  };
+
+  const handlePayment = () => {
+    handleAddToCart();
+    router.push(CART_PAGE_URL);
   };
 
   return (
@@ -61,8 +69,14 @@ function CoursePreview({ course }) {
       />
       <div className="w-full px-8 py-4">
         <span className="font-bold text-5xl">{price}</span>
+        <p className="text-sm flex items-center">
+          1 <Image width={40} height={40} src={"/emate-coin.svg"} /> ứng với{" "}
+          {formattedCurrency(1000)}
+        </p>
         <div className="flex flex-col mt-4">
-          <button className={styles.primary_btn}>Mua ngay</button>
+          <button onClick={handlePayment} className={styles.primary_btn}>
+            Mua ngay
+          </button>
           <button onClick={handleAddToCart} className={styles.secondary_btn}>
             Thêm vào giỏ hàng
           </button>

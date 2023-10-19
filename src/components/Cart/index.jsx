@@ -4,7 +4,7 @@ import { Input, Button, Image, Checkbox } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
 import { motion as m } from "framer-motion";
 import { useEffect } from "react";
-import { formattedCoin } from "@/utils/formatedCurrency";
+import { formattedCoin, formattedCurrency } from "@/utils/formatedCurrency";
 import { useCartStore } from "@/stores/useCartStore";
 import { useRouter } from "next/navigation";
 import { CHECKOUT_PAGE_URL } from "@/constants/url";
@@ -126,6 +126,10 @@ const Cart = () => {
           <div className="flex flex-col">
             <b className="text-xl">Tổng cộng: </b>
             <b className="text-5xl my-2">{formattedCoin(total, 120)}</b>
+            <p className="text-sm flex items-center">
+              1 <Image width={40} height={40} src={"/emate-coin.svg"} /> ứng với{" "}
+              {formattedCurrency(1000)}
+            </p>
           </div>
           <button
             className={

@@ -1,7 +1,6 @@
 "use client"
 import dynamic from "next/dynamic";
 
-import Navbar from "@/components/public/Navbar";
 import "./globals.css";
 import DepositModal from "@/components/DepositModal";
 
@@ -51,12 +50,14 @@ export default function RootLayout({ children }) {
                 colorPrimaryHover: pinkColor,
                 colorPrimaryBorder: pinkColor,
                 colorPrimary: pinkColor
+              },
+              Spin: {
+                colorPrimary: pinkColor,
               }
             },
           }}
         >
           <Providers >
-            <Navbar />
             {children}
             <DepositModal />
             <CompletingInfoNotification />

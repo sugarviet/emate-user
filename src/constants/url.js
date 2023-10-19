@@ -18,7 +18,14 @@ export const GET_DETAIL_USER = "getDetail";
 export const GET_1V1_MESSAGE = "message";
 export const GET_ALL_SUBJECT_SELECT = "subject";
 export const REQUEST_UPDATE_WALLET = "requestCoin";
-export const APPROVE_TO_BE_MENTOR = "order/toMentor";
+export const APPROVE_TO_BE_MENTOR = "order/toMentor"
+export const SEARCH_COURSE_BY_NAME = "course/searchCouse/"
+export const GET_DATE_MENTOR_SCHEDULE = "schedule/specificDay"
+export const HIRE_MENTOR = "order/hireMentor"
+export const UPLOAD_SLOT_TEACHING = "schedule"
+
+
+
 
 /* PAGE END POINT */
 export const HOME_PAGE_URL = "/";
@@ -35,5 +42,20 @@ export const TEACH_WITH_EMATE_PAGE_URL = "/teach-with-emate";
 export const MY_COURSES_PAGE_URL = "/my-courses";
 export const SOCIAL_PAGE_URL = "/social";
 export const SEARCH_PAGE_URL = "/search";
-export const CHECKOUT_PAGE_URL = "/cart/checkout/";
+export const CHECKOUT_PAGE_URL = "/cart/CheckOut/";
 export const CREATE_COURSE_PAGE_URL = "/instructor/courses/create";
+export const INSTRUCTOR_COURSE_PAGE_URL = "/instructor/courses";
+
+
+
+
+
+
+
+
+
+
+
+
+
+

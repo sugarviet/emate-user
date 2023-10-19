@@ -108,9 +108,6 @@ callbacks:{
         // const user = await res.json();
         
         const user = res2.data.metaData;
-
-        console.log('res.json', user);
-          // const decodeToken = jwtDecode(user?.metaData.accessToken);
           const decodeToken = jwtDecode(user?.accessToken);
 
           console.log('decodeToken', decodeToken);

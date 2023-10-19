@@ -1,5 +1,4 @@
 "use client";
-
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { Col, Row } from "antd";
@@ -21,8 +20,6 @@ const FirstSection = () => {
     (state) => state.useStoreCurrentUserDetail
   );
   const userDetail = useStoreCurrentUserDetail((state) => state.userDetail);
-
-  console.log("session", session);
 
   storeCurrentUser({
     _id: session?.accessToken._id,

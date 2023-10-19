@@ -9,9 +9,11 @@ import {
   YoutubeOutlined,
   FacebookOutlined,
 } from "@ant-design/icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Modal from "@/components/public/Modal";
 import BookingCalender from "@/components/public/BookingCalender";
+import { useStoreMentorDetail } from "@/stores/useStoreMentorDetail";
+import { DEFAULT } from "@/constants/defaultElement";
 
 const CONNECT_WITH_MENTOR = [
   {
@@ -22,8 +24,15 @@ const CONNECT_WITH_MENTOR = [
   },
 ];
 
-const UserBio = ({ avatar }) => {
+const UserBio = ({ avatar, user }) => {
+  const setStoreMentor = useStoreMentorDetail(state => state.setStoreMentor)
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useEffect(() => {
+    if(user){
+      setStoreMentor(user)
+    }
+  }, [])
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -42,7 +51,7 @@ const UserBio = ({ avatar }) => {
       {/* Mentor avatar */}
       <div>
         <Image
-          src={avatar}
+          src={avatar ? avatar : DEFAULT.AVATAR_IMAGE_PATH}
           alt="mentor"
           width={250}
           height={250}
@@ -79,7 +88,7 @@ const UserBio = ({ avatar }) => {
           handleCancel={handleCancel}
           handleOk={handleOk}
         >
-          <BookingCalender />
+          <BookingCalender type="booking"/>
         </Modal>
       </div>
     </div>

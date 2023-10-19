@@ -11,6 +11,7 @@ import { Switch, message } from "antd";
 import { useState } from "react";
 import { course_item_api, mentor_course_api } from "@/constants/api";
 import { useChatStore } from "@/stores/useChatStore";
+import SpinnerLoading from "../public/SpinnerLoading";
 
 const CourseItem = ({
   course,
@@ -26,7 +27,7 @@ const CourseItem = ({
         <div>
           <Image
             className="rounded-xl"
-            src={""}
+            src={image}
             alt="img"
             height={300}
             width={300}
@@ -63,8 +64,13 @@ const CourseItem = ({
               <DeleteFilled className="ml-3" />
             </button>
             <button
+              disabled={!isPublic}
               onClick={() => handleGoToEditCourse(_id)}
-              className="primary_bg_pink_color py-3 px-7 text-white rounded-lg mx-2"
+              className={
+                isPublic
+                  ? "primary_bg_pink_color py-3 px-7 text-white rounded-lg mx-2"
+                  : "bg-gray-300 py-3 px-7 text-white rounded-lg mx-2"
+              }
             >
               Chỉnh sửa <ArrowRightOutlined className="ml-3" />
             </button>
@@ -88,14 +94,14 @@ function CourseManagement() {
     mutate,
   } = useSWR(mentor_course_api(_id), get_fetcher);
 
-  if (coursesLoading || errorLoading) return null;
+  if (coursesLoading || errorLoading) return <SpinnerLoading />;
 
   const handleDeleteCourse = (id) => {
     delete_fetcher(
       course_item_api(id),
       () => {
         message.success("Bạn đã xóa khóa học thành công!");
-        mutate(mentor_course_api(_id));
+        mutate(courses.filter((course) => course._id !== id));
       },
       () => {
         message.error("Bạn đã xóa khóa học thất bại!");

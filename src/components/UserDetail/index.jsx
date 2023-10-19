@@ -12,6 +12,7 @@ import Comment from "../public/Comment";
 import useSWR from "swr";
 import { get_fetcher } from "@/utils/fetcher";
 import { mentor_course_api, user_api } from "@/constants/api";
+import SpinnerLoading from "../public/SpinnerLoading";
 
 const MentorDetail = ({ id }) => {
   const comments = [
@@ -37,8 +38,8 @@ const MentorDetail = ({ id }) => {
     error: coursesError,
   } = useSWR(mentor_course_api(id), get_fetcher);
 
-  if (userLoading || userError) return null;
-  if (coursesLoading || coursesError) return null;
+  if (userLoading || userError) return <SpinnerLoading />;
+  if (coursesLoading || coursesError) return <SpinnerLoading />;
 
   return (
     <m.main
@@ -54,7 +55,7 @@ const MentorDetail = ({ id }) => {
           </div>
         </Col>
         <Col xl={10} md={24} lg={24}>
-          <UserInfo avatar={user.avatar} />
+          <UserInfo avatar={user.avatar} user={user}/>
         </Col>
         <Col span={24}>
           <UserCourse courses={courses} />
