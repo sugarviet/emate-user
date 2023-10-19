@@ -7,10 +7,8 @@ import { useEffect, useState } from "react";
 
 function useUser() {
     const { currentUserInfo } = useChatStore();
-    const { get_with_header_fetcher } = useFetcher()
     const [roles, setRoles] = useState([]);
 
-    const { data: purchasedCourses } = useSWR(PURCHASED_COURSE_API, get_with_header_fetcher)
     const { data: user } = useSWR(user_api(currentUserInfo._id), get_fetcher)
 
     useEffect(() => {
@@ -20,7 +18,7 @@ function useUser() {
         setRoles(userRoles)
     }, [user])
 
-    return { purchasedCourses, user, roles };
+    return { user, roles };
 }
 
 export default useUser;
