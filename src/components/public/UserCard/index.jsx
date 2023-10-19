@@ -10,7 +10,6 @@ const about_default =
   "Xin chào! Mình là sinh viên đại học và đang tìm kiếm một bạn học để cùng nhau học tập online. Mình mong muốn tìm kiếm bạn có cùng sở thích và cùng chí hướng học tập.";
 
 const UserCard = ({ data }) => {
-  console.log("data", data);
   const {
     avatar = DEFAULT.AVATAR_IMAGE_PATH,
     name = "Emate",
@@ -74,7 +73,11 @@ const UserCard = ({ data }) => {
           <div>
             <p className="line-clamp-3">{about ? about : about_default}</p>
           </div>
+
         </div>
+          <div className="flex justify-center mx-auto items-center mt-5">
+            <button className="primary_bg_pink_color text-white font-bold rounded-xl px-7 py-3">Nhắn tin</button>
+          </div>
       </div>
     </m.div>
   );
