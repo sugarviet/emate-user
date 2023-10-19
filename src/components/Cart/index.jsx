@@ -3,35 +3,23 @@ import styles from "./Cart.module.css";
 import { Input, Button, Image, Checkbox } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
 import { motion as m } from "framer-motion";
-import { useEffect, useState } from "react";
-import { formattedCurrency } from "@/utils/formatedCurrency";
+import { useEffect } from "react";
+import { formattedCoin, formattedCurrency } from "@/utils/formatedCurrency";
 import { useCartStore } from "@/stores/useCartStore";
-import Link from "next/link";
-
-const course_data = [
-  {
-    thumnail: "/courses/it-4.png",
-    name: "Blockchain và các ứng dụng trên nền tảng này",
-    owner: "Tuấn Võ Phạm",
-    price: 400000,
-  },
-  {
-    thumnail: "/courses/it-2.png",
-    name: "Nâng cao kỹ năng giao tiếp",
-    owner: "Hạ Linh",
-    price: 300000,
-  },
-];
+import { useRouter } from "next/navigation";
+import { CHECKOUT_PAGE_URL } from "@/constants/url";
 
 const Cart = () => {
   const {
     purchasingCourses,
     setPurchasingCourses,
     selectedCourses,
-    setSelectedCourses,
+    removeFromSelectedCourses,
     total,
     setTotal,
   } = useCartStore();
+
+  const router = useRouter();
 
   const handleSelectCourse = (e) => {
     const { checked, value: course } = e.target;
@@ -48,6 +36,10 @@ const Cart = () => {
     if (!checked) setPurchasingCourses([]);
   };
 
+  const handleRemoveFromCart = (course) => {
+    removeFromSelectedCourses(course);
+  };
+
   useEffect(() => {
     const result = purchasingCourses.reduce(
       (totalPrice, currentCourse) => totalPrice + currentCourse.price,
@@ -57,9 +49,9 @@ const Cart = () => {
     setTotal(result);
   }, [purchasingCourses, setTotal]);
 
-  useEffect(() => {
-    setSelectedCourses(course_data);
-  }, [setSelectedCourses]);
+  const handleGoToCheckout = () => {
+    router.push(CHECKOUT_PAGE_URL);
+  };
 
   return (
     <m.main
@@ -74,7 +66,10 @@ const Cart = () => {
           <div className="mt-8">
             <div className="grid grid-cols-10 py-4 border-b border-black">
               <div className="col-span-1">
-                <Checkbox onChange={handleSelectAllCourse} />
+                <Checkbox
+                  checked={selectedCourses.length === purchasingCourses.length}
+                  onChange={handleSelectAllCourse}
+                />
               </div>
               <b className="col-span-4">{selectedCourses.length} Sản phẩm</b>
               <b className="col-span-4 text-center">Giá</b>
@@ -94,14 +89,22 @@ const Cart = () => {
                     onChange={handleSelectCourse}
                   />
                   <div className="col-span-4 flex flex-col relative">
-                    <Image alt="product" src={course.thumnail} />
+                    <Image alt="product" src={course.image} />
                     <div className={styles.sub_course}>
                       <b className="line-clamp-2">{course.name}</b>
-                      <span className="font-thin text-xs">{course.owner}</span>
+                      <span className="font-thin text-xs">
+                        {course.owner.name}
+                      </span>
                     </div>
                   </div>
-                  <b className="text-center col-span-4">đ{course.price}</b>
-                  <Button type="text" icon={<CloseOutlined />} />
+                  <div className="flex justify-center font-bold text-xl col-span-4">
+                    {formattedCoin(course.price, 60)}
+                  </div>
+                  <Button
+                    onClick={() => handleRemoveFromCart(course)}
+                    type="text"
+                    icon={<CloseOutlined />}
+                  />
                 </div>
               ))}
             </div>
@@ -122,11 +125,23 @@ const Cart = () => {
         <div className="flex flex-col my-8 ml-4 w-full relative">
           <div className="flex flex-col">
             <b className="text-xl">Tổng cộng: </b>
-            <b className="text-5xl my-2">{formattedCurrency(total)}</b>
+            <b className="text-5xl my-2">{formattedCoin(total, 120)}</b>
+            <p className="text-sm flex items-center">
+              1 <Image width={40} height={40} src={"/emate-coin.svg"} /> ứng với{" "}
+              {formattedCurrency(1000)}
+            </p>
           </div>
-          <div className="text-xl md:w-full w-3/4 border my-4 py-4 border-black flex items-center justify-center">
-            <Link href={"/cart/checkout"}>Tiến hành thanh toán</Link>
-          </div>
+          <button
+            className={
+              purchasingCourses.length
+                ? "text-xl md:w-full w-3/4 border my-4 py-4 border-black flex items-center justify-center"
+                : "text-xl md:w-full w-3/4 border my-4 py-4 bg-gray-300 text-white flex items-center justify-center"
+            }
+            disabled={purchasingCourses.length === 0}
+            onClick={handleGoToCheckout}
+          >
+            Tiến hành thanh toán
+          </button>
         </div>
       </div>
     </m.main>

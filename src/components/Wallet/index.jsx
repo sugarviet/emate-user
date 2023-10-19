@@ -2,23 +2,31 @@ import { useModalStore } from "@/stores/useModalStore";
 import { useWallet } from "@/stores/useWallet";
 import { formattedCoin } from "@/utils/formatedCurrency";
 import { useEffect } from "react";
+import { useStoreCurrentUserDetail } from "@/stores/useStoreCurrentUserDetail";
+import { Popover } from "antd";
+import { coinDescription } from "@/constants/description";
 
 function Wallet() {
   const { switchDepositModalState } = useModalStore();
-  const { balance } = useWallet();
+  const { balance, setBalance } = useWallet();
+
+  const userDetail = useStoreCurrentUserDetail((state) => state.userDetail);
 
   useEffect(() => {
-    //TODO: call API TO set balance.
-  }, []);
+    setBalance(userDetail.wallet);
+  }, [userDetail]);
 
   return (
     <button
-      onClick={() => {
-        switchDepositModalState(true);
+    onClick={() => {
+      switchDepositModalState(true);
       }}
       className="flex items-center"
-    >
+      >
+      {/* <p>{formattedCoin(balance)}</p> */}
+      <Popover content={coinDescription}>
       <p>{formattedCoin(balance)}</p>
+      </Popover>
     </button>
   );
 }

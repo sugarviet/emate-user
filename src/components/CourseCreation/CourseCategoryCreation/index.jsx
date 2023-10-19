@@ -1,10 +1,11 @@
 import { subject_api } from "@/constants/api";
 import { get_fetcher } from "@/utils/fetcher";
+import { WarningFilled } from "@ant-design/icons";
 import { Select } from "antd";
 import { Controller } from "react-hook-form";
 import useSWR from "swr";
 
-function CourseCategoryCreation({ control }) {
+function CourseCategoryCreation({ control, course }) {
   const {
     data: subjectsData,
     isLoading: subjectsDataLoading,
@@ -25,17 +26,26 @@ function CourseCategoryCreation({ control }) {
       <Controller
         name="subject"
         control={control}
-        render={({ field }) => (
-          <Select
-            options={subjectsData.map((subject) => ({
-              value: subject._id,
-              label: subject.name,
-            }))}
-            placeholder="e.g Game Developer"
-            className="my-4 w-3/5 text-lg flex items-center"
-            size="large"
-            {...field}
-          />
+        rules={{ required: { value: true, message: "Bắt buộc nhập" } }}
+        defaultValue={course.subject}
+        render={({ field, fieldState }) => (
+          <div className="w-3/5">
+            <Select
+              options={subjectsData.map((subject) => ({
+                value: subject._id,
+                label: subject.name,
+              }))}
+              placeholder="e.g Game Developer"
+              className="my-4 w-full text-lg flex items-center"
+              size="large"
+              {...field}
+            />
+            {fieldState.error && (
+              <span className="text-red-400 text-sm font-semibold">
+                <WarningFilled /> {fieldState.error.message}
+              </span>
+            )}
+          </div>
         )}
       />
     </div>

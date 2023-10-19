@@ -1,51 +1,56 @@
 "use client";
-
 import { useEffect } from "react";
-import { Suspense } from "react";
 import { Row, Col } from "antd";
 import Sidebar from "../Sidebar/Sidebar";
 import ChatFeed from "../ChatFeed/ChatFeed";
 import { motion as m } from "framer-motion";
 import EmptyState from "../EmptyState/EmptyState";
 import { useChatStore } from "@/stores/useChatStore";
-import fetcher from "@/utils/fetcher";
-import useSWR from "swr";
 import io from "socket.io-client";
-import { BASE_URL_LOCAL_HOST } from "@/constants/url";
-
-
+import { BASE_URL } from "@/constants/url";
+import { formatCurrentTime } from "@/utils/formatCurrentTime";
+import LoadingMessageSkeleton from "@/components/public/LoadingMessageSkeleton";
+const socket = io.connect(BASE_URL, {
+  transports: ["websocket", "polling"],
+});
 const ChatWrapper = () => {
-  const {data} = useSWR("https://jsonplaceholder.typicode.com/users", fetcher)
-  console.log('list user', data);
-  const selectedUser = useChatStore(state => state.selectedUser)
-  const storeChattedUsers = useChatStore(state => state.storeChattedUsers)
-  const firstSelected = useChatStore(state => state.firstSelected)
-
-  storeChattedUsers(data)
-
-  console.log(selectedUser);
+  const selectedUser = useChatStore((state) => state.selectedUser);
+  const firstSelected = useChatStore((state) => state.firstSelected);
+  const currentUserInfo = useChatStore((state) => state.currentUserInfo);
+  const addToContactList = useChatStore((state) => state.addToContactList);
+  const setStoreMessage = useChatStore((state) => state.setStoreMessage);
+  const initializeDataListUser = useChatStore(
+    (state) => state.initializeDataListUser
+  );
+  useEffect(() => {
+    socket?.emit("add-user", currentUserInfo?._id);
+  }, [currentUserInfo]);
+  useEffect(() => {
+    if (currentUserInfo) {
+      initializeDataListUser();
+    }
+  }, []);
 
   useEffect(() => {
-    // Establish a WebSocket connection to your server
-    const socket = io(BASE_URL_LOCAL_HOST); 
-    // Listen for events from the server
-    socket.on("connect", () => {
-      console.log("Connected to the WebSocket server");
+    socket?.on("msg-recieve", (data) => {
+      const newUser = {
+        _id: data.from,
+        from: data.from,
+      };
+      if (data) {
+        addToContactList(newUser);
+        setStoreMessage({ ...data.message, time: formatCurrentTime() });
+      }
     });
+  }, [socket, addToContactList, setStoreMessage]);
 
-    
-
-    // Handle other WebSocket events here
-    socket.emit("send-msg", {
-      from: "UserA",
-      to: "UserB",
-      message: "Hello, UserB!",
-    });
-    
-    socket.on("msg-recieve", (data) => {
-      console.log("Received message:", data.message);
-    });
-    // Clean up the socket connection when the component unmounts
+  const setupSocketConnection = () => {
+    socket.on("connect", () => {});
+    socket.on("disconnect", () => {});
+    return socket;
+  };
+  useEffect(() => {
+    const socket = setupSocketConnection();
     return () => {
       socket.disconnect();
     };
@@ -59,14 +64,16 @@ const ChatWrapper = () => {
     >
       <Row justify="space-between">
         <Col xl={6} lg={8} md={8} sm={24} xs={24}>
-          <Suspense fallback={<div>Loading ...</div>}>
-            <Sidebar />
-          </Suspense>
+          <Sidebar />
         </Col>
         <Col xl={18} lg={16} md={16} sm={24} xs={24}>
-          {
-            !firstSelected ? <EmptyState /> : (selectedUser ? <ChatFeed /> : <>Loading...</>)
-          }
+          {!firstSelected ? (
+            <EmptyState />
+          ) : selectedUser ? (
+            <ChatFeed />
+          ) : (
+            <LoadingMessageSkeleton />
+          )}
         </Col>
       </Row>
     </m.div>

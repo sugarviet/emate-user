@@ -3,7 +3,7 @@ import CourseLearning from "@/components/CourseLearning";
 function CourseLearningPage({ params }) {
   return (
     <div>
-      <CourseLearning />
+      <CourseLearning id={params.courseId} />
     </div>
   );
 }

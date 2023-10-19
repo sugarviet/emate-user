@@ -1,21 +1,61 @@
 "use client";
-
 import Image from "next/image";
-
 import { motion } from "framer-motion";
 import { Col, Row } from "antd";
-
+import { signOut } from "next-auth/react";
+import { useEffect } from "react";
 import styles from "./FirstSection.module.css";
-import { getSession, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
+import { useChatStore } from "@/stores/useChatStore";
+import { useStoreCurrentUserDetail } from "@/stores/useStoreCurrentUserDetail";
+
+import { HOME_PAGE_URL } from "@/constants/url";
+import axios from "axios";
 
 const FirstSection = () => {
-
   const { data: session } = useSession();
-  console.log('session', session);
+  const storeCurrentUser = useChatStore((state) => state.storeCurrentUser);
+
+  const storeUserDetail = useStoreCurrentUserDetail(
+    (state) => state.useStoreCurrentUserDetail
+  );
+  const userDetail = useStoreCurrentUserDetail((state) => state.userDetail);
+
+  storeCurrentUser({
+    _id: session?.accessToken._id,
+    token: session?.accessToken.token,
+    refreshToken: session?.accessToken.refreshToken,
+    ...session?.user,
+  });
+
   const dotAnimationVariants = {
     hidden: { opacity: 0 },
     visible: { opacity: 1 },
   };
+
+  // const getUserDetail = async() => {
+  //   const {data: {metaData}} = await axios.get("http://localhost:8080/getDetail/651a6949baf2f58aa1cb63a8")
+  //   console.log('res', metaData);
+  //   console.log('user Detail', userDetail);
+  //   if(userDetail){
+  //     console.log('already logged in');
+  //     return;
+  //   }else{
+  //     storeUserDetail(metaData)
+  //   }
+  // }
+
+  // useEffect(() => {
+  //   if(session?.accessToken._id){
+  //     getUserDetail()
+  //   }
+  // }, [session])
+
+  useEffect(() => {
+    if (session?.accessToken == "") {
+      signOut({ callbackUrl: HOME_PAGE_URL });
+    }
+  }, [session]);
 
   return (
     <motion.div

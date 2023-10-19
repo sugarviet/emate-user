@@ -6,15 +6,16 @@ import { Rate, Row, Col } from "antd";
 
 import Image from "next/image";
 import Link from "next/link";
-import { formattedCoin } from "@/utils/formatedCurrency";
+import { formattedCoin, formattedCurrency } from "@/utils/formatedCurrency";
+import { useRouter } from "next/navigation";
+import { DEFAULT } from "@/constants/defaultElement";
 
 const BEFORE_4_SLIDES_PRIORITY = 4;
 
 const HireMentorCard = ({ cardData }) => {
   const {
-    id,
+    _id: id,
     avatar,
-    age,
     name,
     education,
     degree: level,
@@ -23,17 +24,24 @@ const HireMentorCard = ({ cardData }) => {
     index,
   } = cardData;
 
+  const router = useRouter();
+
+  const handleGoToDetail = () => {
+    router.push(`user/${id}?role=mentor`);
+  };
+
   return (
     <div
-      className="lg:w-80 md:w-80 xl:w-80 flex flex-col items-center py-3 w-64"
+      onClick={handleGoToDetail}
+      className="lg:w-80 md:w-80 xl:w-80 flex flex-col items-center py-3 w-64 hover:cursor-pointer"
       key={id}
     >
-      <div>
+      <div className="w-64 h-64 rounded-xl overflow-hidden">
         <Image
-          src={avatar}
+          src={avatar ? avatar : DEFAULT.AVATAR_IMAGE_PATH}
           alt="img"
-          width={250}
-          height={250}
+          width={280}
+          height={280}
           loading={index > BEFORE_4_SLIDES_PRIORITY ? "lazy" : "eager"}
           priority={index < BEFORE_4_SLIDES_PRIORITY}
         />
@@ -57,25 +65,29 @@ const HireMentorCard = ({ cardData }) => {
                 <h2 className="font-bold text-base">Học vấn:</h2>
               </Col>
               <Col span={15}>
-                <h3 className="text-sm truncate_1_lines relative right-8">
+                <h3 className="text-base truncate_1_lines relative right-8">
                   {education}
                 </h3>
               </Col>
             </Row>
           </div>
           <div>
-            <h2 className="truncate_2_lines h-12">
-              <span className="font-bold">Trình độ: </span>
-              <span className="font-normal text-sm">{level}</span>
+            <h2 className="truncate_2_lines">
+              <span className="font-bold text-base">Trình độ: </span>
+              <span className="font-normal text-md">{level}</span>
             </h2>
           </div>
           <div className="flex text-yellow-400 items-center gap-7">
             <h2 className="font-bold text-lg">{rating.toFixed(1)}</h2>
             <Rate disabled allowHalf value={rating} />
           </div>
-          <h1 className="font-bold text-lg flex">
-            {formattedCoin(pricePerHour)} / giờ
+          <h1 className="font-bold text-3xl flex mt-4">
+            {formattedCoin(pricePerHour, 60)} / giờ
           </h1>
+          <p className="text-sm flex items-center">
+            1 <Image width={40} height={40} src={"/emate-coin.svg"} /> ứng với{" "}
+            {formattedCurrency(1000)}
+          </p>
         </div>
         <Link href={`/mentor/${name}`}>
           <m.button

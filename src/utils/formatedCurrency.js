@@ -7,11 +7,11 @@ export const formattedCurrency = (value) => {
     }).format(value).replace("₫", "");
 }
 
-export const formattedCoin = (value) => {
+export const formattedCoin = (value, size = 32) => {
     const newValue = Intl.NumberFormat('vi-VN', {
         style: 'currency',
         currency: 'VND',
     }).format(value).replace("₫", "");
 
-    return <span className="flex items-center">{newValue} <Image alt="emate-coin-image" width={32} height={32} src={'/emate-coin.svg'} /></span>
+    return <span className="flex items-center">{newValue} <Image alt="emate-coin-image" width={size} height={size} src={'/emate-coin.svg'} /></span>
 }
