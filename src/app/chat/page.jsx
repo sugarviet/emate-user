@@ -1,6 +1,4 @@
-import EmptyState from "@/components/Chat/EmptyState/EmptyState";
 import ChatWrapper from "@/components/Chat/ChatWrapper/ChatWrapper";
-
 export const metadata = {
   title: "Emate - Chat",
   description: "Emate teaching",

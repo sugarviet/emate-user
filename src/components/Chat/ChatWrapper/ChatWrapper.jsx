@@ -1,18 +1,17 @@
 "use client";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { Row, Col } from "antd";
 import Sidebar from "../Sidebar/Sidebar";
 import ChatFeed from "../ChatFeed/ChatFeed";
 import { motion as m } from "framer-motion";
 import EmptyState from "../EmptyState/EmptyState";
 import { useChatStore } from "@/stores/useChatStore";
-import io from "socket.io-client";
-import { BASE_URL } from "@/constants/url";
 import { formatCurrentTime } from "@/utils/formatCurrentTime";
 import LoadingMessageSkeleton from "@/components/public/LoadingMessageSkeleton";
-const socket = io.connect(BASE_URL, {
-  transports: ["websocket", "polling"],
-});
+import useSocketStore from "@/stores/useSocketStore";
+import io from "socket.io-client";
+import { BASE_URL } from "@/constants/url";
+
 const ChatWrapper = () => {
   const selectedUser = useChatStore((state) => state.selectedUser);
   const firstSelected = useChatStore((state) => state.firstSelected);
@@ -22,15 +21,19 @@ const ChatWrapper = () => {
   const initializeDataListUser = useChatStore(
     (state) => state.initializeDataListUser
   );
+  let socket = useRef();
   useEffect(() => {
+    socket = io.connect(BASE_URL, {
+      transports: ["websocket", "polling"],
+    });
     socket?.emit("add-user", currentUserInfo?._id);
+    useSocketStore.setState({ socket });
+    socket.on("connect", () => {});
+    socket.on("disconnect", () => {});
+    return () => {
+      socket.disconnect();
+    };
   }, [currentUserInfo]);
-  useEffect(() => {
-    if (currentUserInfo) {
-      initializeDataListUser();
-    }
-  }, []);
-
   useEffect(() => {
     socket?.on("msg-recieve", (data) => {
       const newUser = {
@@ -43,19 +46,11 @@ const ChatWrapper = () => {
       }
     });
   }, [socket, addToContactList, setStoreMessage]);
-
-  const setupSocketConnection = () => {
-    socket.on("connect", () => {});
-    socket.on("disconnect", () => {});
-    return socket;
-  };
   useEffect(() => {
-    const socket = setupSocketConnection();
-    return () => {
-      socket.disconnect();
-    };
+    if (currentUserInfo) {
+      initializeDataListUser();
+    }
   }, []);
-
   return (
     <m.div
       initial={{ opacity: 0, x: -100 }}

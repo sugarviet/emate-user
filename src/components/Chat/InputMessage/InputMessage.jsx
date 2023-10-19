@@ -6,11 +6,8 @@ import Image from "next/image";
 import { useChatStore } from "@/stores/useChatStore";
 import { BASE_URL, POST_MSG_URL } from "@/constants/url";
 import urlcat from "urlcat";
-import { io } from "socket.io-client";
 import { formatCurrentTime } from "@/utils/formatCurrentTime";
-const socket = io.connect(BASE_URL, {
-  transports: ["websocket", "polling"],
-});
+import useSocketStore from "@/stores/useSocketStore";
 const InputMessage = () => {
   const [textChatContent, setTextChatContent] = useState("");
   const selectedUser = useChatStore((state) => state.selectedUser);
@@ -21,9 +18,8 @@ const InputMessage = () => {
   const handleSetText = (e) => {
     setTextChatContent(e.target.value);
   };
-  useEffect(() => {
-    socket?.emit("add-user", currentUserInfo?._id);
-  }, [currentUserInfo]);
+  const socket = useSocketStore((state) => state.socket);
+
   const handleSubmitSendTextMessage = async (e) => {
     e.preventDefault();
     if (!textChatContent) return;
