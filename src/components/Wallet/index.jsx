@@ -3,6 +3,8 @@ import { useWallet } from "@/stores/useWallet";
 import { formattedCoin } from "@/utils/formatedCurrency";
 import { useEffect } from "react";
 import { useStoreCurrentUserDetail } from "@/stores/useStoreCurrentUserDetail";
+import { Popover } from "antd";
+import { coinDescription } from "@/constants/description";
 
 function Wallet() {
   const { switchDepositModalState } = useModalStore();
@@ -16,13 +18,15 @@ function Wallet() {
 
   return (
     <button
-      onClick={() => {
-        switchDepositModalState(true);
+    onClick={() => {
+      switchDepositModalState(true);
       }}
       className="flex items-center"
-    >
+      >
       {/* <p>{formattedCoin(balance)}</p> */}
+      <Popover content={coinDescription}>
       <p>{formattedCoin(balance)}</p>
+      </Popover>
     </button>
   );
 }

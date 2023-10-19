@@ -44,6 +44,8 @@ export const SOCIAL_PAGE_URL = "/social";
 export const SEARCH_PAGE_URL = "/search";
 export const CHECKOUT_PAGE_URL = "/cart/CheckOut/";
 export const CREATE_COURSE_PAGE_URL = "/instructor/courses/create";
+export const INSTRUCTOR_COURSE_PAGE_URL = "/instructor/courses";
+
 
 
 

@@ -1,6 +1,6 @@
 import Image from "next/image";
 import styles from "./CoursePreview.module.css";
-import { formattedCoin } from "@/utils/formatedCurrency";
+import { formattedCoin, formattedCurrency } from "@/utils/formatedCurrency";
 import {
   DesktopOutlined,
   FileTextOutlined,
@@ -69,6 +69,10 @@ function CoursePreview({ course }) {
       />
       <div className="w-full px-8 py-4">
         <span className="font-bold text-5xl">{price}</span>
+        <p className="text-sm flex items-center">
+          1 <Image width={40} height={40} src={"/emate-coin.svg"} /> ứng với{" "}
+          {formattedCurrency(1000)}
+        </p>
         <div className="flex flex-col mt-4">
           <button onClick={handlePayment} className={styles.primary_btn}>
             Mua ngay

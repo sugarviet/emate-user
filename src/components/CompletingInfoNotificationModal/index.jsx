@@ -5,7 +5,10 @@ import Image from "next/image";
 import Link from "next/link";
 
 function CompletingInfoNotification() {
-  const { isCompletingInfoNotificationModalOpened } = useModalStore();
+  const {
+    isCompletingInfoNotificationModalOpened,
+    switchCompletingInfoNotificationModalState,
+  } = useModalStore();
 
   if (!isCompletingInfoNotificationModalOpened) return null;
 
@@ -14,6 +17,7 @@ function CompletingInfoNotification() {
       initial={{ opacity: 0, top: -100 }}
       animate={{ opacity: 1, top: 0 }}
       transition={{ duration: 0.5, ease: "easeInOut" }}
+      onClick={() => switchCompletingInfoNotificationModalState(false)}
       className="fixed top-0 bottom-0 left-0 right-0 flex items-center justify-center bg-pink-300 bg-opacity-80"
     >
       <div className="w-3/5 h-fit bg-white rounded-3xl p-4 flex flex-col items-center justify-center">
@@ -49,6 +53,7 @@ function CompletingInfoNotification() {
         <Link
           className="text-xl p-4 bg-pink-300 text-white font-bold mt-4"
           href={"/profile"}
+          onClick={() => switchCompletingInfoNotificationModalState(false)}
         >
           Cập nhật ngay
         </Link>

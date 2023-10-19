@@ -5,7 +5,7 @@ import { ShoppingCartOutlined } from "@ant-design/icons";
 import Image from "next/image";
 
 import { Rate } from "antd";
-import { formattedCoin } from "@/utils/formatedCurrency";
+import { formattedCoin, formattedCurrency } from "@/utils/formatedCurrency";
 import { useRouter } from "next/navigation";
 import { COURSES_PAGE_URL } from "@/constants/url";
 import { useCartStore } from "@/stores/useCartStore";
@@ -35,7 +35,7 @@ const RegisterCourseCard = ({ cardData }) => {
           src={image}
           alt="img"
           height={40}
-          width={240}
+          width={260}
         />
       </div>
       <div className="px-2 md:px-0 w-64">
@@ -48,15 +48,21 @@ const RegisterCourseCard = ({ cardData }) => {
             <Rate disabled value={rating} />
             <p className="text-gray-500">({purchasers})</p>
           </div>
-          <p className="text-lg font-bold">{formattedCoin(price)}</p>
         </div>
-        <m.span
-          className="float-right cursor-pointer"
-          whileHover={{ scale: 1.4 }}
-          onClick={() => handleAddToCart(cardData)}
-        >
-          <ShoppingCartOutlined className="text-3xl" />
-        </m.span>
+        <div className="flex items-center justify-between">
+          <p className="text-3xl font-bold">{formattedCoin(price, 60)}</p>
+          <m.span
+            className="float-right cursor-pointer"
+            whileHover={{ scale: 1.4 }}
+            onClick={() => handleAddToCart(cardData)}
+          >
+            <ShoppingCartOutlined className="text-3xl" />
+          </m.span>
+        </div>
+        <p className="text-sm flex items-center">
+          1 <Image width={40} height={40} src={"/emate-coin.svg"} /> ứng với{" "}
+          {formattedCurrency(1000)}
+        </p>
       </div>
     </div>
   );

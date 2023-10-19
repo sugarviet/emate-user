@@ -15,7 +15,7 @@ import {
   Button,
   Select,
   Upload,
-  message
+  message,
 } from "antd";
 import {
   ArrowLeftOutlined,
@@ -29,12 +29,18 @@ import { motion as m } from "framer-motion";
 
 import styles from "./RegisterMentorPackage.module.css";
 import useSWR from "swr";
-import { APPROVE_TO_BE_MENTOR, BASE_URL, CREATE_COURSE_PAGE_URL, GET_ALL_SUBJECT_SELECT } from "@/constants/url";
+import {
+  APPROVE_TO_BE_MENTOR,
+  BASE_URL,
+  CREATE_COURSE_PAGE_URL,
+  GET_ALL_SUBJECT_SELECT,
+} from "@/constants/url";
 import urlcat from "urlcat";
 import fetcher from "@/utils/fetcher";
 import { useRouter } from "next/navigation";
 import SpinnerLoading from "../public/SpinnerLoading";
 import { useWallet } from "@/stores/useWallet";
+import { formattedCoin } from "@/utils/formatedCurrency";
 
 const PACKAGE = {
   yearly: {
@@ -73,42 +79,38 @@ const RegisterMentorPackage = () => {
 
   const [degreeImgUrl, setDegreeImgUrl] = useState("");
 
-  const onFinish = async(values) => {
-    console.log("Hi")
-    const data  = {
+  const onFinish = async (values) => {
+    console.log("Hi");
+    const data = {
       totalPrice: +values.price,
       orderCheckout: [
         {
           email: values.email,
-          majorSubject: [{name: values.majorSubject}],
+          majorSubject: [{ name: values.majorSubject }],
           education: values.education,
           degree: values.degree,
           price: +values.price,
-          degreeImage: [{image: degreeImgUrl}]
-        }
-      ]
-    }
+          degreeImage: [{ image: degreeImgUrl }],
+        },
+      ],
+    };
 
     console.log("Success:", data);
-
 
     const res = await axios.post(urlcat(BASE_URL, APPROVE_TO_BE_MENTOR), data, {
       headers: {
         "x-client-id": currentUserInfo?._id,
-              "x-client-refreshtoken" : currentUserInfo?.refreshToken,
-              "x-client-accesstoken" : currentUserInfo?.token,
-      }
-    })
+        "x-client-refreshtoken": currentUserInfo?.refreshToken,
+        "x-client-accesstoken": currentUserInfo?.token,
+      },
+    });
 
-    if(res.status === 200){
+    if (res.status === 200) {
       notification.success({
         message: "Bạn đã đăng ký trở thành mentor thành công",
       });
 
-      
-      router.push(CREATE_COURSE_PAGE_URL)
-
-
+      router.push(CREATE_COURSE_PAGE_URL);
     }
   };
   const onFinishFailed = (errorInfo) => {
@@ -182,15 +184,17 @@ const RegisterMentorPackage = () => {
                 <p>( {PACKAGE[search].title} )</p>
 
                 <div className="flex gap-2 my-5 items-center mr-72 sm:mr-0">
-                  <h3 className="text-2xl">đ{PACKAGE[search].pricePerMonth}</h3>
+                  <h3 className="text-3xl">
+                    {formattedCoin(PACKAGE[search].pricePerMonth, 60)}
+                  </h3>
                   <p>/</p>
                   <p className="text-gray-400">tháng</p>
                 </div>
 
                 <div className="flex gap-4 items-center">
                   <h2 className="text-xl font-semibold">Tổng cộng:</h2>
-                  <h1 className="font-bold text-2xl">
-                    đ{PACKAGE[search].total}
+                  <h1 className="font-bold text-4xl">
+                    {formattedCoin(PACKAGE[search].total, 60)}
                   </h1>
                   <p>/</p>
                   <p className="text-gray-400">
@@ -283,7 +287,6 @@ const RegisterMentorPackage = () => {
                   >
                     <Input placeholder="Thông tin bằng cấp của bạn" />
                   </Form.Item>
-                  
 
                   <Form.Item
                     name="degreeImage"
@@ -314,9 +317,12 @@ const RegisterMentorPackage = () => {
           </Row>
         </div>
 
-        <button className="border border-black px-36 py-3 flex justify-center items-center mx-auto my-20" onClick={() => {
-          form.submit()
-        }}>
+        <button
+          className="border border-black px-36 py-3 flex justify-center items-center mx-auto my-20"
+          onClick={() => {
+            form.submit();
+          }}
+        >
           Thanh toán
         </button>
 
