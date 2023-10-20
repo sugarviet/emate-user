@@ -1,6 +1,6 @@
 "use client";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Upload } from "antd";
 import Image from "next/image";
 import { useChatStore } from "@/stores/useChatStore";
@@ -8,10 +8,15 @@ import { BASE_URL, POST_MSG_URL } from "@/constants/url";
 import urlcat from "urlcat";
 import { formatCurrentTime } from "@/utils/formatCurrentTime";
 import useSocketStore from "@/stores/useSocketStore";
+import useFetcher from "@/hooks/global/useFetcher";
+import useSWR from "swr";
 const InputMessage = () => {
   const [textChatContent, setTextChatContent] = useState("");
+  const { post_with_header_fetcher } = useFetcher();
   const selectedUser = useChatStore((state) => state.selectedUser);
-  const addToContactList = useChatStore((state) => state.addToContactList);
+  const addToContactListSend = useChatStore(
+    (state) => state.addToContactListSend
+  );
   const currentUserInfo = useChatStore((state) => state.currentUserInfo);
   const setStoreMessage = useChatStore((state) => state.setStoreMessage);
 
@@ -37,19 +42,25 @@ const InputMessage = () => {
         },
       }
     );
-    socket?.emit("send-msg", {
-      from: currentUserInfo._id,
-      message: res.data.metaData,
-      to: selectedUser,
-    });
-    const newUser = {
-      _id: selectedUser,
-      name: selectedUser?.name,
-      avatar: selectedUser?.avatar,
-    };
-    addToContactList(newUser);
-    setStoreMessage({ ...res.data.metaData, time: formatCurrentTime() });
-    setTextChatContent("");
+    let messageAdd = res?.data?.metaData;
+    if (messageAdd) {
+      const newUser = {
+        to: selectedUser?._id,
+        from: currentUserInfo?._id,
+        name: selectedUser?.name,
+        avatar: selectedUser?.avatar,
+        message: textChatContent,
+      };
+      socket?.emit("send-msg", {
+        from: currentUserInfo?._id,
+        message: messageAdd,
+        to: selectedUser?._id,
+        fromUser: newUser,
+      });
+      addToContactListSend(newUser);
+      setStoreMessage(messageAdd);
+      setTextChatContent("");
+    }
   };
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {

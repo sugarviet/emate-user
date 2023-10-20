@@ -38,7 +38,7 @@ const Social = () => {
 
   const { get_with_header_fetcher } = useFetcher();
 
-  console.log('userDetail', userDetail);
+  console.log("userDetail", userDetail);
 
   const [data, setData] = useState([
     {
@@ -151,19 +151,6 @@ const Social = () => {
       setHasMore(false);
     }
   };
-
-  const handleChatWithUser = (user) => {
-    setSelectedUserId(user);
-    // storeSelectedUser({
-    //   _id: user._id,
-    //   name: user.name,
-    //   avatar: user.avatar,
-    // })
-
-    // storeSelectedUser(newUser)
-    router.push(CHAT_PAGE_URL);
-  };
-
   if (isLoading) {
     return <SpinnerLoading />;
   }
@@ -202,11 +189,7 @@ const Social = () => {
         }}
         dataSource={socialData ? socialData : listStudents}
         renderItem={(user, index) => (
-          <div
-            key={user._id}
-            onClick={() => handleChatWithUser(user)}
-            className="hover:cursor-pointer"
-          >
+          <div key={user._id} className="hover:cursor-pointer">
             <UserCard key={user._id} data={user} />
           </div>
         )}

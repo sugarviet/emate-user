@@ -5,7 +5,8 @@ import { useChatStore } from "@/stores/useChatStore";
 
 const Message = ({ msg }) => {
   const selectedUser = useChatStore((state) => state.selectedUser);
-  if (msg?.senderId != selectedUser) {
+  const checkID = msg.senderId;
+  if (checkID != selectedUser._id) {
     return <MyMessage msg={msg} />;
   }
   return <GuestMessage msg={msg} />;
@@ -21,10 +22,12 @@ const MyMessage = ({ msg }) => {
   );
 };
 const GuestMessage = ({ msg }) => {
+  const selectedUser = useChatStore((state) => state.selectedUser);
+  const avatar = selectedUser.avatar;
   return (
     <div className="w-full flex justify-start items-center gap-2">
       <Image
-        src={DEFAULT.AVATAR_IMAGE_PATH}
+        src={avatar}
         alt="user"
         width={40}
         height={40}

@@ -4,11 +4,7 @@ import { create } from "zustand";
 import axios from "axios";
 import { persist, createJSONStorage } from "zustand/middleware";
 import urlcat from "urlcat";
-import {
-  BASE_URL,
-  GET_DETAIL_USER,
-  GET_INITIAL_CHAT_LIST_USER,
-} from "@/constants/url";
+import { BASE_URL, GET_INITIAL_CHAT_LIST_USER } from "@/constants/url";
 
 export const useChatStore = create(
   persist(
@@ -37,39 +33,32 @@ export const useChatStore = create(
         );
         set(() => ({ listUsers: metaData.metaData }));
       },
-      addToContactList: async (user) => {
+      addToContactListSend: async (newUser) => {
         const state = get();
-        const api = `${BASE_URL}${GET_DETAIL_USER}/${user._id}`;
-        let newUserFromRecieve = null;
         const exist = state.listUsers.some(
-          (userInList) => userInList._id === user._id
+          (userInList) => userInList._id === newUser.to
         );
-        if (!exist) {
-          if (user.from) {
-            const {
-              data: { metaData },
-            } = await axios.get(api);
-            newUserFromRecieve = {
-              _id: metaData._id,
-              name: metaData.name,
-              avatar: metaData.avatar,
-            };
-          }
-          const finalUser = newUserFromRecieve ? newUserFromRecieve : user;
-          if (!state.selectedUserId) {
-            set(() => ({
-              listUsers: [finalUser, ...state.listUsers],
-              selectedUserId: newUserFromRecieve._id,
-              selectedUser: { ...newUserFromRecieve },
-            }));
-          } else {
-            set(() => ({ listUsers: [finalUser, ...state.listUsers] }));
-          }
-        } else {
+        if (exist) {
           set(() => ({ ...state }));
+        } else {
+          set(() => ({
+            listUsers: [newUser, ...state.listUsers],
+          }));
         }
       },
-
+      addToContactListReceive: async (newUser) => {
+        const state = get();
+        const exist = state.listUsers.some(
+          (userInList) => userInList._id === newUser.from
+        );
+        if (exist) {
+          set(() => ({ ...state }));
+        } else {
+          set(() => ({
+            listUsers: [newUser, ...state.listUsers],
+          }));
+        }
+      },
       increaseCount: () =>
         set((state) => ({
           count: state.count + 1,
@@ -78,14 +67,10 @@ export const useChatStore = create(
         set((state) => ({
           listUsers: listUser,
         })),
-      storeSelectedUser: (selectedUser) =>
-        set((state) => ({
-          selectedUser: selectedUser,
-        })),
-      setSelectedUserId: async (user) => {
+      storeSelectedUser: async (selectedUser) => {
         const state = get();
         const { data: metaData } = await axios.get(
-          `https://emate-af7e6f8fb027.herokuapp.com/message/${user}`,
+          `https://emate-af7e6f8fb027.herokuapp.com/message/${selectedUser._id}`,
           {
             headers: {
               "x-client-id": state.currentUserInfo?._id,
@@ -97,14 +82,9 @@ export const useChatStore = create(
         set((state) => ({
           currentMsg: metaData === undefined ? [] : metaData.metaData,
           firstSelected: true,
-          selectedUserId: user._id,
-          selectedUser: user,
+          selectedUser: selectedUser,
         }));
       },
-      setUserChatting: (name) =>
-        set((state) => ({
-          userChatting: name,
-        })),
       storeCurrentUser: (currentUser) =>
         set((state) => ({
           currentUserInfo: currentUser,
@@ -114,10 +94,12 @@ export const useChatStore = create(
           currentMsg: newMsg === undefined ? [] : newMsg,
         })),
 
-      setStoreMessage: (newMessage) =>
-        set((state) => ({
+      setStoreMessage: (newMessage) => {
+        const state = get();
+        set(() => ({
           currentMsg: [...state.currentMsg, newMessage],
-        })),
+        }));
+      },
     }),
     {
       name: "chat-app-storage",

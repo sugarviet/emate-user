@@ -16,12 +16,15 @@ const ChatWrapper = () => {
   const selectedUser = useChatStore((state) => state.selectedUser);
   const firstSelected = useChatStore((state) => state.firstSelected);
   const currentUserInfo = useChatStore((state) => state.currentUserInfo);
-  const addToContactList = useChatStore((state) => state.addToContactList);
+  const addToContactListReceive = useChatStore(
+    (state) => state.addToContactListReceive
+  );
   const setStoreMessage = useChatStore((state) => state.setStoreMessage);
   const initializeDataListUser = useChatStore(
     (state) => state.initializeDataListUser
   );
   let socket = useRef();
+
   useEffect(() => {
     socket = io.connect(BASE_URL, {
       transports: ["websocket", "polling"],
@@ -34,23 +37,23 @@ const ChatWrapper = () => {
       socket.disconnect();
     };
   }, [currentUserInfo]);
+
   useEffect(() => {
     socket?.on("msg-recieve", (data) => {
-      const newUser = {
-        _id: data.from,
-        from: data.from,
-      };
-      if (data) {
-        addToContactList(newUser);
-        setStoreMessage({ ...data.message, time: formatCurrentTime() });
-      }
+      const newUser = data.fromUser;
+      const messageAdd = data.message;
+      console.log(selectedUser._id, data.from);
+      if (selectedUser._id === data.from) setStoreMessage(messageAdd);
+      addToContactListReceive(newUser);
     });
-  }, [socket, addToContactList, setStoreMessage]);
+  }, [socket, addToContactListReceive, setStoreMessage]);
+
   useEffect(() => {
     if (currentUserInfo) {
       initializeDataListUser();
     }
   }, []);
+
   return (
     <m.div
       initial={{ opacity: 0, x: -100 }}

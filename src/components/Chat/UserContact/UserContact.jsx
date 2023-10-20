@@ -1,51 +1,24 @@
 "use client";
 import Image from "next/image";
 import { Row, Col } from "antd";
-import useSWR from "swr";
-import { useEffect } from "react";
-import fetcher from "@/utils/fetcher";
 import { useChatStore } from "@/stores/useChatStore";
-import { DEFAULT } from "@/constants/defaultElement";
-import { BASE_URL } from "@/constants/url";
-import SpinnerLoading from "@/components/public/SpinnerLoading";
 
 const UserContact = ({ message }) => {
-  const {
-    name,
-    img = DEFAULT.AVATAR_IMAGE_PATH,
-    time,
-    username: messageTo,
-    _id: number,
-  } = message;
-  const selectedUserId = useChatStore((state) => state.selectedUserId);
-  const setSelectedUserId = useChatStore((state) => state.setSelectedUserId);
+  const { name, avatar, message: messageLast, _id: number } = message;
   const storeSelectedUser = useChatStore((state) => state.storeSelectedUser);
-  const setUserChatting = useChatStore((state) => state.setUserChatting);
-  const { data, isLoading } = useSWR(
-    number ? `${BASE_URL}getDetail/${number}` : null,
-    fetcher
-  );
-  useEffect(() => {
-    if (data) {
-      storeSelectedUser({
-        _id: data?.metaData._id,
-        name: data?.metaData.name,
-        avatar: data?.metaData.avatar,
-      });
-    }
-  }, [storeSelectedUser]);
-  const handleFetchChooseUser = (userId) => {
-    setSelectedUserId(userId);
-    setUserChatting(data?.metaData.name);
+
+  const handleFetchChooseUser = () => {
+    storeSelectedUser({
+      _id: number,
+      name: name,
+      avatar: avatar,
+    });
   };
 
-  if (isLoading) {
-    return <SpinnerLoading />;
-  }
   return (
     <div
       className="pink_border_color w-full h-24 relative my-2 rounded-xl hover:cursor-pointer p-2 z-30 overflow-hidden bg-white"
-      onClick={() => handleFetchChooseUser(number ? number : id)}
+      onClick={() => handleFetchChooseUser()}
     >
       <Row
         className="translate-y-3"
@@ -54,10 +27,10 @@ const UserContact = ({ message }) => {
         gutter={[2]}
       >
         <Col span={4}>
-          <div className="flex items-center rounded-full relative h-fit w-fit bg-purple-300">
+          <div className="flex items-center rounded-full relative h-14 w-14 bg-purple-300">
             <Image
-              src={img}
-              height={55}
+              src={avatar}
+              height={50}
               width={55}
               alt="avt"
               className="rounded-full"
@@ -66,19 +39,19 @@ const UserContact = ({ message }) => {
           </div>
         </Col>
         <Col span={15}>
-          <div className="flex flex-col flex-1">
+          <div className="flex flex-col flex-1 mx-5">
             <h1 className="text-lg font-bold md:text-base  lg:text-base lg:font-bold ">
               {name}
             </h1>
             <div className="truncate_2_lines">
-              <p className="text-xs">Bạn: {messageTo} </p>
+              <p className="text-xs">Bạn: {messageLast}</p>
             </div>
           </div>
         </Col>
         <Col span={5}>
           <div className="w-full flex flex-col h-12 items-center">
             <div>
-              <p className="text-sm">{time}</p>
+              <p className="text-sm">{}</p>
             </div>
           </div>
         </Col>
