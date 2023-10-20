@@ -37,6 +37,7 @@ import {
   INSTRUCTOR_COURSE_PAGE_URL,
   LOGIN_PAGE_URL,
   MENTOR_PAGE_URL,
+  MENTOR_REVENUE,
   MY_COURSES_PAGE_URL,
   MY_PROFILE_PAGE_URL,
   SIGN_UP_PAGE_URL,
@@ -158,14 +159,41 @@ const MentorNavbar = () => {
   );
 };
 
+const MENTOR_LINKS = [
+  {
+    href: INSTRUCTOR_COURSE_PAGE_URL,
+    text: "Quản lý khóa học",
+  },
+  {
+    href: MENTOR_REVENUE,
+    text: "Doanh thu của tôi",
+  },
+];
+
 const UserLoginMenu = () => {
   const router = useRouter();
   const userDetail = useStoreCurrentUserDetail((state) => state.userDetail);
-  const selectedCourses = useCartStore((state) => state.selectedCourses);
-  const cart_items_length = selectedCourses.length;
+  const pathname = usePathname();
 
   return (
     <div className="hidden lg:flex sm:gap-12 items-center">
+      {MENTOR_LINKS.map((nav) => (
+        <motion.div
+          key={nav.text}
+          className="cursor_pointer hide_on_mobile"
+          whileHover={{ scale: 1.2 }}
+        >
+          <Link
+            href={nav.href}
+            className={`${
+              nav.href === pathname ? "text-purple-400" : "text-black"
+            }`}
+          >
+            <p className="lg:text-xl text-base">{nav.text}</p>
+          </Link>
+        </motion.div>
+      ))}
+
       <div className="flex items-center">
         <p className="flex items-center">
           <Wallet />
@@ -196,13 +224,14 @@ const UserLoginMenu = () => {
           align="middle"
         >
           <Avatar
-            src={userDetail?.avatar ? userDetail.avatar: DEFAULT.AVATAR_IMAGE_PATH}
+            src={
+              userDetail?.avatar ? userDetail.avatar : DEFAULT.AVATAR_IMAGE_PATH
+            }
             alt="User Image"
             style={{ cursor: "pointer" }}
             size="large"
           />
         </Dropdown>
-
       </div>
     </div>
   );

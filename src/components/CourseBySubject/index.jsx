@@ -11,6 +11,10 @@ import {
   subject_item_api,
 } from "@/constants/api";
 import { get_fetcher } from "@/utils/fetcher";
+import { List } from "antd";
+import RegisterCourseCard from "../public/RegisterCourseCard/RegisterCourseCard";
+import Animation3D from "../Animation3D";
+import { coming_soon } from "@/animations_data";
 
 const it_data_courses = {
   title: "Lập trình Game",
@@ -220,7 +224,32 @@ function CourseBySubject({ id }) {
           </span>
         </div>
         <div>
-          <CarouselCustom carouselData={it_data_courses} />
+          {/* <CarouselCustom carouselData={it_data_courses} /> */}
+          <h1 className="text-3xl font-bold underline sm:ml-9 mb-6">
+            {it_data_courses.title}
+          </h1>
+          {it_data_courses.arrayData.length > 0 ? (
+            <List
+              grid={{
+                gutter: 16,
+                xxl: 4,
+                xl: 4,
+                lg: 3,
+                md: 2,
+                xs: 1,
+              }}
+              dataSource={it_data_courses.arrayData}
+              renderItem={(course, index) => (
+                <div key={course._id} className="hover:cursor-pointer">
+                  <RegisterCourseCard index={index} cardData={course} />
+                </div>
+              )}
+            />
+          ) : (
+            <div className="flex items-center justify-center h-40 my-20">
+              <Animation3D name="coming_soon" loop />
+            </div>
+          )}
         </div>
         <div>
           <Suspense fallback={<SpinnerLoading />}>

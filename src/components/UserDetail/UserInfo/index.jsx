@@ -25,14 +25,14 @@ const CONNECT_WITH_MENTOR = [
 ];
 
 const UserBio = ({ avatar, user }) => {
-  const setStoreMentor = useStoreMentorDetail(state => state.setStoreMentor)
+  const setStoreMentor = useStoreMentorDetail((state) => state.setStoreMentor);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
-    if(user){
-      setStoreMentor(user)
+    if (user) {
+      setStoreMentor(user);
     }
-  }, [])
+  }, []);
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -88,7 +88,7 @@ const UserBio = ({ avatar, user }) => {
           handleCancel={handleCancel}
           handleOk={handleOk}
         >
-          <BookingCalender type="booking"/>
+          <BookingCalender id={user._id} type="booking" />
         </Modal>
       </div>
     </div>
