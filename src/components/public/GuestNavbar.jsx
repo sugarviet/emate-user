@@ -29,6 +29,7 @@ import {
   TEACH_WITH_EMATE_PAGE_URL,
 } from "@/constants/url";
 import Wallet from "../Wallet";
+import Navbar from "./Navbar";
 
 const NAVBAR_LINKS_WITH_LOG_IN = [
   {
@@ -92,7 +93,7 @@ const GuestNavbar = () => {
   const { data: isUserLogin } = useSession();
   const pathname = usePathname();
 
-  // if (isUserLogin) return null;
+  if (isUserLogin) return <Navbar />;
 
   return (
     <motion.div
